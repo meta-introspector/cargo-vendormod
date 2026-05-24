@@ -1,0 +1,9 @@
+[submodule "cargo-edit"]
+	path = cargo-edit
+	url = https://github.com/meta-introspector/cargo-edit
+[submodule "krates"]
+	path = krates
+	url = https://github.com/meta-introspector/krates
+[submodule "zkperf"]
+	path = zkperf
+	url = https://github.com/meta-introspector/zkperf.git
