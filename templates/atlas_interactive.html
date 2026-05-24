@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finite Simple Groups Atlas</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .header { text-align: center; margin-bottom: 30px; }
+        .section { margin-bottom: 30px; }
+        .tile { display: inline-block; margin: 5px; padding: 10px; border: 2px solid #333; border-radius: 5px; text-align: center; }
+        .level-0 { background: #ff6b6b; }
+        .level-1 { background: #4ecdc4; }
+        .level-2 { background: #45b7d1; }
+        .level-3 { background: #96ceb4; }
+        .level-4 { background: #ffeaa7; }
+        .group-info { background: #f9f9f9; padding: 15px; margin: 10px 0; border-radius: 5px; border-left: 4px solid #333; }
+        .stats { background: #e8f4f8; padding: 15px; border-radius: 5px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Finite Simple Groups Atlas</h1>
+            <p>A visual representation of the fundamental building blocks of group theory</p>
+        </div>
+        
+        <div class="section">
+            <h2>📊 Atlas Statistics</h2>
+            <div class="stats">
+                <strong>Total Groups:</strong> 25<br>
+                <strong>Total Compositions:</strong> 0<br>
+                <strong>Group Families:</strong> 5<br>
+                <strong>Order Range:</strong> 2 to 8×10⁵³<br>
+                <strong>Complexity Levels:</strong> 4
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🎨 Group Visualization</h2>
+            <div>
+                <h3>Group Families by Color:</h3>
+                <div class="tile level-0">Cyclic (11)</div>
+                <div class="tile level-1">Alternating (7)</div>
+                <div class="tile level-2">Lie Type (7)</div>
+                <div class="tile level-3">Sporadic (1)</div>
+            </div>
+            
+            <h3>Sample Groups:</h3>
+            <div class="group-info">
+                <h4>C₂ (Cyclic Group of Order 2)</h4>
+                <p>The simplest non-trivial group. Contains elements {e, a} where a² = e.</p>
+                <p><strong>Order:</strong> 2 | <strong>Family:</strong> Cyclic | <strong>Complexity:</strong> 1</p>
+            </div>
+            
+            <div class="group-info">
+                <h4>A₅ (Alternating Group on 5 elements)</h4>
+                <p>The first non-abelian simple group. Isomorphic to PSL(2,4) and PSL(2,5).</p>
+                <p><strong>Order:</strong> 60 | <strong>Family:</strong> Alternating | <strong>Complexity:</strong> 2</p>
+            </div>
+            
+            <div class="group-info">
+                <h4>Monster Group</h4>
+                <p>The largest sporadic simple group. Contains approximately 8×10⁵³ elements.</p>
+                <p><strong>Order:</strong> 8×10⁵³ | <strong>Family:</strong> Sporadic | <strong>Complexity:</strong> 4</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🔗 Group Compositions</h2>
+            <p>Groups can be combined through various operations:</p>
+            <div class="group-info">
+                <h4>Direct Product (G × H)</h4>
+                <p>Creates a new group whose elements are ordered pairs (g,h). The order is |G| × |H|.</p>
+                <p><strong>Example:</strong> C₂ × C₃ ≅ C₆ (cyclic group of order 6)</p>
+            </div>
+            
+            <div class="group-info">
+                <h4>Semidirect Product (G ⋊ H)</h4>
+                <p>A more general construction that incorporates group actions.</p>
+                <p><strong>Example:</strong> S₃ ≅ C₃ ⋊ C₂ (symmetric group on 3 elements)</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📚 Mathematical Background</h2>
+            <div class="group-info">
+                <h4>The Classification Theorem</h4>
+                <p>Every finite simple group belongs to one of these categories:</p>
+                <ol>
+                    <li><strong>Cyclic groups</strong> of prime order</li>
+                    <li><strong>Alternating groups</strong> Aₙ for n ≥ 5</li>
+                    <li><strong>Groups of Lie type</strong> (classical and exceptional)</li>
+                    <li><strong>Sporadic groups</strong> (26 exceptional cases)</li>
+                    <li><strong>Twisted Lie type groups</strong></li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🎯 Interactive Features</h2>
+            <p>This atlas provides a visual representation of finite simple groups as tiles that can be composed into larger structures. Each tile represents a unique group with properties encoded in its size, color, and position.</p>
+            <ul>
+                <li><strong>Tile size:</strong> Represents the logarithm of group order</li>
+                <li><strong>Color:</strong> Indicates the group family</li>
+                <li><strong>Position:</strong> Shows relationships and complexity</li>
+                <li><strong>Connections:</strong> Show group compositions</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

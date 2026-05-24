@@ -1,0 +1,4 @@
+# Run all tests, save results, and upload to pastebinit
+test-and-upload: test-all upload-results
+	@echo "🎉 Complete test and upload process finished!"
+	@echo "📋 Check pastebinit URLs above for all uploaded results"

@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    "cbor_scanner",
+    "git_scanner",
+]
+resolver = "2"

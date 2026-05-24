@@ -1,0 +1,23 @@
+{
+  "output_dir": "scanner_output",
+  "scanners": [
+    {
+      "name": "cbor_scanner",
+      "extensions": ["cbor"],
+      "command": "cargo run --manifest-path scanners/cbor_scanner/Cargo.toml -- extract -i {dir} -o {output}/cbor",
+      "output_dir": "cbor"
+    },
+    {
+      "name": "cbor_trainer",
+      "extensions": ["cbor"],
+      "command": "cargo run --manifest-path scanners/cbor_scanner/Cargo.toml -- train -i {dir} -o {output}/hmm/cbor_hmm.json -s 8",
+      "output_dir": "hmm"
+    },
+    {
+      "name": "cbor_anomaly",
+      "extensions": ["cbor"],
+      "command": "cargo run --manifest-path scanners/cbor_scanner/Cargo.toml -- scan -i {dir} -m {output}/hmm/cbor_hmm.json -o {output}/anomalies",
+      "output_dir": "anomalies"
+    }
+  ]
+}

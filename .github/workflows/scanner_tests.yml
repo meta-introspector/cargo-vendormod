@@ -1,0 +1,174 @@
+name: Scanner System Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 2 * * 1' # Run weekly on Monday at 2 AM
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        rust-version: [stable, beta]
+        test-type: [unit, integration, performance, security]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Rust
+      uses: dtolnay/rust-toolchain@master
+      with:
+        toolchain: ${{ matrix.rust-version }}
+        components: rustfmt, clippy
+    
+    - name: Cache cargo registry
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cargo/registry
+          ~/.cargo/git
+          target
+        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+    
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y git jq
+        cargo install cargo-tarpaulin --features=clippy
+    
+    - name: Format check
+      run: cargo fmt --all -- --check
+    
+    - name: Clippy check
+      run: cargo clippy --all-targets --all-features -- -D warnings
+    
+    - name: Run unit tests
+      if: matrix.test-type == 'unit'
+      run: |
+        cd scanners/cbor_scanner
+        cargo test --lib -- --nocapture
+        cd ../git_scanner
+        cargo test --lib -- --nocapture
+    
+    - name: Run integration tests
+      if: matrix.test-type == 'integration'
+      run: |
+        chmod +x test_integration.sh
+        ./test_integration.sh
+    
+    - name: Run performance tests
+      if: matrix.test-type == 'performance'
+      run: |
+        echo "Running performance tests..."
+        cd scanners/cbor_scanner
+        cargo test --lib -- test_hmm_performance_large_sequence -- --nocapture
+        cargo test --lib -- test_cbor_processing_performance -- --nocapture
+        cd ../git_scanner
+        cargo test --lib -- test_discover_git_repos_performance -- --nocapture
+        cargo test --lib -- test_language_detection_performance -- --nocapture
+    
+    - name: Run security tests
+      if: matrix.test-type == 'security'
+      run: |
+        echo "Running security tests..."
+        cd scanners/cbor_scanner
+        cargo test --lib -- test_error_handling -- --nocapture
+        cargo test --lib -- test_path_traversal_protection -- --nocapture
+        cargo test --lib -- test_command_injection_protection -- --nocapture
+        cd ../git_scanner
+        cargo test --lib -- test_error_handling -- --nocapture
+        cargo test --lib -- test_error_handling_malformed_gitmodules -- --nocapture
+    
+    - name: Generate coverage report
+      if: matrix.rust-version == 'stable' && matrix.test-type == 'unit'
+      run: |
+        cd scanners/cbor_scanner
+        cargo tarpaulin --out html -- --exclude-files tests/
+        cd ../git_scanner
+        cargo tarpaulin --out html -- --exclude-files tests/
+        tar -czf coverage-report.tar.gz target/tarpaulin/html/
+    
+    - name: Upload coverage report
+      if: matrix.rust-version == 'stable' && matrix.test-type == 'unit'
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-report-${{ matrix.rust-version }}
+        path: scanners/*/target/tarpaulin/html/
+    
+    - name: Upload test results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: test-results-${{ matrix.test-type }}-${{ matrix.rust-version }}
+        path: |
+          test_integration_output/
+          scanners/*/target/
+    
+    - name: Create test summary
+      if: always()
+      run: |
+        echo "## Test Summary" >> $GITHUB_STEP_SUMMARY
+        echo "- Test Type: ${{ matrix.test-type }}" >> $GITHUB_STEP_SUMMARY
+        echo "- Rust Version: ${{ matrix.rust-version }}" >> $GITHUB_STEP_SUMMARY
+        echo "- Test Status: ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
+        
+        if [ -f test_integration_output/test_report.txt ]; then
+          echo "### Test Report" >> $GITHUB_STEP_SUMMARY
+          cat test_integration_output/test_report.txt >> $GITHUB_STEP_SUMMARY
+        fi
+
+  test-matrix:
+    needs: test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        combination: [
+          {rust: "stable", test: "unit"},
+          {rust: "stable", test: "integration"},
+          {rust: "stable", test: "performance"},
+          {rust: "stable", test: "security"},
+          {rust: "beta", test: "unit"},
+          {rust: "beta", test: "integration"},
+          {rust: "beta", test: "performance"},
+          {rust: "beta", test: "security"}
+        ]
+    
+    steps:
+    - name: Matrix test completion
+      run: echo "Matrix test completed for ${{ matrix.combination.rust }} ${{ matrix.combination.test }}"
+
+  final-report:
+    needs: test
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+    - name: Generate final report
+      run: |
+        echo "## Scanner System Test Report" > final_report.md
+        echo "Date: $(date)" >> final_report.md
+        echo "" >> final_report.md
+        echo "### Test Results Summary" >> final_report.md
+        echo "- Unit Tests: ${{ needs.test.result }}" >> final_report.md
+        echo "- Integration Tests: ${{ needs.test.result }}" >> final_report.md
+        echo "- Performance Tests: ${{ needs.test.result }}" >> final_report.md
+        echo "- Security Tests: ${{ needs.test.result }}" >> final_report.md
+        echo "" >> final_report.md
+        echo "### Artifacts" >> final_report.md
+        echo "- Coverage Reports: Available in artifacts" >> final_report.md
+        echo "- Test Results: Available in artifacts" >> final_report.md
+        
+        # Upload final report
+        echo "## Final Test Report" >> $GITHUB_STEP_SUMMARY
+        cat final_report.md >> $GITHUB_STEP_SUMMARY
+    
+    - name: Upload final report
+      uses: actions/upload-artifact@v3
+      with:
+        name: final-test-report
+        path: final_report.md

@@ -1,0 +1,1 @@
+../workload/workspaces/cargo-rail/scripts/check/check.sh

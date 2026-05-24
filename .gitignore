@@ -1,0 +1,47 @@
+# Build artifacts
+target/
+result
+
+# Generated outputs
+output*/
+run_output*/
+test_output*/
+atlas_output*/
+graph_output*/
+repository_atlas_output*/
+composer_output*/
+analysis_output*/
+
+# Large generated dirs
+newroot*/
+newroot_bg/
+newroot_full/
+
+# Scan artifacts
+all_cargo_tomls.txt
+all_git_refs.txt
+clean_git_refs.txt
+final_git_refs.txt
+
+# Built binaries
+*_test_runner
+final_*_runner
+simple_*_atlas
+simple_group_atlas
+group_atlas
+*_atlas_composer
+
+# Temp/backup
+*~
+*.bak*
+*backup*
+*.swp
+.DS_Store
+logs/
+__pycache__/
+.opencode/
+.cargo/
+*.pyc
+
+# Nix lock
+flake.lock
