@@ -5,5 +5,29 @@
 	path = krates
 	url = https://github.com/meta-introspector/krates
 [submodule "zkperf"]
-	path = zkperf
+	path = tools/zkperf/zkperf
 	url = https://github.com/meta-introspector/zkperf.git
+[submodule "workloads/solana"]
+	path = workloads/solana
+	url = ./workloads/solana
+[submodule "tools/zkperf/zkperf"]
+	path = tools/zkperf/zkperf
+	url = ./tools/zkperf/zkperf
+[submodule "workloads/atlas"]
+	path = workloads/atlas
+	url = ./workloads/atlas
+[submodule "tools/normalization"]
+	path = tools/normalization
+	url = ./tools/normalization
+[submodule "analysis/pastebin"]
+	path = analysis/pastebin
+	url = ./analysis/pastebin
+[submodule "tools/testing"]
+	path = tools/testing
+	url = ./tools/testing
+[submodule "workloads/general"]
+	path = workloads/general
+	url = ./workloads/general
+[submodule "analysis/self-scan"]
+	path = analysis/self-scan
+	url = ./analysis/self-scan
