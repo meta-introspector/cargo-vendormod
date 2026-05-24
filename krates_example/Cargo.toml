@@ -1,0 +1,10 @@
+[package]
+name = "krates_example"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+krates = { path = "../krates" }
+serde_json = "1.0"
+
+[workspace]

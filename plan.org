@@ -1,0 +1,45 @@
+the plan for this project.
+
+1. create a topological sorted graph of dependencies for this and any other workload.
+2. extract the git repo for each one.
+3. clone the repo as a submodule under stop root dir.
+4. apply patches to each one to add crate2nix flake.nix
+5. create a branch.
+6. push local chanes to bare repo ~/git/<host>/<org>/<repo>.git
+7. apply cargo zkperf annotations to each crate, each function.
+
+
+apply all known perf and fuzzing tools to all projects constructing new test cases.
+
+model them as groups, lie algebras,
+cartan
+weyl,
+sheaf
+ domain model of local section.
+ codec of godel number, vm shape or topology.
+ cid <=> dag cbor
+
+* glueing condition
+** uu,mprod
+** ipld
+ open sets U_{X,B}
+ local section
+ context C
+ partial structures
+ sections
+  local implementations/
+  gcc ast
+  at version X,
+  compiled on system S (target triple arch/os/lib)
+  in build B
+topos
+
+self referencial fixed points. loop. identity operator I.
+car(list((cid,dagcbor)))
+* dag-cbor-carried-proof
+** metacoq
+global section.
+fancy carriage
+sequence, integer, byte, string,
+list of terms, binary tree, bitposition in the tree.
+algebra, group, topology, represention, message, meme, vibe, vector, medium, manifold.

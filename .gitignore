@@ -45,3 +45,4 @@ __pycache__/
 
 # Nix lock
 flake.lock
+final_processing_output/

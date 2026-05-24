@@ -1,0 +1,10 @@
+     1	/mnt/data1/nix/vendor/rust/cargo2nix/submodules/rust-native-tls/Cargo.toml
+     2	/mnt/data1/nix/vendor/rust/cargo2nix/submodules/float-cmp/Cargo.toml
+     3	/mnt/data1/nix/vendor/rust/cargo2nix/submodules/async-global-executor/Cargo.toml
+     4	/mnt/data1/nix/vendor/rust/cargo2nix/submodules/litrs/examples/procmacro/Cargo.toml
+     5	/mnt/data1/nix/vendor/rust/cargo2nix/submodules/litrs/Cargo.toml
+     6	/mnt/data1/nix/vendor/rust/cargo2nix/submodules/ref-cast/tests/helper/Cargo.toml
+     7	/mnt/data1/nix/vendor/rust/cargo2nix/submodules/ref-cast/Cargo.toml
+     8	/mnt/data1/nix/vendor/rust/cargo2nix/submodules/ref-cast/derive/Cargo.toml
+     9	/mnt/data1/nix/vendor/rust/cargo2nix/submodules/ar_archive_writer/Cargo.toml
+    10	/mnt/data1/nix/vendor/rust/cargo2nix/submodules/quinn/quinn/Cargo.toml
