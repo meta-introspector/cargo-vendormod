@@ -343,34 +343,92 @@ impl GlobalDependencyGraphBuilder {
         })
     }
     
-    /// Discover workspace members using enhanced discovery
+    /// Discover workspace members using cargo metadata (pure Rust, no shell commands).
     fn discover_workspace_members(&mut self) -> Result<()> {
-        println!("Discovering workspace members using comprehensive git repository discovery...");
+        println!("Discovering workspace members via cargo metadata...");
         
-        // First, discover all git repositories in the project
-        use crate::workspace::discover_all_git_repositories;
-        let git_repos = discover_all_git_repositories(&self.workspace_path)?;
-        
-        println!("Found {} git repositories in project", git_repos.len());
-        
-        // Process each git repository
-        for git_repo in &git_repos {
-            // Check if this repository has a Cargo.toml
-            let cargo_toml = git_repo.join("Cargo.toml");
-            if cargo_toml.exists() {
-                // Process as Rust repository
-                if let Err(e) = self.process_rust_repository(git_repo, &cargo_toml) {
-                    eprintln!("Warning: Failed to process Rust repository at {}: {}", git_repo.display(), e);
+        // Use cargo metadata to find workspace packages (source == None means local/workspace)
+        match self.get_workspace_metadata() {
+            Ok(metadata) => {
+                for package in &metadata.packages {
+                    if package.source.is_none() {
+                        // Local/workspace package
+                        let cargo_toml_path = package.manifest_path.as_std_path();
+                        self.add_workspace_member(
+                            &package.name,
+                            &package.version.to_string(),
+                            false,
+                            cargo_toml_path,
+                        )?;
+                    }
                 }
-            } else {
-                // Process as non-Rust repository
-                if let Err(e) = self.process_non_rust_repository(git_repo) {
-                    eprintln!("Warning: Failed to process non-Rust repository at {}: {}", git_repo.display(), e);
+            }
+            Err(e) => {
+                eprintln!("Warning: cargo metadata failed ({}), falling back to filesystem discovery", e);
+                self.discover_workspace_members_fallback()?;
+            }
+        }
+        
+        println!("Added {} workspace members via cargo metadata", self.workspace_members.len());
+        Ok(())
+    }
+    
+    /// Fallback workspace discovery by reading Cargo.toml directly (no shell commands).
+    fn discover_workspace_members_fallback(&mut self) -> Result<()> {
+        let cargo_toml = self.workspace_path.join("Cargo.toml");
+        if !cargo_toml.exists() {
+            return Ok(());
+        }
+        let content = fs::read_to_string(&cargo_toml)
+            .context("Failed to read Cargo.toml")?;
+        let doc = content.parse::<toml_edit::Document>()
+            .context("Failed to parse Cargo.toml")?;
+        
+        // Add root package
+        if let Some(package) = doc.get("package") {
+            let name = package["name"].as_str().unwrap_or("unknown").to_string();
+            let version = package["version"].as_str().unwrap_or("0.0.0").to_string();
+            self.add_workspace_member(&name, &version, true, &cargo_toml)?;
+        }
+        
+        // Add workspace members
+        if let Some(workspace_table) = doc.get("workspace") {
+            if let Some(members) = workspace_table.get("members").and_then(|m| m.as_array()) {
+                for member in members {
+                    if let Some(member_str) = member.as_str() {
+                        self.discover_member_crate(&cargo_toml, member_str)?;
+                    }
                 }
             }
         }
         
-        println!("Added {} workspace members total", self.workspace_members.len());
+        Ok(())
+    }
+    
+    /// Discover a workspace member crate by its glob/member pattern.
+    fn discover_member_crate(&mut self, manifest_path: &Path, member_str: &str) -> Result<()> {
+        let workspace_dir = manifest_path.parent().unwrap();
+        let member_path = workspace_dir.join(member_str);
+        
+        // Try the path directly
+        let candidate = if member_path.is_dir() {
+            member_path.join("Cargo.toml")
+        } else if member_path.ends_with("Cargo.toml") {
+            member_path
+        } else {
+            return Ok(()); // glob pattern, skip for fallback
+        };
+        
+        if candidate.exists() {
+            let content = fs::read_to_string(&candidate)?;
+            let doc = content.parse::<toml_edit::Document>()?;
+            if let Some(package) = doc.get("package") {
+                let name = package["name"].as_str().unwrap_or("unknown").to_string();
+                let version = package["version"].as_str().unwrap_or("0.0.0").to_string();
+                self.add_workspace_member(&name, &version, false, &candidate)?;
+            }
+        }
+        
         Ok(())
     }
     
@@ -486,39 +544,134 @@ impl GlobalDependencyGraphBuilder {
     
     /// Analyze direct dependencies using cargo-metadata (more reliable than cargo-tree)
     fn analyze_direct_dependencies(&mut self) -> Result<()> {
-        println!("Analyzing direct dependencies using cargo-metadata...");
+        println!("Analyzing dependencies using cargo-metadata resolve.nodes...");
         
-        // Collect workspace member node IDs first to avoid borrow checker issues
-        let _workspace_nodes: Vec<String> = self.node_map.iter()
-            .filter(|(node_id, _)| node_id.starts_with("workspace:"))
-            .map(|(node_id, _)| node_id.clone())
-            .collect();
-        
-        // Use cargo-metadata to get the complete dependency graph
-        // This is more reliable than shelling out to cargo-tree
         match self.get_workspace_metadata() {
             Ok(metadata) => {
-                // Build a map from package name to node ID
-                let mut package_to_node: HashMap<String, String> = HashMap::new();
-                for (node_id, _) in &self.node_map {
-                    if let Some(crate_name) = node_id.strip_prefix("workspace:") {
-                        package_to_node.insert(crate_name.to_string(), node_id.clone());
+                // Build a lookup from PackageId to Package
+                // cargo_metadata::PackageId implements Hash + Eq + Display
+                let resolve = match &metadata.resolve {
+                    Some(r) => r,
+                    None => {
+                        eprintln!("Warning: cargo metadata has no resolve graph (use --no-deps?)");
+                        return Ok(());
+                    }
+                };
+                
+                let pkg_by_id: HashMap<&cargo_metadata::PackageId, &Package> = metadata.packages
+                    .iter()
+                    .map(|p| (&p.id, p))
+                    .collect();
+                
+                // Phase 1: Add ALL resolved packages as nodes, using PackageId as unique key
+                for node in &resolve.nodes {
+                    let package = match pkg_by_id.get(&node.id) {
+                        Some(p) => p,
+                        None => {
+                            eprintln!("Warning: resolve node {} not found in packages", node.id);
+                            continue;
+                        }
+                    };
+                    
+                    let is_ws = package.source.is_none();
+                    let node_id = format!("pkg:{}", node.id);
+                    
+                    // Normalize source string
+                    let source_str = if let Some(src) = &package.source {
+                        let s = src.to_string();
+                        if s.starts_with("git+") { s[4..].to_string() }
+                        else if s.starts_with("registry+") { "crates.io".to_string() }
+                        else { s }
+                    } else {
+                        "workspace".to_string()
+                    };
+                    
+                    // Only add if not already present (from discover_workspace_members)
+                    if !self.node_map.contains_key(&node_id) {
+                        let idx = self.graph.add_node(DependencyNode {
+                            id: node_id.clone(),
+                            crate_name: package.name.clone(),
+                            version: package.version.to_string(),
+                            source: source_str,
+                            is_workspace_member: is_ws,
+                            is_direct_dependency: false,
+                            features: node.features.iter().cloned().collect(),
+                            categories: vec!["dependency".to_string()],
+                            properties: HashMap::new(),
+                        });
+                        self.node_map.insert(node_id.clone(), idx);
                     }
                 }
                 
-                // Process each package in the metadata
-                for package in metadata.packages {
-                    if let Some(node_id) = package_to_node.get(&package.name) {
-                        // Add dependencies for this package
-                        self.add_package_dependencies(&package, node_id)?;
+                // Phase 2: Add edges from resolve.nodes[*].dependencies
+                for node in &resolve.nodes {
+                    let parent_id = format!("pkg:{}", node.id);
+                    let parent_idx = match self.node_map.get(&parent_id) {
+                        Some(idx) => *idx,
+                        None => continue,
+                    };
+                    
+                    for dep_pkg_id in &node.dependencies {
+                        let dep_id = format!("pkg:{}", dep_pkg_id);
+                        
+                        // Ensure dep node exists
+                        if !self.node_map.contains_key(&dep_id) {
+                            // Try to find the package info
+                            if let Some(package) = pkg_by_id.get(dep_pkg_id) {
+                                let is_ws = package.source.is_none();
+                                let source_str = if let Some(src) = &package.source {
+                                    let s = src.to_string();
+                                    if s.starts_with("git+") { s[4..].to_string() }
+                                    else if s.starts_with("registry+") { "crates.io".to_string() }
+                                    else { s }
+                                } else {
+                                    "workspace".to_string()
+                                };
+                                
+                                let idx = self.graph.add_node(DependencyNode {
+                                    id: dep_id.clone(),
+                                    crate_name: package.name.clone(),
+                                    version: package.version.to_string(),
+                                    source: source_str,
+                                    is_workspace_member: is_ws,
+                                    is_direct_dependency: false,
+                                    features: package.features.keys().cloned().collect(),
+                                    categories: vec!["dependency".to_string()],
+                                    properties: HashMap::new(),
+                                });
+                                self.node_map.insert(dep_id.clone(), idx);
+                            } else {
+                                continue; // Skip unknown deps
+                            }
+                        }
+                        
+                        let dep_idx = self.node_map[&dep_id];
+                        
+                        // Avoid duplicating edges
+                        let has_edge = self.graph.edges(parent_idx)
+                            .any(|e| e.target() == dep_idx);
+                        
+                        if !has_edge {
+                            self.graph.add_edge(parent_idx, dep_idx, DependencyEdge {
+                                from: parent_id.clone(),
+                                to: dep_id,
+                                edge_type: DependencyEdgeType::Direct,
+                                required_features: HashSet::new(),
+                                optional_features: HashSet::new(),
+                                is_dev_dependency: false,
+                                is_build_dependency: false,
+                                properties: HashMap::new(),
+                            });
+                        }
                     }
                 }
+                
+                println!("  Total nodes: {}", self.graph.node_count());
+                println!("  Total edges: {}", self.graph.edge_count());
             }
             Err(e) => {
                 eprintln!("Warning: Failed to get workspace metadata: {}", e);
                 eprintln!("Falling back to cargo-tree method...");
-                
-                // Fallback to original cargo-tree method
                 self.analyze_direct_dependencies_fallback()?;
             }
         }
@@ -1074,23 +1227,41 @@ impl GlobalDependencyGraphBuilder {
     }
     
     /// Analyze TOML structures in all Cargo.toml files
+    /// Analyze TOML structures in the workspace
     fn analyze_toml_structures(&self) -> Result<Vec<TomlStructure>> {
         let mut toml_structures = Vec::new();
         
-        // Find all Cargo.toml files in the workspace
-        let cargo_files = self.find_all_cargo_files(&self.workspace_path)?;
-        
-        for cargo_file in cargo_files {
-            if let Some(toml_structure) = self.analyze_cargo_toml(&cargo_file) {
-                toml_structures.push(toml_structure);
+        // Use cargo metadata to discover all workspace Cargo.toml files
+        // This is fast (no filesystem walk) and pure Rust (no find/shell)
+        match self.get_workspace_metadata() {
+            Ok(metadata) => {
+                for package in &metadata.packages {
+                    if package.source.is_none() {
+                        let cargo_file = package.manifest_path.as_std_path();
+                        if cargo_file.exists() {
+                            if let Some(toml_structure) = self.analyze_cargo_toml(cargo_file) {
+                                toml_structures.push(toml_structure);
+                            }
+                        }
+                    }
+                }
+            }
+            Err(e) => {
+                eprintln!("Warning: cargo metadata failed ({}), falling back to filesystem discovery", e);
+                // Fallback: find Cargo.toml files but skip target/ and vendor/
+                let cargo_files = self.find_all_cargo_files_fast(&self.workspace_path)?;
+                for cargo_file in cargo_files {
+                    if let Some(toml_structure) = self.analyze_cargo_toml(&cargo_file) {
+                        toml_structures.push(toml_structure);
+                    }
+                }
             }
         }
         
         Ok(toml_structures)
     }
-    
-    /// Find all Cargo.toml files recursively
-    fn find_all_cargo_files(&self, dir: &Path) -> Result<Vec<PathBuf>> {
+    /// Find all Cargo.toml files recursively (with target/ and vendor/ skipping)
+    fn find_all_cargo_files_fast(&self, dir: &Path) -> Result<Vec<PathBuf>> {
         let mut cargo_files = Vec::new();
         
         if dir.is_dir() {
@@ -1098,13 +1269,16 @@ impl GlobalDependencyGraphBuilder {
                 let entry = entry?;
                 let path = entry.path();
                 
-                if path.file_name() == Some("Cargo.toml".as_ref()) {
-                    cargo_files.push(path.clone());
-                }
-                
+                // Skip target/, vendor/, .git/ and other large generated directories
                 if path.is_dir() {
-                    let mut sub_files = self.find_all_cargo_files(&path)?;
+                    let dir_name = path.file_name().and_then(|n| n.to_str()).unwrap_or("");
+                    if matches!(dir_name, "target" | "vendor" | ".git" | "node_modules" | "build") {
+                        continue;
+                    }
+                    let mut sub_files = self.find_all_cargo_files_fast(&path)?;
                     cargo_files.append(&mut sub_files);
+                } else if path.file_name() == Some("Cargo.toml".as_ref()) {
+                    cargo_files.push(path.clone());
                 }
             }
         }
