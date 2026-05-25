@@ -1,0 +1,140 @@
+{
+  "total_projects_analyzed": 26,
+  "total_nodes": 10344,
+  "total_edges": 32884,
+  "projects": {
+    "pozzoli-ettore-solfeggi": {
+      "nodes": 38,
+      "edges": 57,
+      "status": "OK"
+    },
+    "osm-parquet-tiles": {
+      "nodes": 148,
+      "edges": 323,
+      "status": "OK"
+    },
+    "monster-shadows-math": {
+      "nodes": 245,
+      "edges": 454,
+      "status": "OK"
+    },
+    "fractran-vm": {
+      "nodes": 411,
+      "edges": 1069,
+      "status": "OK"
+    },
+    "crate2nix-zos": {
+      "nodes": 600,
+      "edges": 2024,
+      "status": "OK"
+    },
+    "zkperf": {
+      "status": "NO_GRAPH"
+    },
+    "cargo2nix": {
+      "nodes": 423,
+      "edges": 1237,
+      "status": "OK"
+    },
+    "rust": {
+      "nodes": 766,
+      "edges": 2338,
+      "status": "OK"
+    },
+    "fandom-multiverse-tinystories": {
+      "nodes": 494,
+      "edges": 1289,
+      "status": "OK"
+    },
+    "forgecode": {
+      "nodes": 933,
+      "edges": 3469,
+      "status": "OK"
+    },
+    "cargo": {
+      "nodes": 3,
+      "edges": 0,
+      "status": "OK"
+    },
+    "mmgroup-rust": {
+      "nodes": 205,
+      "edges": 377,
+      "status": "OK"
+    },
+    "zos-plugins": {
+      "nodes": 71,
+      "edges": 145,
+      "status": "OK"
+    },
+    "solfunmeme-dioxus": {
+      "nodes": 573,
+      "edges": 1730,
+      "status": "OK"
+    },
+    "gibb.eri.sh": {
+      "nodes": 651,
+      "edges": 1847,
+      "status": "OK"
+    },
+    "agave-solana-validator": {
+      "nodes": 1234,
+      "edges": 6256,
+      "status": "OK"
+    },
+    "nginx-generator": {
+      "nodes": 45,
+      "edges": 70,
+      "status": "OK"
+    },
+    "cargo2": {
+      "nodes": 558,
+      "edges": 1632,
+      "status": "OK"
+    },
+    "pastebin": {
+      "nodes": 637,
+      "edges": 1687,
+      "status": "OK"
+    },
+    "pi_agent_rust": {
+      "nodes": 1,
+      "edges": 0,
+      "status": "OK"
+    },
+    "monster-hash": {
+      "nodes": 72,
+      "edges": 117,
+      "status": "OK"
+    },
+    "ferron-zos": {
+      "nodes": 514,
+      "edges": 1557,
+      "status": "OK"
+    },
+    "voa-borcherds-archive": {
+      "nodes": 230,
+      "edges": 521,
+      "status": "OK"
+    },
+    "solfunmeme-dioxus2": {
+      "nodes": 573,
+      "edges": 1730,
+      "status": "OK"
+    },
+    "osm-planet-torrent": {
+      "nodes": 94,
+      "edges": 147,
+      "status": "OK"
+    },
+    "solfunmeme-dioxus-apk": {
+      "nodes": 824,
+      "edges": 2808,
+      "status": "OK"
+    },
+    "lm.rs": {
+      "nodes": 1,
+      "edges": 0,
+      "status": "OK"
+    }
+  }
+}

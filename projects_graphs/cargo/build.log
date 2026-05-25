@@ -1,0 +1,34 @@
+Building dependency graph from /home/mdupont/projects/cargo/
+Building global dependency graph for Solana universe...
+Discovering workspace members via cargo metadata...
+Warning: cargo metadata failed (Failed to execute cargo metadata command), falling back to filesystem discovery
+Added workspace member: cargo v0.97.0
+Added workspace member: benchsuite v0.0.0
+Added workspace member: capture v0.1.0
+Added 3 workspace members via cargo metadata
+Analyzing dependencies using cargo-metadata resolve.nodes...
+Warning: Failed to get workspace metadata: Failed to execute cargo metadata command
+Falling back to cargo-tree method...
+Analyzing direct dependencies using cargo-tree fallback...
+Warning: Could not find Cargo.toml for workspace member: cargo
+Warning: Could not find Cargo.toml for workspace member: capture
+Warning: Could not find Cargo.toml for workspace member: benchsuite
+Warning: cargo metadata failed (Failed to execute cargo metadata command), falling back to filesystem discovery
+Warning: Failed to parse /home/mdupont/projects/cargo/tests/testsuite/cargo_add/invalid_manifest/in/Cargo.toml: TOML parse error at line 9, column 7
+  |
+9 | key = invalid-value
+  |       ^
+invalid string
+expected `"`, `'`
+
+Warning: Failed to parse /home/mdupont/projects/cargo/tests/testsuite/cargo_add/invalid_manifest/out/Cargo.toml: TOML parse error at line 9, column 7
+  |
+9 | key = invalid-value
+  |       ^
+invalid string
+expected `"`, `'`
+
+  Total nodes: 3
+  Total edges: 0
+  SCC count: 0
+  Saved to: projects_graphs/cargo/graph/graph.json

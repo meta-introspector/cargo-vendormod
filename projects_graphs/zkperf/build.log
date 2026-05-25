@@ -1,0 +1,14 @@
+Building dependency graph from /home/mdupont/projects/zkperf/
+Building global dependency graph for Solana universe...
+Discovering workspace members via cargo metadata...
+Warning: cargo metadata failed (Failed to execute cargo metadata command), falling back to filesystem discovery
+Error: Failed to parse Cargo.toml
+
+Caused by:
+    TOML parse error at line 58, column 30
+       |
+    58 | silero = { path = "silero-rs"
+       |                              ^
+    invalid inline table
+    expected `}`
+    

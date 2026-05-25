@@ -1,0 +1,25 @@
+Building dependency graph from /home/mdupont/projects/solfunmeme-dioxus/
+Building global dependency graph for Solana universe...
+Discovering workspace members via cargo metadata...
+Added workspace member: analysis-category-plugin v0.1.0
+Added workspace member: crypto-category-plugin v0.1.0
+Added workspace member: dao-category-plugin v0.1.0
+Added workspace member: data-category-plugin v0.1.0
+Added workspace member: meta-category-plugin v0.1.0
+Added workspace member: password_manager v0.1.0
+Added workspace member: plugin-api v0.2.0
+Added workspace member: rrust_kontekst v0.1.0
+Added workspace member: rrust_kontekst_base v0.1.0
+Added workspace member: solfunmeme-core v0.1.0
+Added workspace member: solfunmeme-dioxus v1.1.0
+Added workspace member: test-category-plugin v0.1.0
+Added workspace member: views v0.1.0
+Added workspace member: viz-category-plugin v0.1.0
+Added 14 workspace members via cargo metadata
+Analyzing dependencies using cargo-metadata resolve.nodes...
+  Total nodes: 573
+  Total edges: 1730
+  Total nodes: 573
+  Total edges: 1730
+  SCC count: 0
+  Saved to: projects_graphs/solfunmeme-dioxus/graph/graph.json

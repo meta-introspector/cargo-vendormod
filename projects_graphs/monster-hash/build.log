@@ -1,0 +1,13 @@
+Building dependency graph from /home/mdupont/projects/monster-hash/
+Building global dependency graph for Solana universe...
+Discovering workspace members via cargo metadata...
+Added workspace member: erdfa-publish v0.1.0
+Added workspace member: monster-hash v0.1.0
+Added 2 workspace members via cargo metadata
+Analyzing dependencies using cargo-metadata resolve.nodes...
+  Total nodes: 72
+  Total edges: 117
+  Total nodes: 72
+  Total edges: 117
+  SCC count: 0
+  Saved to: projects_graphs/monster-hash/graph/graph.json

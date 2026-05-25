@@ -1,0 +1,23 @@
+Building dependency graph from /home/mdupont/projects/gibb.eri.sh/
+Building global dependency graph for Solana universe...
+Discovering workspace members via cargo metadata...
+Added workspace member: gibberish-application v0.9.1
+Added workspace member: gibberish-bus v0.9.1
+Added workspace member: gibberish-context v0.9.1
+Added workspace member: gibberish-events v0.9.1
+Added workspace member: gibberish-models v0.9.1
+Added workspace member: gibberish-skills v0.9.1
+Added workspace member: gibberish-storage v0.9.1
+Added workspace member: gibberish-transcript v0.9.1
+Added workspace member: gibberish-turn v0.9.1
+Added workspace member: lmrs v0.1.0
+Added workspace member: zkperf-macros v0.1.0
+Added workspace member: zkperf-witness v0.1.0
+Added 12 workspace members via cargo metadata
+Analyzing dependencies using cargo-metadata resolve.nodes...
+  Total nodes: 651
+  Total edges: 1847
+  Total nodes: 651
+  Total edges: 1847
+  SCC count: 0
+  Saved to: projects_graphs/gibb.eri.sh/graph/graph.json

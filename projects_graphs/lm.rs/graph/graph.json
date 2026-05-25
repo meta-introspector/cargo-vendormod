@@ -1,0 +1,442 @@
+{
+  "nodes": [
+    {
+      "id": "workspace:lmrs",
+      "crate_name": "lmrs",
+      "version": "0.1.0",
+      "source": "workspace",
+      "is_workspace_member": true,
+      "is_direct_dependency": true,
+      "features": [],
+      "categories": [
+        "workspace"
+      ],
+      "properties": {
+        "is_root": "true",
+        "path": "/home/mdupont/projects/lm.rs"
+      }
+    }
+  ],
+  "edges": [],
+  "features": [],
+  "toml_structures": [
+    {
+      "crate_name": "lmrs",
+      "crate_version": "0.1.0",
+      "file_path": "/home/mdupont/projects/lm.rs/Cargo.toml",
+      "schema_elements": [
+        {
+          "element_type": "Package",
+          "path": "package",
+          "value_type": "table",
+          "is_array": false,
+          "is_table": true,
+          "is_inline_table": false,
+          "children": [
+            "package.name",
+            "package.version",
+            "package.edition",
+            "package.rust-version"
+          ],
+          "properties": {
+            "version": "0.1.0",
+            "name": "lmrs",
+            "edition": "2021",
+            "rust-version": "1.75"
+          }
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.wide",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.memmap2",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.rayon",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.chrono",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.clap",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": true,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.image",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": true,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.tokio-tungstenite",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": true,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.futures-util",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": true,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.tokio",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": true,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.base64",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": true,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.serde_json",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": true,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.serde",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": true,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.ciborium",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": true,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.reqwest",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": true,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.dioxus",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": true,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.dioxus-desktop",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": true,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.pulldown-cmark",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": true,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.zkperf-witness",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": true,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.zkperf-macros",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": true,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "DevDependency",
+          "path": "dev-dependencies.serde",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": true,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "DevDependency",
+          "path": "dev-dependencies.serde_json",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Feature",
+          "path": "features.default",
+          "value_type": "feature",
+          "is_array": true,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Feature",
+          "path": "features.backend",
+          "value_type": "feature",
+          "is_array": true,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Feature",
+          "path": "features.desktop",
+          "value_type": "feature",
+          "is_array": true,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Feature",
+          "path": "features.backend-multimodal",
+          "value_type": "feature",
+          "is_array": true,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Feature",
+          "path": "features.multimodal",
+          "value_type": "feature",
+          "is_array": true,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Feature",
+          "path": "features.ollama",
+          "value_type": "feature",
+          "is_array": true,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Feature",
+          "path": "features.chat",
+          "value_type": "feature",
+          "is_array": true,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Feature",
+          "path": "features.serde",
+          "value_type": "feature",
+          "is_array": true,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        }
+      ],
+      "workload_patterns": [
+        {
+          "pattern_type": "FeatureFlag",
+          "name": "default",
+          "location": "features.default",
+          "related_elements": [
+            "features.default"
+          ],
+          "properties": {}
+        },
+        {
+          "pattern_type": "FeatureFlag",
+          "name": "backend",
+          "location": "features.backend",
+          "related_elements": [
+            "features.backend"
+          ],
+          "properties": {}
+        },
+        {
+          "pattern_type": "FeatureFlag",
+          "name": "desktop",
+          "location": "features.desktop",
+          "related_elements": [
+            "features.desktop"
+          ],
+          "properties": {}
+        },
+        {
+          "pattern_type": "FeatureFlag",
+          "name": "backend-multimodal",
+          "location": "features.backend-multimodal",
+          "related_elements": [
+            "features.backend-multimodal"
+          ],
+          "properties": {}
+        },
+        {
+          "pattern_type": "FeatureFlag",
+          "name": "multimodal",
+          "location": "features.multimodal",
+          "related_elements": [
+            "features.multimodal"
+          ],
+          "properties": {}
+        },
+        {
+          "pattern_type": "FeatureFlag",
+          "name": "ollama",
+          "location": "features.ollama",
+          "related_elements": [
+            "features.ollama"
+          ],
+          "properties": {}
+        },
+        {
+          "pattern_type": "FeatureFlag",
+          "name": "chat",
+          "location": "features.chat",
+          "related_elements": [
+            "features.chat"
+          ],
+          "properties": {}
+        },
+        {
+          "pattern_type": "FeatureFlag",
+          "name": "serde",
+          "location": "features.serde",
+          "related_elements": [
+            "features.serde"
+          ],
+          "properties": {}
+        }
+      ],
+      "is_workspace": false,
+      "has_binaries": true,
+      "has_tests": false,
+      "has_benchmarks": false
+    }
+  ],
+  "strongly_connected_components": [],
+  "partitions": [],
+  "metrics": {
+    "node_count": 1,
+    "edge_count": 0,
+    "workspace_members": 1,
+    "direct_dependencies": 0,
+    "transitive_dependencies": 0,
+    "feature_gated_dependencies": 0,
+    "dev_dependencies": 0,
+    "build_dependencies": 0,
+    "strongly_connected_components": 0,
+    "diameter": 0,
+    "average_degree": 0.0
+  },
+  "workspace_path": "/home/mdupont/projects/lm.rs/",
+  "publish_order": [
+    "workspace:lmrs"
+  ],
+  "topological_order": [
+    "workspace:lmrs"
+  ],
+  "external_dependency_order": []
+}

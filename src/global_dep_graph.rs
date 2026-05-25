@@ -670,15 +670,203 @@ impl GlobalDependencyGraphBuilder {
                 println!("  Total edges: {}", self.graph.edge_count());
             }
             Err(e) => {
-                eprintln!("Warning: Failed to get workspace metadata: {}", e);
-                eprintln!("Falling back to cargo-tree method...");
-                self.analyze_direct_dependencies_fallback()?;
+                eprintln!("Warning: Failed to get workspace metadata: {}, falling back to Cargo.lock parser", e);
+                self.analyze_from_lockfile()?;
             }
         }
         
         Ok(())
     }
     
+    /// Pure-Rust fallback: parse Cargo.lock directly instead of shelling out to `cargo metadata`.
+    ///
+    /// Reads `Cargo.lock` via `toml_edit::DocumentMut`, extracts `[[package]]` entries
+    /// as nodes and their `dependencies` as edges.  Works offline, no `cargo` needed.
+    fn analyze_from_lockfile(&mut self) -> Result<()> {
+        println!("Analyzing dependencies from Cargo.lock (pure Rust)...");
+
+        let lock_path = self.workspace_path.join("Cargo.lock");
+        let lock_content = match fs::read_to_string(&lock_path) {
+            Ok(c) => c,
+            Err(e) => {
+                eprintln!("Warning: Cannot read Cargo.lock at {:?}: {}", lock_path, e);
+                eprintln!("Falling back to cargo-tree method...");
+                return self.analyze_direct_dependencies_fallback();
+            }
+        };
+
+        let lock_doc: DocumentMut = match lock_content.parse() {
+            Ok(d) => d,
+            Err(e) => {
+                eprintln!("Warning: Failed to parse Cargo.lock: {}", e);
+                eprintln!("Falling back to cargo-tree method...");
+                return self.analyze_direct_dependencies_fallback();
+            }
+        };
+
+        let package_array = match lock_doc.get("package") {
+            Some(toml_edit::Item::ArrayOfTables(arr)) => arr,
+            _ => {
+                eprintln!("Warning: No packages found in Cargo.lock");
+                return Ok(());
+            }
+        };
+
+        // Phase 1: Index every [[package]] by name.
+        // If multiple versions exist for the same name, keep the first one
+        // (Cargo.lock entries are sorted; the workspace/local entry comes first).
+        struct LockPkg {
+            name: String,
+            version: String,
+            source: String,
+            deps: Vec<String>,
+        }
+
+        let mut all_pkgs: Vec<LockPkg> = Vec::new();
+        let mut seen_names: HashSet<String> = HashSet::new();
+
+        for table in package_array {
+            let name = match table.get("name").and_then(|v| v.as_str()) {
+                Some(n) => n.to_string(),
+                None => continue,
+            };
+
+            let version = table
+                .get("version")
+                .and_then(|v| v.as_str())
+                .unwrap_or("0.0.0")
+                .to_string();
+
+            let source = table
+                .get("source")
+                .and_then(|v| v.as_str())
+                .unwrap_or("workspace")
+                .to_string();
+
+            // Parse dependencies — they may be plain strings or inline tables
+            let mut deps: Vec<String> = Vec::new();
+            if let Some(dep_item) = table.get("dependencies") {
+                if let Some(arr) = dep_item.as_array() {
+                    for val in arr {
+                        let dep_name = if let Some(s) = val.as_str() {
+                            // Plain string: "serde" or "serde (>=1.0, <2.0)"
+                            // Take only the part before any '(' for version constraints
+                            s.split('(').next().unwrap_or(s).trim().to_string()
+                        } else if let Some(inline) = val.as_inline_table() {
+                            // Inline table: { name = "serde", package = "serde-rename" }
+                            // Use 'package' key if present (for renames), otherwise use 'name'
+                            inline
+                                .get("package")
+                                .and_then(|v| v.as_str())
+                                .or_else(|| inline.get("name").and_then(|v| v.as_str()))
+                                .map(|s| s.to_string())
+                                .unwrap_or_default()
+                        } else {
+                            continue;
+                        };
+                        if !dep_name.is_empty() {
+                            deps.push(dep_name);
+                        }
+                    }
+                }
+            }
+
+            // Track the first occurrence of each name (skip name collisions)
+            // Keep workspace packages first
+            if seen_names.contains(&name) {
+                // If the existing entry is a workspace pkg, skip; otherwise replace
+                continue;
+            }
+            seen_names.insert(name.clone());
+            all_pkgs.push(LockPkg { name, version, source, deps });
+        }
+
+        println!("  Found {} unique packages in Cargo.lock", all_pkgs.len());
+
+        // Phase 2: Add nodes for all packages
+        for pkg in &all_pkgs {
+            let is_ws = pkg.source == "workspace" || pkg.source.is_empty();
+            let source_str = if is_ws {
+                "workspace".to_string()
+            } else if pkg.source.starts_with("git+") {
+                pkg.source[4..].to_string()
+            } else if pkg.source.starts_with("registry+") {
+                "crates.io".to_string()
+            } else {
+                pkg.source.clone()
+            };
+
+            // Node ID uses lock: prefix to avoid collision with workspace: from discovery
+            let node_id = format!("lock:{}", pkg.name);
+
+            if !self.node_map.contains_key(&node_id) {
+                let idx = self.graph.add_node(DependencyNode {
+                    id: node_id.clone(),
+                    crate_name: pkg.name.clone(),
+                    version: pkg.version.clone(),
+                    source: source_str,
+                    is_workspace_member: is_ws,
+                    is_direct_dependency: false,
+                    features: HashSet::new(),
+                    categories: vec!["dependency".to_string()],
+                    properties: HashMap::new(),
+                });
+                self.node_map.insert(node_id, idx);
+            }
+        }
+
+        // Phase 3: Add edges from each package's dependency list
+        for pkg in &all_pkgs {
+            // Map workspace: names and external names to their lock: equivalents
+            let parent_id = format!("lock:{}", pkg.name);
+            let parent_idx = match self.node_map.get(&parent_id) {
+                Some(idx) => *idx,
+                None => continue,
+            };
+
+            for dep_name in &pkg.deps {
+                let dep_id = format!("lock:{}", dep_name);
+
+                // Ensure dep node exists (it might be a workspace member not in lockfile)
+                if !self.node_map.contains_key(&dep_id) {
+                    let idx = self.graph.add_node(DependencyNode {
+                        id: dep_id.clone(),
+                        crate_name: dep_name.clone(),
+                        version: "0.0.0".to_string(),
+                        source: "unknown".to_string(),
+                        is_workspace_member: false,
+                        is_direct_dependency: false,
+                        features: HashSet::new(),
+                        categories: vec!["dependency".to_string()],
+                        properties: HashMap::new(),
+                    });
+                    self.node_map.insert(dep_id.clone(), idx);
+                }
+
+                let dep_idx = self.node_map[&dep_id];
+
+                // Avoid duplicating edges
+                let has_edge = self.graph.edges(parent_idx).any(|e| e.target() == dep_idx);
+                if !has_edge {
+                    self.graph.add_edge(parent_idx, dep_idx, DependencyEdge {
+                        from: parent_id.clone(),
+                        to: dep_id,
+                        edge_type: DependencyEdgeType::Direct,
+                        required_features: HashSet::new(),
+                        optional_features: HashSet::new(),
+                        is_dev_dependency: false,
+                        is_build_dependency: false,
+                        properties: HashMap::new(),
+                    });
+                }
+            }
+        }
+
+        println!("  Total nodes: {}", self.graph.node_count());
+        println!("  Total edges: {}", self.graph.edge_count());
+        Ok(())
+    }
+
     /// Fallback method using cargo-tree (original implementation)
     fn analyze_direct_dependencies_fallback(&mut self) -> Result<()> {
         println!("Analyzing direct dependencies using cargo-tree fallback...");

@@ -1,0 +1,12 @@
+Building dependency graph from /home/mdupont/projects/fandom-multiverse-tinystories/
+Building global dependency graph for Solana universe...
+Discovering workspace members via cargo metadata...
+Added workspace member: fandom-multiverse-tinystories v0.1.0
+Added 1 workspace members via cargo metadata
+Analyzing dependencies using cargo-metadata resolve.nodes...
+  Total nodes: 494
+  Total edges: 1289
+  Total nodes: 494
+  Total edges: 1289
+  SCC count: 0
+  Saved to: projects_graphs/fandom-multiverse-tinystories/graph/graph.json

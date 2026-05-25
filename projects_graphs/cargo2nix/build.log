@@ -1,0 +1,12 @@
+Building dependency graph from /home/mdupont/projects/cargo2nix/
+Building global dependency graph for Solana universe...
+Discovering workspace members via cargo metadata...
+Added workspace member: cargo2nix v0.12.0
+Added 1 workspace members via cargo metadata
+Analyzing dependencies using cargo-metadata resolve.nodes...
+  Total nodes: 423
+  Total edges: 1237
+  Total nodes: 423
+  Total edges: 1237
+  SCC count: 0
+  Saved to: projects_graphs/cargo2nix/graph/graph.json

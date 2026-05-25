@@ -1,0 +1,46 @@
+Building dependency graph from /home/mdupont/projects/pastebin/
+Building global dependency graph for Solana universe...
+Discovering workspace members via cargo metadata...
+Added workspace member: cssparser v0.37.0
+Added workspace member: cssparser-color v0.5.0
+Added workspace member: cssparser-macros v0.7.0
+Added workspace member: erdfa-dasl v0.1.0
+Added workspace member: erdfa-publish v0.1.0
+Added workspace member: html5ever v0.1.0
+Added workspace member: kant-pastebin v0.1.0
+Added workspace member: linux-perf-data v0.12.0
+Added workspace member: linux-perf-file-reader v0.2.0
+Added workspace member: markup5ever v0.1.0
+Added workspace member: markup5ever_rcdom v0.1.0
+Added workspace member: oxc_allocator v0.126.0
+Added workspace member: oxc_ast v0.126.0
+Added workspace member: oxc_ast_macros v0.126.0
+Added workspace member: oxc_ast_visit v0.126.0
+Added workspace member: oxc_data_structures v0.126.0
+Added workspace member: oxc_diagnostics v0.126.0
+Added workspace member: oxc_ecmascript v0.126.0
+Added workspace member: oxc_estree v0.126.0
+Added workspace member: oxc_parser v0.126.0
+Added workspace member: oxc_regular_expression v0.126.0
+Added workspace member: oxc_span v0.126.0
+Added workspace member: oxc_str v0.126.0
+Added workspace member: oxc_syntax v0.126.0
+Added workspace member: pastebin-wasm v0.1.0
+Added workspace member: rust-unixfs v0.5.0
+Added workspace member: tendril v0.5.0
+Added workspace member: web_atoms v0.2.4
+Added workspace member: xml5ever v0.1.0
+Added workspace member: zkperf v0.1.0
+Added workspace member: zkperf-macros v0.1.0
+Added workspace member: zkperf-witness v0.1.0
+Added workspace member: zos-circuit-optimizer v0.1.0
+Added 33 workspace members via cargo metadata
+Analyzing dependencies using cargo-metadata resolve.nodes...
+  Total nodes: 637
+  Total edges: 1687
+Warning: Could not calculate publish order: Circular dependency detected involving workspace crate. This should not happen in a valid Cargo workspace.
+Warning: Could not calculate topological order: Circular dependency detected in dependency graph involving: ["pkg:path+file:///home/mdupont/projects/pastebin/plugins/oxc/crates/oxc_allocator#0.126.0", "pkg:path+file:///home/mdupont/projects/pastebin/plugins/oxc/crates/oxc_syntax#0.126.0", "pkg:path+file:///home/mdupont/projects/pastebin/plugins/oxc/crates/oxc_str#0.126.0", "pkg:path+file:///home/mdupont/projects/pastebin/plugins/oxc/crates/oxc_span#0.126.0", "pkg:path+file:///home/mdupont/projects/pastebin/plugins/oxc/crates/oxc_regular_expression#0.126.0", "pkg:path+file:///home/mdupont/projects/pastebin/plugins/oxc/crates/oxc_parser#0.126.0", "pkg:path+file:///home/mdupont/projects/pastebin/plugins/oxc/crates/oxc_ecmascript#0.126.0", "pkg:path+file:///home/mdupont/projects/pastebin/plugins/oxc/crates/oxc_ast_visit#0.126.0", "pkg:path+file:///home/mdupont/projects/pastebin/plugins/oxc/crates/oxc_ast#0.126.0", "pkg:path+file:///home/mdupont/projects/pastebin/plugins/oxc/crates/oxc_allocator#0.126.0", "pkg:path+file:///home/mdupont/projects/pastebin#kant-pastebin@0.1.0", "pkg:registry+https://github.com/rust-lang/crates.io-index#serde_json@1.0.150", "pkg:registry+https://github.com/rust-lang/crates.io-index#serde@1.0.228", "pkg:registry+https://github.com/rust-lang/crates.io-index#rustc-hash@2.1.2", "pkg:registry+https://github.com/rust-lang/crates.io-index#rand@0.10.1", "pkg:registry+https://github.com/rust-lang/crates.io-index#quickcheck@1.1.0", "pkg:path+file:///home/mdupont/projects/pastebin/plugins/oxc/crates/oxc_estree#0.126.0", "pkg:path+file:///home/mdupont/projects/pastebin/plugins/oxc/crates/oxc_data_structures#0.126.0", "pkg:path+file:///home/mdupont/projects/pastebin/plugins/oxc/crates/oxc_ast_macros#0.126.0", "pkg:path+file:///home/mdupont/projects/pastebin/plugins/oxc/crates/oxc_allocator#0.126.0", "pkg:registry+https://github.com/rust-lang/crates.io-index#hashbrown@0.17.1", "pkg:registry+https://github.com/rust-lang/crates.io-index#allocator-api2@0.2.21"]
+  Total nodes: 637
+  Total edges: 1687
+  SCC count: 0
+  Saved to: projects_graphs/pastebin/graph/graph.json

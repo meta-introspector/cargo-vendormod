@@ -10,7 +10,8 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
-        nativeBuildInputs = with pkgs; [ pkg-config ];
+        nativeBuildInputs = with pkgs; [ pkg-config perl ];
+        buildInputs = with pkgs; [ openssl.dev libgit2 libssh2 curl zlib nghttp2 ];
 
         # Build all binaries from this workspace at once
         cargo-vendormod = pkgs.rustPlatform.buildRustPackage {
@@ -18,7 +19,7 @@
           version = "0.2.0";
           src = ./.;
           cargoLock.lockFile = ./Cargo.lock;
-          inherit nativeBuildInputs;
+          inherit nativeBuildInputs buildInputs;
           doCheck = false;
         };
 
@@ -40,6 +41,67 @@
           "test_runner" "zkperf_coverage_performance_test_runner"
           "zkperf_coverage_test_runner" "zkperf_integration_test_runner"
         ];
+
+        # All ~/projects/ directories that contain Cargo.toml
+        #
+        # Each entry produces `nix build .#graph-<name>` which outputs
+        # graph.json + summary.txt in the Nix store.
+        projects = {
+          agave-solana-validator = /home/mdupont/projects/agave-solana-validator;
+          cargo = /home/mdupont/projects/cargo;
+          cargo2 = /home/mdupont/projects/cargo2;
+          cargo2nix = /home/mdupont/projects/cargo2nix;
+          crate2nix-zos = /home/mdupont/projects/crate2nix-zos;
+          fandom-multiverse-tinystories = /home/mdupont/projects/fandom-multiverse-tinystories;
+          ferron-zos = /home/mdupont/projects/ferron-zos;
+          forgecode = /home/mdupont/projects/forgecode;
+          fractran-vm = /home/mdupont/projects/fractran-vm;
+          gibb-eri-sh = /home/mdupont/projects/gibb.eri.sh;
+          lm-rs = /home/mdupont/projects/lm.rs;
+          mmgroup-rust = /home/mdupont/projects/mmgroup-rust;
+          monster-hash = /home/mdupont/projects/monster-hash;
+          monster-shadows-math = /home/mdupont/projects/monster-shadows-math;
+          nginx-generator = /home/mdupont/projects/nginx-generator;
+          osm-parquet-tiles = /home/mdupont/projects/osm-parquet-tiles;
+          osm-planet-torrent = /home/mdupont/projects/osm-planet-torrent;
+          pastebin = /home/mdupont/projects/pastebin;
+          pi-agent-rust = /home/mdupont/projects/pi_agent_rust;
+          pozzoli-ettore-solfeggi = /home/mdupont/projects/pozzoli-ettore-solfeggi;
+          rust = /home/mdupont/projects/rust;
+          solfunmeme-dioxus = /home/mdupont/projects/solfunmeme-dioxus;
+          solfunmeme-dioxus2 = /home/mdupont/projects/solfunmeme-dioxus2;
+          solfunmeme-dioxus-apk = /home/mdupont/projects/solfunmeme-dioxus-apk;
+          voa-borcherds-archive = /home/mdupont/projects/voa-borcherds-archive;
+          zkperf = /home/mdupont/projects/zkperf;
+          zos-plugins = /home/mdupont/projects/zos-plugins;
+        };
+
+        # Produce a Nix derivation for one project's dependency graph.
+        # Usage:  nix build --impure .#graph-pastebin
+        mkProjectGraph = name: srcPath:
+          let
+            # Copy project source to Nix store during eval (requires --impure).
+            # Only Cargo.toml / Cargo.lock needed for metadata-based graph build.
+            projectSrc = builtins.path {
+              path = srcPath;
+              name = "${name}-src";
+              filter = path: type:
+                let bn = baseNameOf path;
+                in if type == "directory"
+                   then !(builtins.elem bn [ ".git" "target" "vendor" "node_modules" "build" "__pycache__" ])
+                   else bn == "Cargo.toml" || bn == "Cargo.lock";
+            };
+          in pkgs.runCommand "graph-${name}" {
+            nativeBuildInputs = [ cargo-vendormod pkgs.jq ];
+            # The graph binary uses pure-Rust Cargo.lock parsing (no cargo metadata shell-out).
+            # Only Cargo.toml + Cargo.lock are needed — no git, no network.
+            src = projectSrc;
+          } ''
+            cd "$src"
+            graph build -w . -o "$out" --include-dev --include-build 2>&1
+            jq '{ nodes: (.nodes | length), edges: (.edges | length) }' \
+              "$out/graph.json" > "$out/summary.json"
+          '';
 
         # Create a package wrapping a single binary (symlink to the all-in-one build)
         mkPkg = name: pkgs.runCommand "cargo-vendormod-${name}" {
@@ -91,7 +153,11 @@
           inherit graph-analysis-runner;
         }
         # Auto-generate package aliases for every binary
-        // builtins.listToAttrs (map (n: { name = n; value = mkPkg n; }) allBinNames);
+        // builtins.listToAttrs (map (n: { name = n; value = mkPkg n; }) allBinNames)
+        # Auto-generate per-project graph derivations (nix build .#graph-pastebin)
+        // builtins.listToAttrs (map (name:
+            { name = "graph-${name}"; value = mkProjectGraph name projects.${name}; }
+          ) (builtins.attrNames projects));
 
         apps = {
           analyze-repo = {

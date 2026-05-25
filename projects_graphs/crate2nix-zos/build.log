@@ -1,0 +1,18 @@
+Building dependency graph from /home/mdupont/projects/crate2nix-zos/
+Building global dependency graph for Solana universe...
+Discovering workspace members via cargo metadata...
+Added workspace member: erdfa-publish v0.1.0
+Added workspace member: escaped-rdfa v1.0.0
+Added workspace member: libp2p-relay-manager v0.4.0
+Added workspace member: rust-ipfs v0.15.0
+Added workspace member: rust-ipns v0.8.0
+Added workspace member: rust-unixfs v0.5.0
+Added workspace member: rustnix v0.1.0
+Added 7 workspace members via cargo metadata
+Analyzing dependencies using cargo-metadata resolve.nodes...
+  Total nodes: 600
+  Total edges: 2024
+  Total nodes: 600
+  Total edges: 2024
+  SCC count: 0
+  Saved to: projects_graphs/crate2nix-zos/graph/graph.json
