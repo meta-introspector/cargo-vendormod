@@ -70,6 +70,22 @@ bare-repos: global-graph
 	@ls -1 $(GLOBAL_GRAPH)/bare_repos/ 2>/dev/null | sed 's/^/  /' || echo "  (no bare repos)"
 	@echo "Cargo mirror config: $(GLOBAL_GRAPH)/cargo_mirror_config.toml"
 
+# Build all projects via crate2nix (each crate = separate Nix store derivation)
+crate2nix-build-%:
+	@echo "🔨 Building $* via crate2nix..."
+	nix build --impure ./crate2nix_output#$* -o /tmp/nix_builds/$*
+	@echo "✅ $* built: $$(readlink /tmp/nix_builds/$*)"
+
+# Build all successful crate2nix projects
+crate2nix-build-all:
+	@mkdir -p /tmp/nix_builds
+	@for proj in $$(ls -d crate2nix_output/*/ 2>/dev/null | sed 's|crate2nix_output/||;s|/||' | grep -v flake); do \
+		printf "🔨 Building %-30s ... " "$$proj"; \
+		nix build --impure ./crate2nix_output#$$proj -o /tmp/nix_builds/$$proj 2>&1 | tail -1; \
+		[ -L /tmp/nix_builds/$$proj ] && echo "✅ $$(readlink /tmp/nix_builds/$$proj)" || echo "❌ FAILED"; \
+	done
+	@echo "📊 Build results in /tmp/nix_builds/"
+
 # Default target - Comprehensive Solana vendoring workflow
 solana:
 	@echo "🚀 Starting comprehensive Solana vendoring..."
