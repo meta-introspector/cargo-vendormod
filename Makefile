@@ -1,6 +1,6 @@
 # Cargo Vendormod Makefile for Solana Processing
 
-.PHONY: help solana-process solana-report clean
+.PHONY: help solana-process solana-report clean projects-graphs projects-summary
 
 # Configuration
 SOLANA_CRATES := solana_crates.txt
@@ -10,6 +10,45 @@ SOLANA_OUTPUT := solana_processing
 FINAL_OUTPUT := final_processing
 RESULTS_DIR := test_results
 DATE := $(shell date +%Y%m%d_%H%M%S)
+PROJECTS_DIR := /home/mdupont/projects
+PROJECTS_OUTPUT := projects_graphs
+
+# Analyze all Rust projects in ~/projects/
+projects-graphs:
+	@echo "🔍 Analyzing all Rust projects in $(PROJECTS_DIR)..."
+	@mkdir -p $(PROJECTS_OUTPUT)
+	@for repo in $(PROJECTS_DIR)/*/; do \
+		name=$$(basename $$repo); \
+		if [ -f "$$repo/Cargo.toml" ]; then \
+			echo "=== $$name ==="; \
+			mkdir -p $(PROJECTS_OUTPUT)/$$name; \
+			nix run .#analyze-repo -- $$repo $(PROJECTS_OUTPUT)/$$name 2>&1; \
+		else \
+			echo "SKIP (no Cargo.toml): $$name" > $(PROJECTS_OUTPUT)/$$name/status.txt 2>/dev/null || true; \
+		fi; \
+	done
+	@echo "✅ All projects analyzed!"
+	@echo "📊 Results in $(PROJECTS_OUTPUT)/"
+
+# Summarize all project graph analyses
+projects-summary:
+	@echo "📊 === Project Graph Analysis Summary ==="
+	@echo ""
+	@for dir in $(PROJECTS_OUTPUT)/*/; do \
+		name=$$(basename $$dir); \
+		if [ -f "$$dir/summary.txt" ]; then \
+			summary=$$(cat $$dir/summary.txt 2>/dev/null); \
+			printf "  %-30s %s\n" "$$name" "$$summary"; \
+		elif [ -f "$$dir/status.txt" ]; then \
+			status=$$(cat $$dir/status.txt 2>/dev/null); \
+			printf "  %-30s %s\n" "$$name" "$$status"; \
+		else \
+			printf "  %-30s %s\n" "$$name" "no results"; \
+		fi; \
+	done
+	@echo ""
+	@echo "Total projects: $$(ls -d $(PROJECTS_OUTPUT)/*/ 2>/dev/null | wc -l)"
+	@echo "Analyzed: $$(find $(PROJECTS_OUTPUT) -name summary.txt 2>/dev/null | wc -l)"
 
 # Default target - Comprehensive Solana vendoring workflow
 solana:
@@ -71,6 +110,8 @@ help:
 	@echo "  test-coverage      - Run performance coverage tools"
 	@echo "  test-suite          - Run test suite"
 	@echo "  upload-results      - Upload results to pastebinit"
+	@echo "  projects-graphs      - Analyze all Rust projects in ~/projects/"
+	@echo "  projects-summary     - Summarize project graph analyses"
 	@echo "  clean               - Clean build artifacts"
 	@echo "  build               - Build cargo-vendormod"
 	@echo "  help                - Show this help"
