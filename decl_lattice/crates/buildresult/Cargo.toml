@@ -1,0 +1,15 @@
+[package]
+name = "buildresult"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: BuildResult"
+
+[dependencies]
+result = { path = "../result" }
+globaldependencygraphbuilder = { path = "../globaldependencygraphbuilder" }
+globaldependencygraphbuilder = { path = "../globaldependencygraphbuilder" }
+globaldependencygraph = { path = "../globaldependencygraph" }
+builderror = { path = "../builderror" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }

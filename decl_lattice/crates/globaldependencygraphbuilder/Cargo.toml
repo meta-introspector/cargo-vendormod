@@ -1,0 +1,15 @@
+[package]
+name = "globaldependencygraphbuilder"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: GlobalDependencyGraphBuilder"
+
+[dependencies]
+members = { path = "../members" }
+filter = { path = "../filter" }
+graph = { path = "../graph" }
+workspace = { path = "../workspace" }
+workspace = { path = "../workspace" }
+n = { path = "../n" }
+id = { path = "../id" }
+target = { path = "../target" }

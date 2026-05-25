@@ -1,0 +1,35 @@
+[package]
+name = "graphargs"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: GraphArgs"
+
+[dependencies]
+config = { path = "../config" }
+config = { path = "../config" }
+config = { path = "../config" }
+globaldependencygraphbuilder = { path = "../globaldependencygraphbuilder" }
+globaldependencygraphbuilder = { path = "../globaldependencygraphbuilder" }
+graph = { path = "../graph" }
+analysis = { path = "../analysis" }
+analysis = { path = "../analysis" }
+analysis = { path = "../analysis" }
+workspace = { path = "../workspace" }
+workspace = { path = "../workspace" }
+operations = { path = "../operations" }
+operations = { path = "../operations" }
+operations = { path = "../operations" }
+graphcommands = { path = "../graphcommands" }
+command = { path = "../command" }
+command = { path = "../command" }
+directory = { path = "../directory" }
+build = { path = "../build" }
+build = { path = "../build" }
+output = { path = "../output" }
+output = { path = "../output" }
+output = { path = "../output" }
+dependencyedgetype = { path = "../dependencyedgetype" }
+file = { path = "../file" }
+file = { path = "../file" }
+file = { path = "../file" }
+name = { path = "../name" }

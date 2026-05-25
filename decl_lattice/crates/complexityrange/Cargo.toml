@@ -1,0 +1,13 @@
+[package]
+name = "complexityrange"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: ComplexityRange"
+
+[dependencies]
+finitesimplegroup = { path = "../finitesimplegroup" }
+finitesimplegroup = { path = "../finitesimplegroup" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+filter = { path = "../filter" }

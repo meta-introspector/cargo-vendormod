@@ -1,0 +1,15 @@
+[package]
+name = "clean"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: clean"
+
+[dependencies]
+all = { path = "../all" }
+all = { path = "../all" }
+output = { path = "../output" }
+output = { path = "../output" }
+output = { path = "../output" }
+status = { path = "../status" }
+status = { path = "../status" }
+lines = { path = "../lines" }

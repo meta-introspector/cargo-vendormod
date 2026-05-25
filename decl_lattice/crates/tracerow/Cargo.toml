@@ -1,0 +1,12 @@
+[package]
+name = "tracerow"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: TraceRow"
+
+[dependencies]
+row = { path = "../row" }
+trace = { path = "../trace" }
+trace = { path = "../trace" }
+trace = { path = "../trace" }
+trace = { path = "../trace" }

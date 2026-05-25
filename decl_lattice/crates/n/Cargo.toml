@@ -1,0 +1,8 @@
+[package]
+name = "n"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: n"
+
+[dependencies]
+groups = { path = "../groups" }

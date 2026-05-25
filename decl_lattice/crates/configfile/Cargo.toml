@@ -1,0 +1,26 @@
+[package]
+name = "configfile"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: ConfigFile"
+
+[dependencies]
+mirrors = { path = "../mirrors" }
+version = { path = "../version" }
+version = { path = "../version" }
+config = { path = "../config" }
+config = { path = "../config" }
+config = { path = "../config" }
+path = { path = "../path" }
+path = { path = "../path" }
+parsing = { path = "../parsing" }
+structure = { path = "../structure" }
+dir = { path = "../dir" }
+submodules = { path = "../submodules" }
+submodules = { path = "../submodules" }
+format = { path = "../format" }
+file = { path = "../file" }
+file = { path = "../file" }
+file = { path = "../file" }
+target = { path = "../target" }
+branch = { path = "../branch" }

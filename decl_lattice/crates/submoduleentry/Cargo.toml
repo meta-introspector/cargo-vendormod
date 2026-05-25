@@ -1,0 +1,20 @@
+[package]
+name = "submoduleentry"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: SubmoduleEntry"
+
+[dependencies]
+url = { path = "../url" }
+url = { path = "../url" }
+url = { path = "../url" }
+url = { path = "../url" }
+url = { path = "../url" }
+url = { path = "../url" }
+submodule = { path = "../submodule" }
+gitmodules = { path = "../gitmodules" }
+annotation = { path = "../annotation" }
+annotations = { path = "../annotations" }
+path = { path = "../path" }
+path = { path = "../path" }
+branch = { path = "../branch" }

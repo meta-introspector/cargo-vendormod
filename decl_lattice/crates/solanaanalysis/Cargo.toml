@@ -1,0 +1,18 @@
+[package]
+name = "solanaanalysis"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: SolanaAnalysis"
+
+[dependencies]
+corecomponent = { path = "../corecomponent" }
+analysis = { path = "../analysis" }
+analysis = { path = "../analysis" }
+analysis = { path = "../analysis" }
+centralitymetrics = { path = "../centralitymetrics" }
+graphmetrics = { path = "../graphmetrics" }
+cargotooldiscovery = { path = "../cargotooldiscovery" }
+cargotooldiscovery = { path = "../cargotooldiscovery" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }

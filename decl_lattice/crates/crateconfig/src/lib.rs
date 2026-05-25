@@ -1,0 +1,1 @@
+use std :: fs ; use std :: path :: { Path , PathBuf } ; use toml_edit :: DocumentMut ; use anyhow :: Result ; use serde :: { Deserialize , Serialize } ; # [derive (Debug , Clone , Serialize , Deserialize)] pub struct CrateConfig { pub display_name : String , pub actual_name : String , pub source_type : String , }

@@ -1,0 +1,14 @@
+[package]
+name = "grouptile"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: GroupTile"
+
+[dependencies]
+finitesimplegroup = { path = "../finitesimplegroup" }
+finitesimplegroup = { path = "../finitesimplegroup" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+groupatlas = { path = "../groupatlas" }
+groupatlas = { path = "../groupatlas" }

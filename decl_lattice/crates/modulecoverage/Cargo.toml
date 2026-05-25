@@ -1,0 +1,11 @@
+[package]
+name = "modulecoverage"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: ModuleCoverage"
+
+[dependencies]
+name = { path = "../name" }
+path = { path = "../path" }
+path = { path = "../path" }
+statistics = { path = "../statistics" }

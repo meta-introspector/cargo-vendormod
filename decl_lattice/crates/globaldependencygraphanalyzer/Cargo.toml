@@ -1,0 +1,23 @@
+[package]
+name = "globaldependencygraphanalyzer"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: GlobalDependencyGraphAnalyzer"
+
+[dependencies]
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+analysis = { path = "../analysis" }
+analysis = { path = "../analysis" }
+analysis = { path = "../analysis" }
+structure = { path = "../structure" }
+partition = { path = "../partition" }
+n = { path = "../n" }

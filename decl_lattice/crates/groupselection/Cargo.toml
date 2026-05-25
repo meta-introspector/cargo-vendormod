@@ -1,0 +1,15 @@
+[package]
+name = "groupselection"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: GroupSelection"
+
+[dependencies]
+groups = { path = "../groups" }
+finitesimplegroup = { path = "../finitesimplegroup" }
+finitesimplegroup = { path = "../finitesimplegroup" }
+complexityrange = { path = "../complexityrange" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+orderrange = { path = "../orderrange" }

@@ -1,0 +1,19 @@
+[package]
+name = "layerprocessor"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: LayerProcessor"
+
+[dependencies]
+info = { path = "../info" }
+dependencynode = { path = "../dependencynode" }
+graph = { path = "../graph" }
+globaldependencygraph = { path = "../globaldependencygraph" }
+crates = { path = "../crates" }
+order = { path = "../order" }
+order = { path = "../order" }
+order = { path = "../order" }
+order = { path = "../order" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }

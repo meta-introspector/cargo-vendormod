@@ -1,0 +1,19 @@
+[package]
+name = "recursive"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: recursive"
+
+[dependencies]
+url = { path = "../url" }
+url = { path = "../url" }
+url = { path = "../url" }
+url = { path = "../url" }
+url = { path = "../url" }
+url = { path = "../url" }
+submodules = { path = "../submodules" }
+submodules = { path = "../submodules" }
+submoduleinfo = { path = "../submoduleinfo" }
+path = { path = "../path" }
+path = { path = "../path" }
+branch = { path = "../branch" }

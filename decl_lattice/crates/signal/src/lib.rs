@@ -1,0 +1,1 @@
+use anyhow :: { Context , Result } ; use serde :: { Deserialize , Serialize } ; use std :: fs ; use std :: path :: Path ; use super :: * ; use serde_json :: json ; use tempfile :: NamedTempFile ; # [doc = " CPU mode signal mapping"] const CPU_MODE_SIGNAL : [(& str , f64) ; 2] = [("Kernel" , - 1.0) , ("User" , 1.0) ,] ;

@@ -1,0 +1,9 @@
+[package]
+name = "integrationtestresult"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: IntegrationTestResult"
+
+[dependencies]
+path = { path = "../path" }
+path = { path = "../path" }

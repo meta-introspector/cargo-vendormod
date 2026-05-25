@@ -1,0 +1,1 @@
+use anyhow :: Result ; use serde :: { Deserialize , Serialize } ; use std :: collections :: HashMap ; use std :: fs ; use std :: path :: { Path , PathBuf } ; use std :: process :: Command ; # [derive (Debug , Serialize , Deserialize , Clone)] pub struct GitStatus { pub clean : bool , pub staged : usize , pub modified : usize , pub untracked : usize , }

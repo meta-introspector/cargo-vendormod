@@ -1,0 +1,13 @@
+[package]
+name = "daslmetadata"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: DaslMetadata"
+
+[dependencies]
+submoduleentry = { path = "../submoduleentry" }
+all = { path = "../all" }
+all = { path = "../all" }
+path = { path = "../path" }
+path = { path = "../path" }
+statistics = { path = "../statistics" }

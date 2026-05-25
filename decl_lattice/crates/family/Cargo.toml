@@ -1,0 +1,21 @@
+[package]
+name = "family"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: family"
+
+[dependencies]
+sporadicgroup = { path = "../sporadicgroup" }
+atlasconfig = { path = "../atlasconfig" }
+filter = { path = "../filter" }
+twistedlietype = { path = "../twistedlietype" }
+classicallietype = { path = "../classicallietype" }
+atlasrenderer = { path = "../atlasrenderer" }
+atlasrenderer = { path = "../atlasrenderer" }
+n = { path = "../n" }
+format = { path = "../format" }
+groups = { path = "../groups" }
+groupfamily = { path = "../groupfamily" }
+name = { path = "../name" }
+groupatlas = { path = "../groupatlas" }
+groupatlas = { path = "../groupatlas" }

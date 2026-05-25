@@ -1,0 +1,13 @@
+[package]
+name = "builderror"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: BuildError"
+
+[dependencies]
+globaldependencygraphbuilder = { path = "../globaldependencygraphbuilder" }
+globaldependencygraphbuilder = { path = "../globaldependencygraphbuilder" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+globaldependencygraph = { path = "../globaldependencygraph" }

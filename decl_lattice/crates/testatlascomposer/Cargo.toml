@@ -1,0 +1,15 @@
+[package]
+name = "testatlascomposer"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: TestAtlasComposer"
+
+[dependencies]
+testrepositoryview = { path = "../testrepositoryview" }
+testrepositoryview = { path = "../testrepositoryview" }
+path = { path = "../path" }
+path = { path = "../path" }
+views = { path = "../views" }
+views = { path = "../views" }
+views = { path = "../views" }
+views = { path = "../views" }

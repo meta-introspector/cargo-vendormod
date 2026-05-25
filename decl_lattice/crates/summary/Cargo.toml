@@ -1,0 +1,32 @@
+[package]
+name = "summary"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: summary"
+
+[dependencies]
+n = { path = "../n" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+tests = { path = "../tests" }
+tests = { path = "../tests" }
+tests = { path = "../tests" }
+tests = { path = "../tests" }
+tests = { path = "../tests" }

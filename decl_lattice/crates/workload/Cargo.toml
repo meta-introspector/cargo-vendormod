@@ -1,0 +1,10 @@
+[package]
+name = "workload"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: workload"
+
+[dependencies]
+vendoring = { path = "../vendoring" }
+vendoring = { path = "../vendoring" }
+vendoring = { path = "../vendoring" }

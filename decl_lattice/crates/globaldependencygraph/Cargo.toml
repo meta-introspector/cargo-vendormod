@@ -1,0 +1,19 @@
+[package]
+name = "globaldependencygraph"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: GlobalDependencyGraph"
+
+[dependencies]
+dependencynode = { path = "../dependencynode" }
+cargotooldiscovery = { path = "../cargotooldiscovery" }
+cargotooldiscovery = { path = "../cargotooldiscovery" }
+featureset = { path = "../featureset" }
+tomlstructure = { path = "../tomlstructure" }
+graphpartition = { path = "../graphpartition" }
+graph = { path = "../graph" }
+dependencyedge = { path = "../dependencyedge" }
+graphmetrics = { path = "../graphmetrics" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }

@@ -1,0 +1,15 @@
+[package]
+name = "upstream"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: upstream"
+
+[dependencies]
+output = { path = "../output" }
+output = { path = "../output" }
+output = { path = "../output" }
+repo = { path = "../repo" }
+repo = { path = "../repo" }
+repo = { path = "../repo" }
+status = { path = "../status" }
+status = { path = "../status" }

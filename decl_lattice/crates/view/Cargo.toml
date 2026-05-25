@@ -1,0 +1,16 @@
+[package]
+name = "view"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: view"
+
+[dependencies]
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }

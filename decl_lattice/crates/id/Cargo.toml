@@ -1,0 +1,12 @@
+[package]
+name = "id"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: id"
+
+[dependencies]
+views = { path = "../views" }
+views = { path = "../views" }
+views = { path = "../views" }
+views = { path = "../views" }
+random = { path = "../random" }

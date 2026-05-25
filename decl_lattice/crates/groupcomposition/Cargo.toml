@@ -1,0 +1,16 @@
+[package]
+name = "groupcomposition"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: GroupComposition"
+
+[dependencies]
+compositiontype = { path = "../compositiontype" }
+groupvisualization = { path = "../groupvisualization" }
+composition = { path = "../composition" }
+order = { path = "../order" }
+order = { path = "../order" }
+order = { path = "../order" }
+order = { path = "../order" }
+groups = { path = "../groups" }
+name = { path = "../name" }

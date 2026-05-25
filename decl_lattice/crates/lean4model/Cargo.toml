@@ -1,0 +1,8 @@
+[package]
+name = "lean4model"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: Lean4Model"
+
+[dependencies]
+model = { path = "../model" }

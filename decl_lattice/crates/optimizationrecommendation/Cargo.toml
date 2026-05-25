@@ -1,0 +1,13 @@
+[package]
+name = "optimizationrecommendation"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: OptimizationRecommendation"
+
+[dependencies]
+zkperfintegrator = { path = "../zkperfintegrator" }
+zkperfintegrator = { path = "../zkperfintegrator" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+target = { path = "../target" }

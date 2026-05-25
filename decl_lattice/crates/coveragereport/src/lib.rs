@@ -1,0 +1,1 @@
+use std :: collections :: HashMap ; use std :: path :: PathBuf ; use super :: * ; # [doc = " Overall coverage report"] # [derive (Debug , Clone , serde :: Serialize)] pub struct CoverageReport { pub timestamp : String , pub target_directory : PathBuf , pub modules : Vec < ModuleCoverage > , pub overall_lines : f64 , pub overall_branches : f64 , pub overall_functions : f64 , }

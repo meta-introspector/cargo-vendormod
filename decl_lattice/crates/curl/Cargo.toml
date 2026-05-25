@@ -1,0 +1,12 @@
+[package]
+name = "curl"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: curl"
+
+[dependencies]
+format = { path = "../format" }
+output = { path = "../output" }
+output = { path = "../output" }
+output = { path = "../output" }
+repostatus = { path = "../repostatus" }

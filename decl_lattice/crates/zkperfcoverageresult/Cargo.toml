@@ -1,0 +1,9 @@
+[package]
+name = "zkperfcoverageresult"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: ZkperfCoverageResult"
+
+[dependencies]
+path = { path = "../path" }
+path = { path = "../path" }

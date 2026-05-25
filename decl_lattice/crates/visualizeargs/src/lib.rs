@@ -1,0 +1,1 @@
+use anyhow :: Result ; use clap :: { Parser , Subcommand } ; use std :: path :: PathBuf ; use cargo_vendormod :: workload_processor :: process_workload_recursive ; # [derive (Parser , Debug)] struct VisualizeArgs { # [doc = " Input graph file"] # [arg (long)] input_path : PathBuf , # [doc = " Output file"] # [arg (long)] output_path : PathBuf , }

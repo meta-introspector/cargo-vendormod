@@ -1,0 +1,32 @@
+[package]
+name = "processingargs"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: ProcessingArgs"
+
+[dependencies]
+all = { path = "../all" }
+all = { path = "../all" }
+processingcommands = { path = "../processingcommands" }
+config = { path = "../config" }
+config = { path = "../config" }
+config = { path = "../config" }
+parallel = { path = "../parallel" }
+globaldependencygraphbuilder = { path = "../globaldependencygraphbuilder" }
+globaldependencygraphbuilder = { path = "../globaldependencygraphbuilder" }
+operations = { path = "../operations" }
+operations = { path = "../operations" }
+operations = { path = "../operations" }
+workspace = { path = "../workspace" }
+workspace = { path = "../workspace" }
+crates = { path = "../crates" }
+command = { path = "../command" }
+command = { path = "../command" }
+directory = { path = "../directory" }
+output = { path = "../output" }
+output = { path = "../output" }
+output = { path = "../output" }
+file = { path = "../file" }
+file = { path = "../file" }
+file = { path = "../file" }
+name = { path = "../name" }

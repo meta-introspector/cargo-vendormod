@@ -1,0 +1,16 @@
+[package]
+name = "gitconfig"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: GitConfig"
+
+[dependencies]
+configsection = { path = "../configsection" }
+file = { path = "../file" }
+file = { path = "../file" }
+file = { path = "../file" }
+path = { path = "../path" }
+path = { path = "../path" }
+config = { path = "../config" }
+config = { path = "../config" }
+config = { path = "../config" }

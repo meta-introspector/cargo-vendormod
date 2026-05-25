@@ -1,0 +1,21 @@
+[package]
+name = "filter"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: filter"
+
+[dependencies]
+sporadicgroup = { path = "../sporadicgroup" }
+atlasconfig = { path = "../atlasconfig" }
+twistedlietype = { path = "../twistedlietype" }
+classicallietype = { path = "../classicallietype" }
+family = { path = "../family" }
+family = { path = "../family" }
+atlasrenderer = { path = "../atlasrenderer" }
+atlasrenderer = { path = "../atlasrenderer" }
+string = { path = "../string" }
+n = { path = "../n" }
+format = { path = "../format" }
+groupfamily = { path = "../groupfamily" }
+groupatlas = { path = "../groupatlas" }
+groupatlas = { path = "../groupatlas" }

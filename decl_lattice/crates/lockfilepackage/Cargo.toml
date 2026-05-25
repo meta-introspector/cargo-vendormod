@@ -1,0 +1,16 @@
+[package]
+name = "lockfilepackage"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: LockfilePackage"
+
+[dependencies]
+version = { path = "../version" }
+version = { path = "../version" }
+lock = { path = "../lock" }
+lock = { path = "../lock" }
+commit = { path = "../commit" }
+file = { path = "../file" }
+file = { path = "../file" }
+file = { path = "../file" }
+name = { path = "../name" }

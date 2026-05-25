@@ -1,0 +1,1 @@
+use serde :: { Deserialize , Serialize } ; use std :: collections :: HashMap ; use super :: * ; # [doc = " ITIL CRQ Status"] # [derive (Debug , Clone , Copy , PartialEq , Eq , Serialize , Deserialize)] pub enum CrqStatus { Open , InProgress , QualityGate , Done , Rejected , }

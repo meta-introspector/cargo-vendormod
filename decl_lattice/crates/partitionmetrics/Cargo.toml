@@ -1,0 +1,13 @@
+[package]
+name = "partitionmetrics"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: PartitionMetrics"
+
+[dependencies]
+partition = { path = "../partition" }
+cargotooldiscovery = { path = "../cargotooldiscovery" }
+cargotooldiscovery = { path = "../cargotooldiscovery" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }

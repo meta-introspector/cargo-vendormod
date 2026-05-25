@@ -1,0 +1,15 @@
+[package]
+name = "parallelbuildconfig"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: ParallelBuildConfig"
+
+[dependencies]
+build = { path = "../build" }
+build = { path = "../build" }
+globaldependencygraphbuilder = { path = "../globaldependencygraphbuilder" }
+globaldependencygraphbuilder = { path = "../globaldependencygraphbuilder" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+globaldependencygraph = { path = "../globaldependencygraph" }

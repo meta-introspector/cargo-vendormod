@@ -1,0 +1,9 @@
+[package]
+name = "branch"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: branch"
+
+[dependencies]
+submodule = { path = "../submodule" }
+format = { path = "../format" }

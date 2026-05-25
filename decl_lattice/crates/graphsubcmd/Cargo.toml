@@ -1,0 +1,12 @@
+[package]
+name = "graphsubcmd"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: GraphSubCmd"
+
+[dependencies]
+graphcmd = { path = "../graphcmd" }
+path = { path = "../path" }
+path = { path = "../path" }
+command = { path = "../command" }
+command = { path = "../command" }

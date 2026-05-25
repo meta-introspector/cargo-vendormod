@@ -1,0 +1,20 @@
+[package]
+name = "structure"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: structure"
+
+[dependencies]
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+analysis = { path = "../analysis" }
+analysis = { path = "../analysis" }
+analysis = { path = "../analysis" }

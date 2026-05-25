@@ -1,0 +1,17 @@
+[package]
+name = "lock"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: lock"
+
+[dependencies]
+url = { path = "../url" }
+url = { path = "../url" }
+url = { path = "../url" }
+url = { path = "../url" }
+url = { path = "../url" }
+url = { path = "../url" }
+version = { path = "../version" }
+version = { path = "../version" }
+repoidentifier = { path = "../repoidentifier" }
+commit = { path = "../commit" }

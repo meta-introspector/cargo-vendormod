@@ -1,0 +1,13 @@
+[package]
+name = "families"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: families"
+
+[dependencies]
+format = { path = "../format" }
+groups = { path = "../groups" }
+family = { path = "../family" }
+family = { path = "../family" }
+groupatlas = { path = "../groupatlas" }
+groupatlas = { path = "../groupatlas" }

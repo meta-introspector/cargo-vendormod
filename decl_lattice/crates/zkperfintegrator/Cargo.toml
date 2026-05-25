@@ -1,0 +1,26 @@
+[package]
+name = "zkperfintegrator"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: ZkperfIntegrator"
+
+[dependencies]
+output = { path = "../output" }
+output = { path = "../output" }
+output = { path = "../output" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+generation = { path = "../generation" }
+generation = { path = "../generation" }
+generation = { path = "../generation" }
+generation = { path = "../generation" }
+status = { path = "../status" }
+status = { path = "../status" }

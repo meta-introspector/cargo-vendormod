@@ -1,0 +1,48 @@
+[package]
+name = "atlasargs"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: AtlasArgs"
+
+[dependencies]
+view = { path = "../view" }
+view = { path = "../view" }
+view = { path = "../view" }
+view = { path = "../view" }
+view = { path = "../view" }
+view = { path = "../view" }
+classicallietype = { path = "../classicallietype" }
+family = { path = "../family" }
+family = { path = "../family" }
+command = { path = "../command" }
+command = { path = "../command" }
+n = { path = "../n" }
+groupatlas = { path = "../groupatlas" }
+groupatlas = { path = "../groupatlas" }
+twistedlietype = { path = "../twistedlietype" }
+file = { path = "../file" }
+file = { path = "../file" }
+file = { path = "../file" }
+sporadicgroup = { path = "../sporadicgroup" }
+generation = { path = "../generation" }
+generation = { path = "../generation" }
+generation = { path = "../generation" }
+generation = { path = "../generation" }
+atlasrenderer = { path = "../atlasrenderer" }
+atlasrenderer = { path = "../atlasrenderer" }
+directory = { path = "../directory" }
+statistics = { path = "../statistics" }
+order = { path = "../order" }
+order = { path = "../order" }
+order = { path = "../order" }
+order = { path = "../order" }
+compositions = { path = "../compositions" }
+files = { path = "../files" }
+files = { path = "../files" }
+files = { path = "../files" }
+files = { path = "../files" }
+version = { path = "../version" }
+version = { path = "../version" }
+atlasconfig = { path = "../atlasconfig" }
+groups = { path = "../groups" }
+groupfamily = { path = "../groupfamily" }

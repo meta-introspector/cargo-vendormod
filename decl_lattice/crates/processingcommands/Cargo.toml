@@ -1,0 +1,30 @@
+[package]
+name = "processingcommands"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: ProcessingCommands"
+
+[dependencies]
+all = { path = "../all" }
+all = { path = "../all" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+globaldependencygraphbuilder = { path = "../globaldependencygraphbuilder" }
+globaldependencygraphbuilder = { path = "../globaldependencygraphbuilder" }
+workspace = { path = "../workspace" }
+workspace = { path = "../workspace" }
+crates = { path = "../crates" }
+workflow = { path = "../workflow" }
+workflow = { path = "../workflow" }
+workflow = { path = "../workflow" }
+file = { path = "../file" }
+file = { path = "../file" }
+file = { path = "../file" }

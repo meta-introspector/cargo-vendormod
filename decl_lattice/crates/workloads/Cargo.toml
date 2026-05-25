@@ -1,0 +1,14 @@
+[package]
+name = "workloads"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: workloads"
+
+[dependencies]
+workloaddef = { path = "../workloaddef" }
+path = { path = "../path" }
+path = { path = "../path" }
+submodules = { path = "../submodules" }
+submodules = { path = "../submodules" }
+main = { path = "../main" }
+name = { path = "../name" }

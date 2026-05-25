@@ -1,0 +1,10 @@
+[package]
+name = "gitstatus"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: GitStatus"
+
+[dependencies]
+path = { path = "../path" }
+path = { path = "../path" }
+clean = { path = "../clean" }

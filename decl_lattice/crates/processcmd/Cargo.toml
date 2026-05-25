@@ -1,0 +1,12 @@
+[package]
+name = "processcmd"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: ProcessCmd"
+
+[dependencies]
+processallargs = { path = "../processallargs" }
+workflowargs = { path = "../workflowargs" }
+path = { path = "../path" }
+path = { path = "../path" }
+processcratesargs = { path = "../processcratesargs" }

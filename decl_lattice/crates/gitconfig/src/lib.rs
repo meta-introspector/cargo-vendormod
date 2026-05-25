@@ -1,0 +1,1 @@
+use serde :: { Deserialize , Serialize } ; use std :: collections :: HashMap ; use std :: path :: Path ; use super :: * ; # [doc = " Parsed .git/config file"] # [derive (Debug , Clone , Serialize , Deserialize)] pub struct GitConfig { pub sections : HashMap < String , ConfigSection > , }

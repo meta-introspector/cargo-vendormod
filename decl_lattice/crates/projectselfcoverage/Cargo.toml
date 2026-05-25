@@ -1,0 +1,11 @@
+[package]
+name = "projectselfcoverage"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: ProjectSelfCoverage"
+
+[dependencies]
+files = { path = "../files" }
+files = { path = "../files" }
+files = { path = "../files" }
+files = { path = "../files" }

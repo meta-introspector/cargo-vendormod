@@ -1,0 +1,15 @@
+[package]
+name = "initargs"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: InitArgs"
+
+[dependencies]
+build = { path = "../build" }
+build = { path = "../build" }
+deps = { path = "../deps" }
+deps = { path = "../deps" }
+deps = { path = "../deps" }
+deps = { path = "../deps" }
+path = { path = "../path" }
+path = { path = "../path" }

@@ -1,0 +1,1 @@
+use anyhow :: Result ; use clap :: { Parser , Subcommand } ; use std :: path :: PathBuf ; use cargo_vendormod :: workload_processor :: process_workload_recursive ; fn delegate_to_binary (name : & str , _args : & [& str]) -> Result < () > { println ! ("Delegating to {} binary (not yet implemented)" , name) ; println ! ("Run with cargo run --bin {} -- [args]" , name) ; Ok (()) }

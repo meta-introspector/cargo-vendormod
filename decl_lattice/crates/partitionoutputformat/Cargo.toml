@@ -1,0 +1,13 @@
+[package]
+name = "partitionoutputformat"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: PartitionOutputFormat"
+
+[dependencies]
+format = { path = "../format" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+cargotooldiscovery = { path = "../cargotooldiscovery" }
+cargotooldiscovery = { path = "../cargotooldiscovery" }

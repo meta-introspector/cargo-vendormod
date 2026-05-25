@@ -1,0 +1,17 @@
+[package]
+name = "analyzeargs"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: AnalyzeArgs"
+
+[dependencies]
+graph = { path = "../graph" }
+analysis = { path = "../analysis" }
+analysis = { path = "../analysis" }
+analysis = { path = "../analysis" }
+directory = { path = "../directory" }
+file = { path = "../file" }
+file = { path = "../file" }
+file = { path = "../file" }
+path = { path = "../path" }
+path = { path = "../path" }

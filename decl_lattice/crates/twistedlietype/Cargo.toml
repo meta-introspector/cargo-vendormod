@@ -1,0 +1,9 @@
+[package]
+name = "twistedlietype"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: TwistedLieType"
+
+[dependencies]
+n = { path = "../n" }
+groups = { path = "../groups" }

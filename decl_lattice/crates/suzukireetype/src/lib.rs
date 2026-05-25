@@ -1,0 +1,1 @@
+use std :: collections :: HashMap ; use std :: fmt ; use serde :: { Serialize , Deserialize } ; use std :: path :: PathBuf ; use num_bigint :: BigUint ; use num_traits :: FromPrimitive ; use super :: * ; # [doc = " Suzuki-Ree types"] # [derive (Debug , Clone , Serialize , Deserialize , PartialEq)] pub enum SuzukiReeType { Suzuki , Ree , }

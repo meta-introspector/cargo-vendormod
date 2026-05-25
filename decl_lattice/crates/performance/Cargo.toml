@@ -1,0 +1,18 @@
+[package]
+name = "performance"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: performance"
+
+[dependencies]
+benchmarkresult = { path = "../benchmarkresult" }
+benchmarkresult = { path = "../benchmarkresult" }
+operations = { path = "../operations" }
+operations = { path = "../operations" }
+operations = { path = "../operations" }
+format = { path = "../format" }
+output = { path = "../output" }
+output = { path = "../output" }
+output = { path = "../output" }
+status = { path = "../status" }
+status = { path = "../status" }

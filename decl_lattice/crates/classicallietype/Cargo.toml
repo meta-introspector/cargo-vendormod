@@ -1,0 +1,10 @@
+[package]
+name = "classicallietype"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: ClassicalLieType"
+
+[dependencies]
+n = { path = "../n" }
+exceptionaltype = { path = "../exceptionaltype" }
+groups = { path = "../groups" }

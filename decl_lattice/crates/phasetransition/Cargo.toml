@@ -1,0 +1,12 @@
+[package]
+name = "phasetransition"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: PhaseTransition"
+
+[dependencies]
+config = { path = "../config" }
+config = { path = "../config" }
+graph = { path = "../graph" }
+workload = { path = "../workload" }
+dot = { path = "../dot" }

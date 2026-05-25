@@ -1,0 +1,11 @@
+[package]
+name = "workloadargs"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: WorkloadArgs"
+
+[dependencies]
+format = { path = "../format" }
+path = { path = "../path" }
+path = { path = "../path" }
+analyze = { path = "../analyze" }

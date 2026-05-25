@@ -1,0 +1,15 @@
+[package]
+name = "configsection"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: ConfigSection"
+
+[dependencies]
+name = { path = "../name" }
+values = { path = "../values" }
+values = { path = "../values" }
+path = { path = "../path" }
+path = { path = "../path" }
+config = { path = "../config" }
+config = { path = "../config" }
+config = { path = "../config" }

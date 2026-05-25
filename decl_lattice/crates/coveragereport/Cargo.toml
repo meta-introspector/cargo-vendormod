@@ -1,0 +1,21 @@
+[package]
+name = "coveragereport"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: CoverageReport"
+
+[dependencies]
+modulecoverage = { path = "../modulecoverage" }
+modulecoverage = { path = "../modulecoverage" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+path = { path = "../path" }
+path = { path = "../path" }

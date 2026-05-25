@@ -1,0 +1,32 @@
+[package]
+name = "report"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: report"
+
+[dependencies]
+workspaces = { path = "../workspaces" }
+workspaces = { path = "../workspaces" }
+generation = { path = "../generation" }
+generation = { path = "../generation" }
+generation = { path = "../generation" }
+generation = { path = "../generation" }
+flake = { path = "../flake" }
+toml = { path = "../toml" }
+toml = { path = "../toml" }
+crates = { path = "../crates" }
+files = { path = "../files" }
+files = { path = "../files" }
+files = { path = "../files" }
+files = { path = "../files" }
+format = { path = "../format" }
+usage = { path = "../usage" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }

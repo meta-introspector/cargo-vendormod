@@ -1,0 +1,13 @@
+[package]
+name = "dataflownode"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: DataFlowNode"
+
+[dependencies]
+config = { path = "../config" }
+config = { path = "../config" }
+graph = { path = "../graph" }
+id = { path = "../id" }
+dot = { path = "../dot" }
+dataflownodetype = { path = "../dataflownodetype" }

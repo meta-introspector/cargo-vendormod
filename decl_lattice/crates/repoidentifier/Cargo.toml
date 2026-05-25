@@ -1,0 +1,21 @@
+[package]
+name = "repoidentifier"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: RepoIdentifier"
+
+[dependencies]
+version = { path = "../version" }
+version = { path = "../version" }
+url = { path = "../url" }
+url = { path = "../url" }
+url = { path = "../url" }
+url = { path = "../url" }
+url = { path = "../url" }
+url = { path = "../url" }
+commit = { path = "../commit" }
+appcontext = { path = "../appcontext" }
+appcontext = { path = "../appcontext" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }

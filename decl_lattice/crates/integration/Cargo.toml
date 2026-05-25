@@ -1,0 +1,27 @@
+[package]
+name = "integration"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: integration"
+
+[dependencies]
+analysis = { path = "../analysis" }
+analysis = { path = "../analysis" }
+analysis = { path = "../analysis" }
+parsing = { path = "../parsing" }
+summary = { path = "../summary" }
+summary = { path = "../summary" }
+summary = { path = "../summary" }
+summary = { path = "../summary" }
+summary = { path = "../summary" }
+lines = { path = "../lines" }
+output = { path = "../output" }
+output = { path = "../output" }
+output = { path = "../output" }
+format = { path = "../format" }
+trace = { path = "../trace" }
+trace = { path = "../trace" }
+trace = { path = "../trace" }
+trace = { path = "../trace" }
+zkperfintegrationresult = { path = "../zkperfintegrationresult" }
+zkperfintegrationresult = { path = "../zkperfintegrationresult" }

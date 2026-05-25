@@ -1,0 +1,46 @@
+[package]
+name = "commands"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: Commands"
+
+[dependencies]
+groupselection = { path = "../groupselection" }
+view = { path = "../view" }
+view = { path = "../view" }
+view = { path = "../view" }
+view = { path = "../view" }
+view = { path = "../view" }
+view = { path = "../view" }
+viewmodifications = { path = "../viewmodifications" }
+family = { path = "../family" }
+family = { path = "../family" }
+template = { path = "../template" }
+template = { path = "../template" }
+all = { path = "../all" }
+all = { path = "../all" }
+compositionrules = { path = "../compositionrules" }
+views = { path = "../views" }
+views = { path = "../views" }
+views = { path = "../views" }
+views = { path = "../views" }
+layouttype = { path = "../layouttype" }
+file = { path = "../file" }
+file = { path = "../file" }
+file = { path = "../file" }
+path = { path = "../path" }
+path = { path = "../path" }
+orderrange = { path = "../orderrange" }
+compositionstrategy = { path = "../compositionstrategy" }
+atlasview = { path = "../atlasview" }
+visualizationconfig = { path = "../visualizationconfig" }
+order = { path = "../order" }
+order = { path = "../order" }
+order = { path = "../order" }
+order = { path = "../order" }
+complexityrange = { path = "../complexityrange" }
+composition = { path = "../composition" }
+name = { path = "../name" }
+atlasviewcomposer = { path = "../atlasviewcomposer" }
+atlasviewcomposer = { path = "../atlasviewcomposer" }
+colorscheme = { path = "../colorscheme" }

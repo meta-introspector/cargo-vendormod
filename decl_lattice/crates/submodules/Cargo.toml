@@ -1,0 +1,17 @@
+[package]
+name = "submodules"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: submodules"
+
+[dependencies]
+url = { path = "../url" }
+url = { path = "../url" }
+url = { path = "../url" }
+url = { path = "../url" }
+url = { path = "../url" }
+url = { path = "../url" }
+name = { path = "../name" }
+version = { path = "../version" }
+version = { path = "../version" }
+submoduleinfo = { path = "../submoduleinfo" }

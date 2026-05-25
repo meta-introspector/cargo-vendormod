@@ -1,0 +1,1 @@
+use std :: collections :: HashMap ; use std :: fs ; use std :: process :: Command ; use std :: path :: Path ; fn is_prime (n : usize) -> bool { if n <= 1 { return false ; } if n <= 3 { return true ; } if n % 2 == 0 || n % 3 == 0 { return false ; } for i in (5 ..= (n as f64) . sqrt () as usize) . step_by (6) { if n % i == 0 || n % (i + 2) == 0 { return false ; } } true }

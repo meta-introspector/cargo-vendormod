@@ -1,0 +1,12 @@
+[package]
+name = "repositoryview"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: RepositoryView"
+
+[dependencies]
+n = { path = "../n" }
+format = { path = "../format" }
+repo = { path = "../repo" }
+repo = { path = "../repo" }
+repo = { path = "../repo" }

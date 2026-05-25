@@ -1,0 +1,17 @@
+[package]
+name = "compilation"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: compilation"
+
+[dependencies]
+testresult = { path = "../testresult" }
+testresult = { path = "../testresult" }
+command = { path = "../command" }
+command = { path = "../command" }
+format = { path = "../format" }
+output = { path = "../output" }
+output = { path = "../output" }
+output = { path = "../output" }
+status = { path = "../status" }
+status = { path = "../status" }

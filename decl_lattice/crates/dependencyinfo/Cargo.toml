@@ -1,0 +1,12 @@
+[package]
+name = "dependencyinfo"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: DependencyInfo"
+
+[dependencies]
+name = { path = "../name" }
+path = { path = "../path" }
+path = { path = "../path" }
+version = { path = "../version" }
+version = { path = "../version" }

@@ -1,0 +1,14 @@
+[package]
+name = "info"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: info"
+
+[dependencies]
+lockfile = { path = "../lockfile" }
+repoidentifier = { path = "../repoidentifier" }
+lock = { path = "../lock" }
+lock = { path = "../lock" }
+commits = { path = "../commits" }
+appcontext = { path = "../appcontext" }
+appcontext = { path = "../appcontext" }

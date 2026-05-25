@@ -1,0 +1,19 @@
+[package]
+name = "atlasrenderer"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: AtlasRenderer"
+
+[dependencies]
+grouptile = { path = "../grouptile" }
+groupcomposition = { path = "../groupcomposition" }
+atlasconfig = { path = "../atlasconfig" }
+config = { path = "../config" }
+config = { path = "../config" }
+config = { path = "../config" }
+compositions = { path = "../compositions" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+groupatlas = { path = "../groupatlas" }
+groupatlas = { path = "../groupatlas" }

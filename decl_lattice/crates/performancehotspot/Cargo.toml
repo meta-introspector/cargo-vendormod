@@ -1,0 +1,12 @@
+[package]
+name = "performancehotspot"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: PerformanceHotspot"
+
+[dependencies]
+zkperfintegrator = { path = "../zkperfintegrator" }
+zkperfintegrator = { path = "../zkperfintegrator" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }

@@ -1,0 +1,12 @@
+[package]
+name = "testrepository"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: TestRepository"
+
+[dependencies]
+format = { path = "../format" }
+order = { path = "../order" }
+order = { path = "../order" }
+order = { path = "../order" }
+order = { path = "../order" }

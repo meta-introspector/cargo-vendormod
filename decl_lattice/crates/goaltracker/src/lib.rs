@@ -1,0 +1,1 @@
+use serde :: { Deserialize , Serialize } ; use std :: collections :: HashMap ; use super :: * ; # [doc = " Goal Tracker - Main orchestrator"] # [derive (Debug , Clone , Serialize , Deserialize)] pub struct GoalTracker { pub goals : HashMap < String , Goal > , pub metrics : SixSigmaMetrics , pub compliance_records : Vec < IsoComplianceRecord > , }

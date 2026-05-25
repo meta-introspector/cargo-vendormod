@@ -1,0 +1,13 @@
+[package]
+name = "serviceaccess"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: ServiceAccess"
+
+[dependencies]
+name = { path = "../name" }
+file = { path = "../file" }
+file = { path = "../file" }
+file = { path = "../file" }
+default = { path = "../default" }
+service = { path = "../service" }

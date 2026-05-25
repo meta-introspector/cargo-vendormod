@@ -1,0 +1,13 @@
+[package]
+name = "repositoryatlascomposer"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: RepositoryAtlasComposer"
+
+[dependencies]
+views = { path = "../views" }
+views = { path = "../views" }
+views = { path = "../views" }
+views = { path = "../views" }
+repositoryview = { path = "../repositoryview" }
+repositoryview = { path = "../repositoryview" }

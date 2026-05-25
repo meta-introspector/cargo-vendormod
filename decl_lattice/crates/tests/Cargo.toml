@@ -1,0 +1,9 @@
+[package]
+name = "tests"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: tests"
+
+[dependencies]
+testresult = { path = "../testresult" }
+testresult = { path = "../testresult" }

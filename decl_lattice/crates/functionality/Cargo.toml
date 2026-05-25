@@ -1,0 +1,14 @@
+[package]
+name = "functionality"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: functionality"
+
+[dependencies]
+output = { path = "../output" }
+output = { path = "../output" }
+output = { path = "../output" }
+format = { path = "../format" }
+testresult = { path = "../testresult" }
+testresult = { path = "../testresult" }
+binary = { path = "../binary" }

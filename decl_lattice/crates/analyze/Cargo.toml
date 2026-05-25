@@ -1,0 +1,17 @@
+[package]
+name = "analyze"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: analyze"
+
+[dependencies]
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }

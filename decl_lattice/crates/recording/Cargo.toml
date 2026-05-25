@@ -1,0 +1,25 @@
+[package]
+name = "recording"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: recording"
+
+[dependencies]
+performance = { path = "../performance" }
+performance = { path = "../performance" }
+performance = { path = "../performance" }
+performance = { path = "../performance" }
+performance = { path = "../performance" }
+performance = { path = "../performance" }
+performance = { path = "../performance" }
+performance = { path = "../performance" }
+zkperftestresult = { path = "../zkperftestresult" }
+zkperftestresult = { path = "../zkperftestresult" }
+format = { path = "../format" }
+output = { path = "../output" }
+output = { path = "../output" }
+output = { path = "../output" }
+files = { path = "../files" }
+files = { path = "../files" }
+files = { path = "../files" }
+files = { path = "../files" }

@@ -1,0 +1,15 @@
+[package]
+name = "workloadpattern"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: WorkloadPattern"
+
+[dependencies]
+structure = { path = "../structure" }
+workloadpatterntype = { path = "../workloadpatterntype" }
+cargotooldiscovery = { path = "../cargotooldiscovery" }
+cargotooldiscovery = { path = "../cargotooldiscovery" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+name = { path = "../name" }

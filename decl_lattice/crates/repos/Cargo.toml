@@ -1,0 +1,10 @@
+[package]
+name = "repos"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: repos"
+
+[dependencies]
+path = { path = "../path" }
+path = { path = "../path" }
+filter = { path = "../filter" }

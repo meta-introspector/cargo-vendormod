@@ -1,0 +1,12 @@
+[package]
+name = "layouttype"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: LayoutType"
+
+[dependencies]
+finitesimplegroup = { path = "../finitesimplegroup" }
+finitesimplegroup = { path = "../finitesimplegroup" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }

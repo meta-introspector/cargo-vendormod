@@ -1,0 +1,23 @@
+[package]
+name = "gitmodulesdata"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: GitmodulesData"
+
+[dependencies]
+all = { path = "../all" }
+all = { path = "../all" }
+gitconfig = { path = "../gitconfig" }
+gitconfig = { path = "../gitconfig" }
+config = { path = "../config" }
+config = { path = "../config" }
+config = { path = "../config" }
+filter = { path = "../filter" }
+submodule = { path = "../submodule" }
+submoduleentry = { path = "../submoduleentry" }
+values = { path = "../values" }
+values = { path = "../values" }
+submodules = { path = "../submodules" }
+submodules = { path = "../submodules" }
+annotations = { path = "../annotations" }
+name = { path = "../name" }

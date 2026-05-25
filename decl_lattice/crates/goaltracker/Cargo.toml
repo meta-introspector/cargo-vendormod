@@ -1,0 +1,12 @@
+[package]
+name = "goaltracker"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: GoalTracker"
+
+[dependencies]
+sixsigmametrics = { path = "../sixsigmametrics" }
+sixsigmametrics = { path = "../sixsigmametrics" }
+isocompliancerecord = { path = "../isocompliancerecord" }
+goal = { path = "../goal" }
+goal = { path = "../goal" }

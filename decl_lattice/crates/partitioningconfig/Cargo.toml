@@ -1,0 +1,14 @@
+[package]
+name = "partitioningconfig"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: PartitioningConfig"
+
+[dependencies]
+cargotooldiscovery = { path = "../cargotooldiscovery" }
+cargotooldiscovery = { path = "../cargotooldiscovery" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+partitioningalgorithm = { path = "../partitioningalgorithm" }
+partitionoutputformat = { path = "../partitionoutputformat" }

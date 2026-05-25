@@ -1,0 +1,14 @@
+[package]
+name = "recursively"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: recursively"
+
+[dependencies]
+n = { path = "../n" }
+files = { path = "../files" }
+files = { path = "../files" }
+files = { path = "../files" }
+files = { path = "../files" }
+path = { path = "../path" }
+path = { path = "../path" }

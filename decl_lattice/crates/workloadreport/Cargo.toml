@@ -1,0 +1,22 @@
+[package]
+name = "workloadreport"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: WorkloadReport"
+
+[dependencies]
+crateinfo = { path = "../crateinfo" }
+reportsummary = { path = "../reportsummary" }
+gitrepoinfo = { path = "../gitrepoinfo" }
+crates = { path = "../crates" }
+summary = { path = "../summary" }
+summary = { path = "../summary" }
+summary = { path = "../summary" }
+summary = { path = "../summary" }
+summary = { path = "../summary" }
+submodules = { path = "../submodules" }
+submodules = { path = "../submodules" }
+submoduleinfo = { path = "../submoduleinfo" }
+path = { path = "../path" }
+path = { path = "../path" }
+workflowstate = { path = "../workflowstate" }

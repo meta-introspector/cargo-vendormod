@@ -1,0 +1,15 @@
+[package]
+name = "calculations"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: calculations"
+
+[dependencies]
+format = { path = "../format" }
+output = { path = "../output" }
+output = { path = "../output" }
+output = { path = "../output" }
+status = { path = "../status" }
+status = { path = "../status" }
+integrationtestresult = { path = "../integrationtestresult" }
+integrationtestresult = { path = "../integrationtestresult" }

@@ -1,0 +1,12 @@
+[package]
+name = "url"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: url"
+
+[dependencies]
+repo = { path = "../repo" }
+repo = { path = "../repo" }
+repo = { path = "../repo" }
+workspace = { path = "../workspace" }
+workspace = { path = "../workspace" }

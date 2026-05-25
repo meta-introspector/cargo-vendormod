@@ -1,0 +1,25 @@
+[package]
+name = "atlasview"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: AtlasView"
+
+[dependencies]
+groupselection = { path = "../groupselection" }
+compositionrules = { path = "../compositionrules" }
+view = { path = "../view" }
+view = { path = "../view" }
+view = { path = "../view" }
+view = { path = "../view" }
+view = { path = "../view" }
+view = { path = "../view" }
+compositions = { path = "../compositions" }
+groups = { path = "../groups" }
+viewmetadata = { path = "../viewmetadata" }
+finitesimplegroup = { path = "../finitesimplegroup" }
+finitesimplegroup = { path = "../finitesimplegroup" }
+visualizationconfig = { path = "../visualizationconfig" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+name = { path = "../name" }

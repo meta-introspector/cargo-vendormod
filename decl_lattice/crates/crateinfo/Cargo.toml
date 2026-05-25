@@ -1,0 +1,11 @@
+[package]
+name = "crateinfo"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: CrateInfo"
+
+[dependencies]
+hash = { path = "../hash" }
+name = { path = "../name" }
+version = { path = "../version" }
+version = { path = "../version" }

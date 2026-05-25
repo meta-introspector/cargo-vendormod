@@ -1,0 +1,29 @@
+[package]
+name = "mainargs"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: MainArgs"
+
+[dependencies]
+mirrors = { path = "../mirrors" }
+version = { path = "../version" }
+version = { path = "../version" }
+config = { path = "../config" }
+config = { path = "../config" }
+config = { path = "../config" }
+name = { path = "../name" }
+command = { path = "../command" }
+command = { path = "../command" }
+submodules = { path = "../submodules" }
+submodules = { path = "../submodules" }
+directory = { path = "../directory" }
+output = { path = "../output" }
+output = { path = "../output" }
+output = { path = "../output" }
+commands = { path = "../commands" }
+file = { path = "../file" }
+file = { path = "../file" }
+file = { path = "../file" }
+path = { path = "../path" }
+path = { path = "../path" }
+branch = { path = "../branch" }

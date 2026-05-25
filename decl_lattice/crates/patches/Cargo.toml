@@ -1,0 +1,16 @@
+[package]
+name = "patches"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: patches"
+
+[dependencies]
+output = { path = "../output" }
+output = { path = "../output" }
+output = { path = "../output" }
+generation = { path = "../generation" }
+generation = { path = "../generation" }
+generation = { path = "../generation" }
+generation = { path = "../generation" }
+status = { path = "../status" }
+status = { path = "../status" }

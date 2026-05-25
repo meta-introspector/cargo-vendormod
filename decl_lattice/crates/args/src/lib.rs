@@ -1,0 +1,1 @@
+use anyhow :: { Context , Result } ; use clap :: Parser ; use std :: fs ; use std :: path :: PathBuf ; # [derive (Parser , Debug)] # [command (name = "scan-mirrors")] # [command (about = "Scan mirrors for transitive git dependencies")] struct Args { # [doc = " Mirrors directory"] # [arg (long , default_value = "~/git/host")] mirrors_dir : PathBuf , }

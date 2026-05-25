@@ -1,0 +1,16 @@
+[package]
+name = "dependencynode"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: DependencyNode"
+
+[dependencies]
+version = { path = "../version" }
+version = { path = "../version" }
+graph = { path = "../graph" }
+id = { path = "../id" }
+cargotooldiscovery = { path = "../cargotooldiscovery" }
+cargotooldiscovery = { path = "../cargotooldiscovery" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }

@@ -1,0 +1,9 @@
+[package]
+name = "vendoringcmd"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: VendoringCmd"
+
+[dependencies]
+path = { path = "../path" }
+path = { path = "../path" }

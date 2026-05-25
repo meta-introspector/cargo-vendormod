@@ -1,0 +1,9 @@
+[package]
+name = "directories"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: directories"
+
+[dependencies]
+path = { path = "../path" }
+path = { path = "../path" }

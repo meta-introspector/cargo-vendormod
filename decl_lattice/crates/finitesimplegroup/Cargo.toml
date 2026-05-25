@@ -1,0 +1,17 @@
+[package]
+name = "finitesimplegroup"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: FiniteSimpleGroup"
+
+[dependencies]
+groupvisualization = { path = "../groupvisualization" }
+family = { path = "../family" }
+family = { path = "../family" }
+groupproperties = { path = "../groupproperties" }
+order = { path = "../order" }
+order = { path = "../order" }
+order = { path = "../order" }
+order = { path = "../order" }
+groupfamily = { path = "../groupfamily" }
+name = { path = "../name" }

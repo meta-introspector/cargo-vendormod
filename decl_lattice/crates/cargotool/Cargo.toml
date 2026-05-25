@@ -1,0 +1,12 @@
+[package]
+name = "cargotool"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: CargoTool"
+
+[dependencies]
+version = { path = "../version" }
+version = { path = "../version" }
+toolcompatibility = { path = "../toolcompatibility" }
+name = { path = "../name" }
+toolsource = { path = "../toolsource" }

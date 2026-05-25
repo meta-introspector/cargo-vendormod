@@ -1,0 +1,11 @@
+[package]
+name = "directory"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: directory"
+
+[dependencies]
+toml = { path = "../toml" }
+toml = { path = "../toml" }
+path = { path = "../path" }
+path = { path = "../path" }

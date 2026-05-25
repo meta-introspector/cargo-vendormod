@@ -1,0 +1,14 @@
+[package]
+name = "visualizationconfig"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: VisualizationConfig"
+
+[dependencies]
+layouttype = { path = "../layouttype" }
+finitesimplegroup = { path = "../finitesimplegroup" }
+finitesimplegroup = { path = "../finitesimplegroup" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+colorscheme = { path = "../colorscheme" }

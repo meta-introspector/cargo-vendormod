@@ -1,0 +1,34 @@
+[package]
+name = "vendoringcommands"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: VendoringCommands"
+
+[dependencies]
+all = { path = "../all" }
+all = { path = "../all" }
+patch = { path = "../patch" }
+version = { path = "../version" }
+version = { path = "../version" }
+config = { path = "../config" }
+config = { path = "../config" }
+config = { path = "../config" }
+submodule = { path = "../submodule" }
+sync = { path = "../sync" }
+vendoring = { path = "../vendoring" }
+vendoring = { path = "../vendoring" }
+vendoring = { path = "../vendoring" }
+toml = { path = "../toml" }
+toml = { path = "../toml" }
+rebase = { path = "../rebase" }
+remotes = { path = "../remotes" }
+remotes = { path = "../remotes" }
+remotes = { path = "../remotes" }
+submodules = { path = "../submodules" }
+submodules = { path = "../submodules" }
+status = { path = "../status" }
+status = { path = "../status" }
+patches = { path = "../patches" }
+patches = { path = "../patches" }
+upstream = { path = "../upstream" }
+upstream = { path = "../upstream" }

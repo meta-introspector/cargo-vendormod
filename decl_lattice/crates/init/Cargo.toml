@@ -1,0 +1,9 @@
+[package]
+name = "init"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: init"
+
+[dependencies]
+submodules = { path = "../submodules" }
+submodules = { path = "../submodules" }

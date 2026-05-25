@@ -1,0 +1,20 @@
+[package]
+name = "workflowfactory"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: WorkflowFactory"
+
+[dependencies]
+globaldependencygraphbuilder = { path = "../globaldependencygraphbuilder" }
+globaldependencygraphbuilder = { path = "../globaldependencygraphbuilder" }
+layerprocessor = { path = "../layerprocessor" }
+layerprocessor = { path = "../layerprocessor" }
+globaldependencygraph = { path = "../globaldependencygraph" }
+workflow = { path = "../workflow" }
+workflow = { path = "../workflow" }
+workflow = { path = "../workflow" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+workflowconfig = { path = "../workflowconfig" }
+compilation = { path = "../compilation" }

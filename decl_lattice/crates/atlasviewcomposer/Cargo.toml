@@ -1,0 +1,24 @@
+[package]
+name = "atlasviewcomposer"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: AtlasViewComposer"
+
+[dependencies]
+composer = { path = "../composer" }
+view = { path = "../view" }
+view = { path = "../view" }
+view = { path = "../view" }
+view = { path = "../view" }
+view = { path = "../view" }
+view = { path = "../view" }
+views = { path = "../views" }
+views = { path = "../views" }
+views = { path = "../views" }
+views = { path = "../views" }
+finitesimplegroup = { path = "../finitesimplegroup" }
+finitesimplegroup = { path = "../finitesimplegroup" }
+atlasview = { path = "../atlasview" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }

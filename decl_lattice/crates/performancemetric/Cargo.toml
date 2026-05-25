@@ -1,0 +1,16 @@
+[package]
+name = "performancemetric"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: PerformanceMetric"
+
+[dependencies]
+zkperfintegrator = { path = "../zkperfintegrator" }
+zkperfintegrator = { path = "../zkperfintegrator" }
+dataflowanalyzer = { path = "../dataflowanalyzer" }
+dataflowanalyzer = { path = "../dataflowanalyzer" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+workloaddataflowanalyzer = { path = "../workloaddataflowanalyzer" }
+workloaddataflowanalyzer = { path = "../workloaddataflowanalyzer" }

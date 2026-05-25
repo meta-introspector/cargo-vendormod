@@ -1,0 +1,12 @@
+[package]
+name = "groupatlas"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: GroupAtlas"
+
+[dependencies]
+compositions = { path = "../compositions" }
+finitesimplegroup = { path = "../finitesimplegroup" }
+finitesimplegroup = { path = "../finitesimplegroup" }
+groups = { path = "../groups" }
+groupcomposition = { path = "../groupcomposition" }

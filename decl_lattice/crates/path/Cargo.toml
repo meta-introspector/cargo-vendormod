@@ -1,0 +1,13 @@
+[package]
+name = "path"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: path"
+
+[dependencies]
+url = { path = "../url" }
+url = { path = "../url" }
+url = { path = "../url" }
+url = { path = "../url" }
+url = { path = "../url" }
+url = { path = "../url" }

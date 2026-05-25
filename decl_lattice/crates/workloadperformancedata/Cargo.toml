@@ -1,0 +1,22 @@
+[package]
+name = "workloadperformancedata"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: WorkloadPerformanceData"
+
+[dependencies]
+optimizationrecommendation = { path = "../optimizationrecommendation" }
+zkperfintegrator = { path = "../zkperfintegrator" }
+zkperfintegrator = { path = "../zkperfintegrator" }
+performancehotspot = { path = "../performancehotspot" }
+performance = { path = "../performance" }
+performance = { path = "../performance" }
+performance = { path = "../performance" }
+performance = { path = "../performance" }
+performance = { path = "../performance" }
+performance = { path = "../performance" }
+performance = { path = "../performance" }
+performance = { path = "../performance" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }

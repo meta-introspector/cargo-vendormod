@@ -1,0 +1,40 @@
+[package]
+name = "globalgraphcommands"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: GlobalGraphCommands"
+
+[dependencies]
+all = { path = "../all" }
+all = { path = "../all" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+partitioningalgorithm = { path = "../partitioningalgorithm" }
+tomlstructure = { path = "../tomlstructure" }
+operations = { path = "../operations" }
+operations = { path = "../operations" }
+operations = { path = "../operations" }
+graph = { path = "../graph" }
+analysis = { path = "../analysis" }
+analysis = { path = "../analysis" }
+analysis = { path = "../analysis" }
+workspace = { path = "../workspace" }
+workspace = { path = "../workspace" }
+structure = { path = "../structure" }
+file = { path = "../file" }
+file = { path = "../file" }
+file = { path = "../file" }
+partition = { path = "../partition" }
+action = { path = "../action" }
+directory = { path = "../directory" }
+dot = { path = "../dot" }
+build = { path = "../build" }
+build = { path = "../build" }
+fromstr = { path = "../fromstr" }
+files = { path = "../files" }
+files = { path = "../files" }
+files = { path = "../files" }
+files = { path = "../files" }
+path = { path = "../path" }
+path = { path = "../path" }

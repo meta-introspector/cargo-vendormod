@@ -1,0 +1,1 @@
+use serde :: { Deserialize , Serialize } ; use std :: collections :: HashMap ; use super :: * ; # [doc = " DMAIC Phase for Six Sigma improvement"] # [derive (Debug , Clone , Copy , PartialEq , Eq , Serialize , Deserialize)] pub enum DmaicPhase { Define , Measure , Analyze , Improve , Control , }

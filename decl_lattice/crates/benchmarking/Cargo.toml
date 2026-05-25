@@ -1,0 +1,20 @@
+[package]
+name = "benchmarking"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: benchmarking"
+
+[dependencies]
+summary = { path = "../summary" }
+summary = { path = "../summary" }
+summary = { path = "../summary" }
+summary = { path = "../summary" }
+summary = { path = "../summary" }
+zkperftestresult = { path = "../zkperftestresult" }
+zkperftestresult = { path = "../zkperftestresult" }
+format = { path = "../format" }
+output = { path = "../output" }
+output = { path = "../output" }
+output = { path = "../output" }
+status = { path = "../status" }
+status = { path = "../status" }

@@ -1,0 +1,14 @@
+[package]
+name = "gitrepoinfo"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: GitRepoInfo"
+
+[dependencies]
+gitstatus = { path = "../gitstatus" }
+path = { path = "../path" }
+path = { path = "../path" }
+status = { path = "../status" }
+status = { path = "../status" }
+name = { path = "../name" }
+branch = { path = "../branch" }

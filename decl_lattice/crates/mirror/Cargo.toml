@@ -1,0 +1,9 @@
+[package]
+name = "mirror"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: mirror"
+
+[dependencies]
+repository = { path = "../repository" }
+repository = { path = "../repository" }

@@ -1,0 +1,8 @@
+[package]
+name = "robin"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: robin"
+
+[dependencies]
+graph = { path = "../graph" }

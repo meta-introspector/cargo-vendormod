@@ -1,0 +1,24 @@
+[package]
+name = "onboardargs"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: OnboardArgs"
+
+[dependencies]
+workspaces = { path = "../workspaces" }
+workspaces = { path = "../workspaces" }
+repo = { path = "../repo" }
+repo = { path = "../repo" }
+repo = { path = "../repo" }
+name = { path = "../name" }
+workspace = { path = "../workspace" }
+workspace = { path = "../workspace" }
+workload = { path = "../workload" }
+directory = { path = "../directory" }
+workflow = { path = "../workflow" }
+workflow = { path = "../workflow" }
+workflow = { path = "../workflow" }
+main = { path = "../main" }
+path = { path = "../path" }
+path = { path = "../path" }
+branch = { path = "../branch" }

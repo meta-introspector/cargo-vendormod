@@ -1,0 +1,27 @@
+[package]
+name = "viewtemplate"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: ViewTemplate"
+
+[dependencies]
+groupselection = { path = "../groupselection" }
+compositionrules = { path = "../compositionrules" }
+viewmodifications = { path = "../viewmodifications" }
+path = { path = "../path" }
+path = { path = "../path" }
+name = { path = "../name" }
+views = { path = "../views" }
+views = { path = "../views" }
+views = { path = "../views" }
+views = { path = "../views" }
+compositionstrategy = { path = "../compositionstrategy" }
+groups = { path = "../groups" }
+atlasviewcomposer = { path = "../atlasviewcomposer" }
+atlasviewcomposer = { path = "../atlasviewcomposer" }
+atlasview = { path = "../atlasview" }
+visualizationconfig = { path = "../visualizationconfig" }
+complexityrange = { path = "../complexityrange" }
+layouttype = { path = "../layouttype" }
+orderrange = { path = "../orderrange" }
+colorscheme = { path = "../colorscheme" }

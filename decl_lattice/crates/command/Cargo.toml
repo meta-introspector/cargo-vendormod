@@ -1,0 +1,15 @@
+[package]
+name = "command"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: command"
+
+[dependencies]
+globaldependencygraphbuilder = { path = "../globaldependencygraphbuilder" }
+globaldependencygraphbuilder = { path = "../globaldependencygraphbuilder" }
+layerprocessor = { path = "../layerprocessor" }
+layerprocessor = { path = "../layerprocessor" }
+globaldependencygraph = { path = "../globaldependencygraph" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }

@@ -1,0 +1,1 @@
+use anyhow :: { Context , Result } ; use serde :: { Deserialize , Serialize } ; use std :: fs ; use std :: path :: Path ; use super :: * ; use serde_json :: json ; use tempfile :: NamedTempFile ; # [doc = " Register labels for trace annotations"] const REGISTER_LABELS : [& str ; 6] = ["idx" , "log10(period+1)" , "log10(ts_gap+1)" , "pid" , "tid" , "cpu_mode" ,] ;

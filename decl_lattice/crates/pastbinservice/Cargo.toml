@@ -1,0 +1,25 @@
+[package]
+name = "pastbinservice"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: PastbinService"
+
+[dependencies]
+version = { path = "../version" }
+version = { path = "../version" }
+finitesimplegroup = { path = "../finitesimplegroup" }
+finitesimplegroup = { path = "../finitesimplegroup" }
+atlasview = { path = "../atlasview" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+service = { path = "../service" }

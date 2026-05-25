@@ -1,0 +1,1 @@
+use std :: process :: Command ; use std :: fs ; use std :: path :: Path ; impl IntegrationTestResult { fn new (test_name : String , passed : bool , duration_ms : u64 , error_message : Option < String >) -> Self { IntegrationTestResult { test_name , passed , duration_ms , error_message , } } }

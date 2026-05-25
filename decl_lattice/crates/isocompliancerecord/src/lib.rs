@@ -1,0 +1,1 @@
+use serde :: { Deserialize , Serialize } ; use std :: collections :: HashMap ; use super :: * ; # [doc = " ISO 9001:2015 Compliance Record"] # [derive (Debug , Clone , Serialize , Deserialize)] pub struct IsoComplianceRecord { pub clause : String , pub requirement : String , pub status : String , pub evidence : Vec < String > , }

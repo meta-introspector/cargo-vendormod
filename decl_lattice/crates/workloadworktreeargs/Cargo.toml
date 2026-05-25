@@ -1,0 +1,17 @@
+[package]
+name = "workloadworktreeargs"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: WorkloadWorktreeArgs"
+
+[dependencies]
+creation = { path = "../creation" }
+worktree = { path = "../worktree" }
+name = { path = "../name" }
+directory = { path = "../directory" }
+output = { path = "../output" }
+output = { path = "../output" }
+output = { path = "../output" }
+path = { path = "../path" }
+path = { path = "../path" }
+branch = { path = "../branch" }

@@ -1,0 +1,21 @@
+[package]
+name = "viewmodifications"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: ViewModifications"
+
+[dependencies]
+groupselection = { path = "../groupselection" }
+compositionrules = { path = "../compositionrules" }
+views = { path = "../views" }
+views = { path = "../views" }
+views = { path = "../views" }
+views = { path = "../views" }
+groups = { path = "../groups" }
+finitesimplegroup = { path = "../finitesimplegroup" }
+finitesimplegroup = { path = "../finitesimplegroup" }
+visualizationconfig = { path = "../visualizationconfig" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+name = { path = "../name" }

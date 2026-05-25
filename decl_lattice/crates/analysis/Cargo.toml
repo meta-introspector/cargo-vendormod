@@ -1,0 +1,30 @@
+[package]
+name = "analysis"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: analysis"
+
+[dependencies]
+zkperfperformanceresult = { path = "../zkperfperformanceresult" }
+zkperfperformanceresult = { path = "../zkperfperformanceresult" }
+trace = { path = "../trace" }
+trace = { path = "../trace" }
+trace = { path = "../trace" }
+trace = { path = "../trace" }
+performance = { path = "../performance" }
+performance = { path = "../performance" }
+performance = { path = "../performance" }
+performance = { path = "../performance" }
+performance = { path = "../performance" }
+performance = { path = "../performance" }
+performance = { path = "../performance" }
+performance = { path = "../performance" }
+summary = { path = "../summary" }
+summary = { path = "../summary" }
+summary = { path = "../summary" }
+summary = { path = "../summary" }
+summary = { path = "../summary" }
+format = { path = "../format" }
+output = { path = "../output" }
+output = { path = "../output" }
+output = { path = "../output" }

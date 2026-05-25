@@ -1,0 +1,10 @@
+[package]
+name = "submoduleinfo"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: SubmoduleInfo"
+
+[dependencies]
+name = { path = "../name" }
+version = { path = "../version" }
+version = { path = "../version" }

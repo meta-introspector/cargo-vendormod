@@ -1,0 +1,13 @@
+[package]
+name = "hash"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: hash"
+
+[dependencies]
+output = { path = "../output" }
+output = { path = "../output" }
+output = { path = "../output" }
+status = { path = "../status" }
+status = { path = "../status" }
+commit = { path = "../commit" }

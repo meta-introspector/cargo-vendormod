@@ -1,0 +1,9 @@
+[package]
+name = "int"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: int"
+
+[dependencies]
+n = { path = "../n" }
+handling = { path = "../handling" }

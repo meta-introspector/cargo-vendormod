@@ -1,0 +1,18 @@
+[package]
+name = "atlasviewsummary"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: AtlasViewSummary"
+
+[dependencies]
+views = { path = "../views" }
+views = { path = "../views" }
+views = { path = "../views" }
+views = { path = "../views" }
+finitesimplegroup = { path = "../finitesimplegroup" }
+finitesimplegroup = { path = "../finitesimplegroup" }
+id = { path = "../id" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+name = { path = "../name" }

@@ -1,0 +1,12 @@
+[package]
+name = "schemaelementtype"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: SchemaElementType"
+
+[dependencies]
+cargotooldiscovery = { path = "../cargotooldiscovery" }
+cargotooldiscovery = { path = "../cargotooldiscovery" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }

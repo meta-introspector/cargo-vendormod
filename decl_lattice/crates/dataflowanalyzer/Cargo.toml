@@ -1,0 +1,16 @@
+[package]
+name = "dataflowanalyzer"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: DataFlowAnalyzer"
+
+[dependencies]
+phasetransition = { path = "../phasetransition" }
+invariant = { path = "../invariant" }
+dataflownode = { path = "../dataflownode" }
+config = { path = "../config" }
+config = { path = "../config" }
+dataflowedge = { path = "../dataflowedge" }
+graph = { path = "../graph" }
+dot = { path = "../dot" }
+workloads = { path = "../workloads" }

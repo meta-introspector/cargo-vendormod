@@ -1,0 +1,16 @@
+[package]
+name = "graphcommands"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: GraphCommands"
+
+[dependencies]
+parallel = { path = "../parallel" }
+tomlstructure = { path = "../tomlstructure" }
+globaldependencygraphbuilder = { path = "../globaldependencygraphbuilder" }
+globaldependencygraphbuilder = { path = "../globaldependencygraphbuilder" }
+graph = { path = "../graph" }
+workspace = { path = "../workspace" }
+workspace = { path = "../workspace" }
+structure = { path = "../structure" }
+dependencyedgetype = { path = "../dependencyedgetype" }

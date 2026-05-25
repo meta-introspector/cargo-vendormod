@@ -1,0 +1,14 @@
+[package]
+name = "cloneresult"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: CloneResult"
+
+[dependencies]
+url = { path = "../url" }
+url = { path = "../url" }
+url = { path = "../url" }
+url = { path = "../url" }
+url = { path = "../url" }
+url = { path = "../url" }
+hash = { path = "../hash" }

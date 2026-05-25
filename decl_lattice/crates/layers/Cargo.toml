@@ -1,0 +1,10 @@
+[package]
+name = "layers"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: layers"
+
+[dependencies]
+graph = { path = "../graph" }
+layerprocessor = { path = "../layerprocessor" }
+layerprocessor = { path = "../layerprocessor" }

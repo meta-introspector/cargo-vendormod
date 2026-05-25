@@ -1,0 +1,14 @@
+[package]
+name = "patch"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: patch"
+
+[dependencies]
+toml = { path = "../toml" }
+toml = { path = "../toml" }
+patches = { path = "../patches" }
+patches = { path = "../patches" }
+config = { path = "../config" }
+config = { path = "../config" }
+config = { path = "../config" }

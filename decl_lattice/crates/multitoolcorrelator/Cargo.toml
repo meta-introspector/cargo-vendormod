@@ -1,0 +1,20 @@
+[package]
+name = "multitoolcorrelator"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: MultiToolCorrelator"
+
+[dependencies]
+workloaddataflowanalyzer = { path = "../workloaddataflowanalyzer" }
+workloaddataflowanalyzer = { path = "../workloaddataflowanalyzer" }
+analysistool = { path = "../analysistool" }
+dataflowanalyzer = { path = "../dataflowanalyzer" }
+dataflowanalyzer = { path = "../dataflowanalyzer" }
+zkperfintegrator = { path = "../zkperfintegrator" }
+zkperfintegrator = { path = "../zkperfintegrator" }
+analysis = { path = "../analysis" }
+analysis = { path = "../analysis" }
+analysis = { path = "../analysis" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }

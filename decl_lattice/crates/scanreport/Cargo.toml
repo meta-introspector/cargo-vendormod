@@ -1,0 +1,12 @@
+[package]
+name = "scanreport"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: ScanReport"
+
+[dependencies]
+crateinfo = { path = "../crateinfo" }
+cloneresult = { path = "../cloneresult" }
+crates = { path = "../crates" }
+searchresult = { path = "../searchresult" }
+hash = { path = "../hash" }

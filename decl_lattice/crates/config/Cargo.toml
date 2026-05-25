@@ -1,0 +1,34 @@
+[package]
+name = "config"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: config"
+
+[dependencies]
+mirrors = { path = "../mirrors" }
+executable = { path = "../executable" }
+version = { path = "../version" }
+version = { path = "../version" }
+default = { path = "../default" }
+parallel = { path = "../parallel" }
+directories = { path = "../directories" }
+path = { path = "../path" }
+path = { path = "../path" }
+operations = { path = "../operations" }
+operations = { path = "../operations" }
+operations = { path = "../operations" }
+toml = { path = "../toml" }
+toml = { path = "../toml" }
+workspace = { path = "../workspace" }
+workspace = { path = "../workspace" }
+dir = { path = "../dir" }
+submodules = { path = "../submodules" }
+submodules = { path = "../submodules" }
+directory = { path = "../directory" }
+format = { path = "../format" }
+main = { path = "../main" }
+file = { path = "../file" }
+file = { path = "../file" }
+file = { path = "../file" }
+target = { path = "../target" }
+branch = { path = "../branch" }

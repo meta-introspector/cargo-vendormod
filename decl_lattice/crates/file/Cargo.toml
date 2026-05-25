@@ -1,0 +1,16 @@
+[package]
+name = "file"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: file"
+
+[dependencies]
+view = { path = "../view" }
+view = { path = "../view" }
+view = { path = "../view" }
+view = { path = "../view" }
+view = { path = "../view" }
+view = { path = "../view" }
+composer = { path = "../composer" }
+groups = { path = "../groups" }
+name = { path = "../name" }

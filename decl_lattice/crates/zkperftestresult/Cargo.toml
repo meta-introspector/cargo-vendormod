@@ -1,0 +1,9 @@
+[package]
+name = "zkperftestresult"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: ZkperfTestResult"
+
+[dependencies]
+path = { path = "../path" }
+path = { path = "../path" }

@@ -1,0 +1,19 @@
+[package]
+name = "buildargs"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: BuildArgs"
+
+[dependencies]
+deps = { path = "../deps" }
+deps = { path = "../deps" }
+deps = { path = "../deps" }
+deps = { path = "../deps" }
+analysis = { path = "../analysis" }
+analysis = { path = "../analysis" }
+analysis = { path = "../analysis" }
+directory = { path = "../directory" }
+build = { path = "../build" }
+build = { path = "../build" }
+path = { path = "../path" }
+path = { path = "../path" }

@@ -1,0 +1,36 @@
+[package]
+name = "vendoringargs"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: VendoringArgs"
+
+[dependencies]
+mirrors = { path = "../mirrors" }
+vendoringcommands = { path = "../vendoringcommands" }
+version = { path = "../version" }
+version = { path = "../version" }
+config = { path = "../config" }
+config = { path = "../config" }
+config = { path = "../config" }
+submodule = { path = "../submodule" }
+operations = { path = "../operations" }
+operations = { path = "../operations" }
+operations = { path = "../operations" }
+vendoring = { path = "../vendoring" }
+vendoring = { path = "../vendoring" }
+vendoring = { path = "../vendoring" }
+command = { path = "../command" }
+command = { path = "../command" }
+submodules = { path = "../submodules" }
+submodules = { path = "../submodules" }
+directory = { path = "../directory" }
+build = { path = "../build" }
+build = { path = "../build" }
+output = { path = "../output" }
+output = { path = "../output" }
+output = { path = "../output" }
+file = { path = "../file" }
+file = { path = "../file" }
+file = { path = "../file" }
+name = { path = "../name" }
+branch = { path = "../branch" }

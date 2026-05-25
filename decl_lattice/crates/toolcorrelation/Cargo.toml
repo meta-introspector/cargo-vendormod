@@ -1,0 +1,19 @@
+[package]
+name = "toolcorrelation"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: ToolCorrelation"
+
+[dependencies]
+workloaddataflowanalyzer = { path = "../workloaddataflowanalyzer" }
+workloaddataflowanalyzer = { path = "../workloaddataflowanalyzer" }
+performancemetric = { path = "../performancemetric" }
+analysistool = { path = "../analysistool" }
+result = { path = "../result" }
+zkperfintegrator = { path = "../zkperfintegrator" }
+zkperfintegrator = { path = "../zkperfintegrator" }
+dataflowanalyzer = { path = "../dataflowanalyzer" }
+dataflowanalyzer = { path = "../dataflowanalyzer" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }

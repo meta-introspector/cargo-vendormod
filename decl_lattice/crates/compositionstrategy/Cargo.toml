@@ -1,0 +1,13 @@
+[package]
+name = "compositionstrategy"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: CompositionStrategy"
+
+[dependencies]
+finitesimplegroup = { path = "../finitesimplegroup" }
+finitesimplegroup = { path = "../finitesimplegroup" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+composition = { path = "../composition" }

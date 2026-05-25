@@ -1,0 +1,13 @@
+[package]
+name = "deps"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: deps"
+
+[dependencies]
+crateinfo = { path = "../crateinfo" }
+name = { path = "../name" }
+version = { path = "../version" }
+version = { path = "../version" }
+lock = { path = "../lock" }
+lock = { path = "../lock" }

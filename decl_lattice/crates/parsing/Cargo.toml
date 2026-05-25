@@ -1,0 +1,14 @@
+[package]
+name = "parsing"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: parsing"
+
+[dependencies]
+format = { path = "../format" }
+integrationtestresult = { path = "../integrationtestresult" }
+integrationtestresult = { path = "../integrationtestresult" }
+file = { path = "../file" }
+file = { path = "../file" }
+file = { path = "../file" }
+repositories = { path = "../repositories" }

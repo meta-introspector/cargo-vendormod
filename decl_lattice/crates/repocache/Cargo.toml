@@ -1,0 +1,20 @@
+[package]
+name = "repocache"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: RepoCache"
+
+[dependencies]
+repos = { path = "../repos" }
+repos = { path = "../repos" }
+url = { path = "../url" }
+url = { path = "../url" }
+url = { path = "../url" }
+url = { path = "../url" }
+url = { path = "../url" }
+url = { path = "../url" }
+repostatus = { path = "../repostatus" }
+status = { path = "../status" }
+status = { path = "../status" }
+path = { path = "../path" }
+path = { path = "../path" }

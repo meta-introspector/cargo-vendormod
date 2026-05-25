@@ -1,0 +1,11 @@
+[package]
+name = "appcontext"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: AppContext"
+
+[dependencies]
+format = { path = "../format" }
+version = { path = "../version" }
+version = { path = "../version" }
+branch = { path = "../branch" }

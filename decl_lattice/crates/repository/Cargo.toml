@@ -1,0 +1,12 @@
+[package]
+name = "repository"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: Repository"
+
+[dependencies]
+format = { path = "../format" }
+order = { path = "../order" }
+order = { path = "../order" }
+order = { path = "../order" }
+order = { path = "../order" }

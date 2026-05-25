@@ -1,0 +1,21 @@
+[package]
+name = "tomlstructure"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: TomlStructure"
+
+[dependencies]
+toml = { path = "../toml" }
+toml = { path = "../toml" }
+structure = { path = "../structure" }
+schemaelement = { path = "../schemaelement" }
+workloadpattern = { path = "../workloadpattern" }
+cargotooldiscovery = { path = "../cargotooldiscovery" }
+cargotooldiscovery = { path = "../cargotooldiscovery" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+files = { path = "../files" }
+files = { path = "../files" }
+files = { path = "../files" }
+files = { path = "../files" }

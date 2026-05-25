@@ -1,0 +1,14 @@
+[package]
+name = "rolluplock"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: RollupLock"
+
+[dependencies]
+patchinfo = { path = "../patchinfo" }
+submodules = { path = "../submodules" }
+submodules = { path = "../submodules" }
+submoduleinfo = { path = "../submoduleinfo" }
+patches = { path = "../patches" }
+patches = { path = "../patches" }
+dependencyinfo = { path = "../dependencyinfo" }

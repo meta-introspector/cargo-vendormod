@@ -1,0 +1,9 @@
+[package]
+name = "drop"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: Drop"
+
+[dependencies]
+appcontext = { path = "../appcontext" }
+appcontext = { path = "../appcontext" }

@@ -1,0 +1,13 @@
+[package]
+name = "commits"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: commits"
+
+[dependencies]
+submodule = { path = "../submodule" }
+name = { path = "../name" }
+submodules = { path = "../submodules" }
+submodules = { path = "../submodules" }
+lock = { path = "../lock" }
+lock = { path = "../lock" }

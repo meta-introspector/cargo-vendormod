@@ -1,0 +1,12 @@
+[package]
+name = "compacttrace"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: CompactTrace"
+
+[dependencies]
+trace = { path = "../trace" }
+trace = { path = "../trace" }
+trace = { path = "../trace" }
+trace = { path = "../trace" }
+tracerow = { path = "../tracerow" }

@@ -1,0 +1,19 @@
+[package]
+name = "errortollmpipeline"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: ErrorToLLMPipeline"
+
+[dependencies]
+buildresult = { path = "../buildresult" }
+parallelbuildconfig = { path = "../parallelbuildconfig" }
+config = { path = "../config" }
+config = { path = "../config" }
+config = { path = "../config" }
+parallel = { path = "../parallel" }
+globaldependencygraphbuilder = { path = "../globaldependencygraphbuilder" }
+globaldependencygraphbuilder = { path = "../globaldependencygraphbuilder" }
+globaldependencygraph = { path = "../globaldependencygraph" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }

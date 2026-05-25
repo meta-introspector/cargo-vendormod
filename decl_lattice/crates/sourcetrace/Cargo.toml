@@ -1,0 +1,13 @@
+[package]
+name = "sourcetrace"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: SourceTrace"
+
+[dependencies]
+trace = { path = "../trace" }
+trace = { path = "../trace" }
+trace = { path = "../trace" }
+trace = { path = "../trace" }
+annotation = { path = "../annotation" }
+structure = { path = "../structure" }

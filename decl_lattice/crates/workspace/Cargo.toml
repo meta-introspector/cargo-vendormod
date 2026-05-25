@@ -1,0 +1,14 @@
+[package]
+name = "workspace"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: workspace"
+
+[dependencies]
+patch = { path = "../patch" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+vendoring = { path = "../vendoring" }
+vendoring = { path = "../vendoring" }
+vendoring = { path = "../vendoring" }

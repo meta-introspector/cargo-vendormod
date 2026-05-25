@@ -1,0 +1,16 @@
+[package]
+name = "repoaction"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: RepoAction"
+
+[dependencies]
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+path = { path = "../path" }
+path = { path = "../path" }
+version = { path = "../version" }
+version = { path = "../version" }
+appcontext = { path = "../appcontext" }
+appcontext = { path = "../appcontext" }

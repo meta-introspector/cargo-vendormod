@@ -1,0 +1,17 @@
+[package]
+name = "processallargs"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: ProcessAllArgs"
+
+[dependencies]
+parallel = { path = "../parallel" }
+directory = { path = "../directory" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+file = { path = "../file" }
+file = { path = "../file" }
+file = { path = "../file" }
+path = { path = "../path" }
+path = { path = "../path" }

@@ -1,0 +1,11 @@
+[package]
+name = "processcratesargs"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: ProcessCratesArgs"
+
+[dependencies]
+directory = { path = "../directory" }
+path = { path = "../path" }
+path = { path = "../path" }
+parallel = { path = "../parallel" }

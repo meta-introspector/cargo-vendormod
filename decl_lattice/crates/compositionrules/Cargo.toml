@@ -1,0 +1,20 @@
+[package]
+name = "compositionrules"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: CompositionRules"
+
+[dependencies]
+view = { path = "../view" }
+view = { path = "../view" }
+view = { path = "../view" }
+view = { path = "../view" }
+view = { path = "../view" }
+view = { path = "../view" }
+compositionstrategy = { path = "../compositionstrategy" }
+finitesimplegroup = { path = "../finitesimplegroup" }
+finitesimplegroup = { path = "../finitesimplegroup" }
+composition = { path = "../composition" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }

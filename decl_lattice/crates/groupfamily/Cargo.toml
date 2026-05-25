@@ -1,0 +1,10 @@
+[package]
+name = "groupfamily"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: GroupFamily"
+
+[dependencies]
+sporadicgroup = { path = "../sporadicgroup" }
+twistedlietype = { path = "../twistedlietype" }
+classicallietype = { path = "../classicallietype" }

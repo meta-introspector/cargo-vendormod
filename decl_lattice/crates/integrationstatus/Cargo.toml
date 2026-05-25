@@ -1,0 +1,9 @@
+[package]
+name = "integrationstatus"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: IntegrationStatus"
+
+[dependencies]
+status = { path = "../status" }
+status = { path = "../status" }

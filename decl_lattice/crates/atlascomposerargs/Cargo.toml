@@ -1,0 +1,47 @@
+[package]
+name = "atlascomposerargs"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: AtlasComposerArgs"
+
+[dependencies]
+groupselection = { path = "../groupselection" }
+view = { path = "../view" }
+view = { path = "../view" }
+view = { path = "../view" }
+view = { path = "../view" }
+view = { path = "../view" }
+view = { path = "../view" }
+viewmodifications = { path = "../viewmodifications" }
+command = { path = "../command" }
+command = { path = "../command" }
+compositionrules = { path = "../compositionrules" }
+layouttype = { path = "../layouttype" }
+orderrange = { path = "../orderrange" }
+path = { path = "../path" }
+path = { path = "../path" }
+composer = { path = "../composer" }
+compositionstrategy = { path = "../compositionstrategy" }
+atlasview = { path = "../atlasview" }
+visualizationconfig = { path = "../visualizationconfig" }
+directory = { path = "../directory" }
+complexityrange = { path = "../complexityrange" }
+files = { path = "../files" }
+files = { path = "../files" }
+files = { path = "../files" }
+files = { path = "../files" }
+version = { path = "../version" }
+version = { path = "../version" }
+atlasviewcomposer = { path = "../atlasviewcomposer" }
+atlasviewcomposer = { path = "../atlasviewcomposer" }
+commands = { path = "../commands" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+integration = { path = "../integration" }
+colorscheme = { path = "../colorscheme" }

@@ -1,0 +1,12 @@
+[package]
+name = "operations"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: operations"
+
+[dependencies]
+format = { path = "../format" }
+file = { path = "../file" }
+file = { path = "../file" }
+file = { path = "../file" }
+clean = { path = "../clean" }

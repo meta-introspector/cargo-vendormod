@@ -1,0 +1,1 @@
+use std :: collections :: HashMap ; use std :: fmt ; use serde :: { Serialize , Deserialize } ; use std :: path :: PathBuf ; use num_bigint :: BigUint ; use num_traits :: FromPrimitive ; use super :: * ; # [doc = " Parameter for Lie type groups"] # [derive (Debug , Clone , Serialize , Deserialize , PartialEq)] pub struct n { pub value : u32 , pub field_size : u32 , }

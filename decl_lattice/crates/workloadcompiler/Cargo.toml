@@ -1,0 +1,16 @@
+[package]
+name = "workloadcompiler"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: WorkloadCompiler"
+
+[dependencies]
+workloadoptimizer = { path = "../workloadoptimizer" }
+workloadoptimizer = { path = "../workloadoptimizer" }
+binary = { path = "../binary" }
+workloadperformancedata = { path = "../workloadperformancedata" }
+zkperfintegrator = { path = "../zkperfintegrator" }
+zkperfintegrator = { path = "../zkperfintegrator" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }

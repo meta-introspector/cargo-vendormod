@@ -1,0 +1,23 @@
+[package]
+name = "generation"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: generation"
+
+[dependencies]
+output = { path = "../output" }
+output = { path = "../output" }
+output = { path = "../output" }
+format = { path = "../format" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+zkperfcoverageresult = { path = "../zkperfcoverageresult" }
+zkperfcoverageresult = { path = "../zkperfcoverageresult" }

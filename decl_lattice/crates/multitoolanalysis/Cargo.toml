@@ -1,0 +1,33 @@
+[package]
+name = "multitoolanalysis"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: MultiToolAnalysis"
+
+[dependencies]
+workloaddataflowanalyzer = { path = "../workloaddataflowanalyzer" }
+workloaddataflowanalyzer = { path = "../workloaddataflowanalyzer" }
+result = { path = "../result" }
+analysistool = { path = "../analysistool" }
+dataflowanalyzer = { path = "../dataflowanalyzer" }
+dataflowanalyzer = { path = "../dataflowanalyzer" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+report = { path = "../report" }
+zkperfintegrator = { path = "../zkperfintegrator" }
+zkperfintegrator = { path = "../zkperfintegrator" }
+analysis = { path = "../analysis" }
+analysis = { path = "../analysis" }
+analysis = { path = "../analysis" }
+tooldatapoint = { path = "../tooldatapoint" }
+toolcorrelation = { path = "../toolcorrelation" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }

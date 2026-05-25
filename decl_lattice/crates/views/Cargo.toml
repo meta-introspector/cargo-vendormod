@@ -1,0 +1,20 @@
+[package]
+name = "views"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: views"
+
+[dependencies]
+composer = { path = "../composer" }
+groupselection = { path = "../groupselection" }
+compositionrules = { path = "../compositionrules" }
+viewmodifications = { path = "../viewmodifications" }
+compositionstrategy = { path = "../compositionstrategy" }
+atlasviewcomposer = { path = "../atlasviewcomposer" }
+atlasviewcomposer = { path = "../atlasviewcomposer" }
+atlasview = { path = "../atlasview" }
+visualizationconfig = { path = "../visualizationconfig" }
+complexityrange = { path = "../complexityrange" }
+layouttype = { path = "../layouttype" }
+orderrange = { path = "../orderrange" }
+colorscheme = { path = "../colorscheme" }

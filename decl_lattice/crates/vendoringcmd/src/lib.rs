@@ -1,0 +1,1 @@
+use anyhow :: Result ; use clap :: { Parser , Subcommand } ; use std :: path :: PathBuf ; use cargo_vendormod :: workload_processor :: process_workload_recursive ; # [derive (Subcommand , Debug)] enum VendoringCmd { Init , FetchUpstream , Rebase , Releases , Status , Sync , Patch , }

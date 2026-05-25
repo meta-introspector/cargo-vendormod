@@ -1,0 +1,15 @@
+[package]
+name = "remotes"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: remotes"
+
+[dependencies]
+output = { path = "../output" }
+output = { path = "../output" }
+output = { path = "../output" }
+status = { path = "../status" }
+status = { path = "../status" }
+result = { path = "../result" }
+upstream = { path = "../upstream" }
+upstream = { path = "../upstream" }

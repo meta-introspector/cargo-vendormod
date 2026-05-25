@@ -1,0 +1,13 @@
+[package]
+name = "testrepositoryview"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: TestRepositoryView"
+
+[dependencies]
+name = { path = "../name" }
+testrepository = { path = "../testrepository" }
+testrepository = { path = "../testrepository" }
+path = { path = "../path" }
+path = { path = "../path" }
+repositories = { path = "../repositories" }

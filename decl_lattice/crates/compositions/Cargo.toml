@@ -1,0 +1,19 @@
+[package]
+name = "compositions"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: compositions"
+
+[dependencies]
+sporadicgroup = { path = "../sporadicgroup" }
+atlasconfig = { path = "../atlasconfig" }
+twistedlietype = { path = "../twistedlietype" }
+classicallietype = { path = "../classicallietype" }
+atlasrenderer = { path = "../atlasrenderer" }
+atlasrenderer = { path = "../atlasrenderer" }
+n = { path = "../n" }
+format = { path = "../format" }
+groupfamily = { path = "../groupfamily" }
+name = { path = "../name" }
+groupatlas = { path = "../groupatlas" }
+groupatlas = { path = "../groupatlas" }

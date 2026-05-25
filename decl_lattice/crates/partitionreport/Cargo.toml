@@ -1,0 +1,9 @@
+[package]
+name = "partitionreport"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: PartitionReport"
+
+[dependencies]
+hash = { path = "../hash" }
+graphpartition = { path = "../graphpartition" }

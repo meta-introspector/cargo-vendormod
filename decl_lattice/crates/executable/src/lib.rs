@@ -1,0 +1,1 @@
+use anyhow :: { Context , Result } ; use std :: fs ; use std :: path :: { Path , PathBuf } ; use std :: process :: Command ; use toml_edit :: { DocumentMut , Value } ; pub fn get_git_executable () -> PathBuf { PathBuf :: from ("git") }

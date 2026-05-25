@@ -1,0 +1,13 @@
+[package]
+name = "workspaceconfig"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: WorkspaceConfig"
+
+[dependencies]
+crateconfig = { path = "../crateconfig" }
+creation = { path = "../creation" }
+workspace = { path = "../workspace" }
+workspace = { path = "../workspace" }
+edition = { path = "../edition" }
+crates = { path = "../crates" }

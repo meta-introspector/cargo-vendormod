@@ -1,0 +1,16 @@
+[package]
+name = "consistency"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: consistency"
+
+[dependencies]
+binary = { path = "../binary" }
+testresult = { path = "../testresult" }
+testresult = { path = "../testresult" }
+format = { path = "../format" }
+output = { path = "../output" }
+output = { path = "../output" }
+output = { path = "../output" }
+repository = { path = "../repository" }
+repository = { path = "../repository" }

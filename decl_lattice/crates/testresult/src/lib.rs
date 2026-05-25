@@ -1,0 +1,1 @@
+use std :: collections :: HashMap ; use std :: fs ; use std :: process :: Command ; use std :: path :: Path ; impl TestResult { fn new (test_name : String , passed : bool , duration_ms : u64 , error_message : Option < String >) -> Self { TestResult { test_name , passed , duration_ms , error_message , } } }

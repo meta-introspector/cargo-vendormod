@@ -1,0 +1,12 @@
+[package]
+name = "dataflowedge"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: DataFlowEdge"
+
+[dependencies]
+dataflowedgetype = { path = "../dataflowedgetype" }
+config = { path = "../config" }
+config = { path = "../config" }
+graph = { path = "../graph" }
+dot = { path = "../dot" }

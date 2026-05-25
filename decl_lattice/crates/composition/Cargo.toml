@@ -1,0 +1,18 @@
+[package]
+name = "composition"
+version = "0.1.0"
+edition = "2021"
+description = "Decl lattice node: Composition"
+
+[dependencies]
+composition = { path = "../composition" }
+finitesimplegroup = { path = "../finitesimplegroup" }
+finitesimplegroup = { path = "../finitesimplegroup" }
+order = { path = "../order" }
+order = { path = "../order" }
+order = { path = "../order" }
+order = { path = "../order" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+crate = { path = "../crate" }
+name = { path = "../name" }
