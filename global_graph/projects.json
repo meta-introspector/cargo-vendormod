@@ -1,0 +1,32 @@
+{
+  "projects": [
+    "pozzoli-ettore-solfeggi",
+    "osm-parquet-tiles",
+    "monster-shadows-math",
+    "fractran-vm",
+    "crate2nix-zos",
+    "cargo2nix",
+    "rust",
+    "fandom-multiverse-tinystories",
+    "forgecode",
+    "cargo",
+    "mmgroup-rust",
+    "zos-plugins",
+    "solfunmeme-dioxus",
+    "gibb.eri.sh",
+    "agave-solana-validator",
+    "nginx-generator",
+    "cargo2",
+    "pastebin",
+    "pi_agent_rust",
+    "monster-hash",
+    "ferron-zos",
+    "voa-borcherds-archive",
+    "solfunmeme-dioxus2",
+    "osm-planet-torrent",
+    "boa",
+    "solfunmeme-dioxus-apk",
+    "lm.rs"
+  ],
+  "total_projects": 27
+}
