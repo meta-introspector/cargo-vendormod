@@ -1,6 +1,6 @@
 # Cargo Vendormod Makefile for Solana Processing
 
-.PHONY: help solana-process solana-report clean projects-graphs projects-summary
+.PHONY: help solana-process solana-report clean projects-graphs projects-summary global-graph build-order upgrade-plan bare-repos
 
 # Configuration
 SOLANA_CRATES := solana_crates.txt
@@ -12,6 +12,7 @@ RESULTS_DIR := test_results
 DATE := $(shell date +%Y%m%d_%H%M%S)
 PROJECTS_DIR := /home/mdupont/projects
 PROJECTS_OUTPUT := projects_graphs
+GLOBAL_GRAPH := global_graph
 
 # Analyze all Rust projects in ~/projects/
 projects-graphs:
@@ -49,6 +50,25 @@ projects-summary:
 	@echo ""
 	@echo "Total projects: $$(ls -d $(PROJECTS_OUTPUT)/*/ 2>/dev/null | wc -l)"
 	@echo "Analyzed: $$(find $(PROJECTS_OUTPUT) -name summary.txt 2>/dev/null | wc -l)"
+
+# Build global graph from all project graphs
+global-graph: $(PROJECTS_OUTPUT)
+	@mkdir -p $(GLOBAL_GRAPH)
+	@./target/debug/graph merge -i $(PROJECTS_OUTPUT) -o $(GLOBAL_GRAPH)
+
+# Show build order (top 20)
+build-order: global-graph
+	@python3 -c "import json; d=json.load(open('$(GLOBAL_GRAPH)/build_order.json')); print(f'Total: {d[\"total_crates\"]} crates in build order'); [print(f'  {i+1}. {o[\"crate\"]}') for i, o in enumerate(d['order'][:20])]"
+
+# Show upgrade plan summary (version mismatches)
+upgrade-plan: global-graph
+	@python3 -c "import json; d=json.load(open('$(GLOBAL_GRAPH)/upgrade_plan.json')); print(f'Upgrade candidates: {d[\"total_candidates\"]}'); [print(f'  {p[\"crate\"]}: {p[\"oldest\"]} -> {p[\"newest\"]}') for p in d['plans'][:10]]"
+
+# Show bare repo mirrors
+bare-repos: global-graph
+	@echo "=== Bare Git Repos (local mirrors) ==="
+	@ls -1 $(GLOBAL_GRAPH)/bare_repos/ 2>/dev/null | sed 's/^/  /' || echo "  (no bare repos)"
+	@echo "Cargo mirror config: $(GLOBAL_GRAPH)/cargo_mirror_config.toml"
 
 # Default target - Comprehensive Solana vendoring workflow
 solana:
@@ -112,6 +132,10 @@ help:
 	@echo "  upload-results      - Upload results to pastebinit"
 	@echo "  projects-graphs      - Analyze all Rust projects in ~/projects/"
 	@echo "  projects-summary     - Summarize project graph analyses"
+	@echo "  global-graph         - Merge all project graphs into one global dependency graph"
+	@echo "  build-order          - Show top 20 crates in global build order"
+	@echo "  upgrade-plan         - Show upgrade candidates (version mismatches)"
+	@echo "  bare-repos           - Show bare repo mirror status"
 	@echo "  clean               - Clean build artifacts"
 	@echo "  build               - Build cargo-vendormod"
 	@echo "  help                - Show this help"

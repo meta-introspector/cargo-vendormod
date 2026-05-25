@@ -151,6 +151,18 @@
         packages = {
           default = cargo-vendormod;
           inherit graph-analysis-runner;
+          # Global graph — merged dependency graph of all ~/projects/ Rust repos
+          # Contains: global_graph.json, build_order.json, upgrade_plan.json,
+          #           mirrors.json, projects.json, bare_repos/, flakes/
+          global-graph = pkgs.stdenv.mkDerivation {
+            name = "global-graph";
+            src = ./global_graph;
+            phases = [ "installPhase" ];
+            installPhase = ''
+              mkdir -p $out
+              cp -r $src/* $out/
+            '';
+          };
         }
         # Auto-generate package aliases for every binary
         // builtins.listToAttrs (map (n: { name = n; value = mkPkg n; }) allBinNames)
