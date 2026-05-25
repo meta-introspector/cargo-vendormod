@@ -1,0 +1,4 @@
+{
+  "git+https://github.com/meta-introspector/erdfa-publish.git#erdfa-publish@0.1.0": "1lidh1l8x0rxdh03wln976qb4k3052ppa9h6rh5hi9wnkv4wj8dz",
+  "git+https://github.com/meta-introspector/erdfa-publish.git#rust-unixfs@0.5.0": "1lidh1l8x0rxdh03wln976qb4k3052ppa9h6rh5hi9wnkv4wj8dz"
+}

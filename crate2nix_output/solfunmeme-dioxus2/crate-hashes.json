@@ -1,0 +1,5 @@
+{
+  "git+https://github.com/dioxus-community/dioxus-charts.git?branch=main#dioxus-charts@0.4.0": "0wwrkmbs2clhjzgfrfsnz2x69wi7kvymabg3szpc3x310wdgygwm",
+  "git+https://github.com/meta-introspector/erdfa-publish.git?branch=main#erdfa-publish@0.1.0": "1h3qw6xwqgizfgyan3wl4xd1yvky073z8h12smgxahpvsh6sb2mz",
+  "git+https://github.com/meta-introspector/syn-serde-rust?branch=main#syn-serde@0.3.1": "0yws7844pv9if20ajjkhw4b45336s3ji771ppr92pvh61dwj96ns"
+}
