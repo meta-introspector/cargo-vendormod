@@ -1,25 +1,25 @@
 # Cargo mirror config — replaces git sources with local bare repos
 # Place in project_root/.cargo/config.toml
 
-[source."https://github.com/meta-introspector/syn-serde-rust"]
-git = "file:///tmp/global_v2/bare_repos/syn-serde-rust.git"
-replace-with = "local-mirror"
-
-[source."https://github.com/meta-introspector/erdfa-publish.git#cc5e7c6b0f0332dd391a898423fffc6455ce205c"]
-git = "file:///tmp/global_v2/bare_repos/erdfa-publish.git"
+[source."file:///home/mdupont/git/github.com/meta-introspector/zkperf.git"]
+git = "file:///tmp/global_v3/bare_repos/zkperf.git"
 replace-with = "local-mirror"
 
 [source."https://github.com/dioxus-community/dioxus-charts.git"]
-git = "file:///tmp/global_v2/bare_repos/dioxus-charts.git"
+git = "file:///tmp/global_v3/bare_repos/dioxus-charts.git"
+replace-with = "local-mirror"
+
+[source."https://github.com/meta-introspector/syn-serde-rust"]
+git = "file:///tmp/global_v3/bare_repos/syn-serde-rust.git"
 replace-with = "local-mirror"
 
 [source."https://github.com/meta-introspector/erdfa-publish.git"]
-git = "file:///tmp/global_v2/bare_repos/erdfa-publish.git"
+git = "file:///tmp/global_v3/bare_repos/erdfa-publish.git"
 replace-with = "local-mirror"
 
-[source."file:///home/mdupont/git/github.com/meta-introspector/zkperf.git"]
-git = "file:///tmp/global_v2/bare_repos/zkperf.git"
+[source."https://github.com/meta-introspector/erdfa-publish.git#cc5e7c6b0f0332dd391a898423fffc6455ce205c"]
+git = "file:///tmp/global_v3/bare_repos/erdfa-publish.git"
 replace-with = "local-mirror"
 
 [source."local-mirror"]
-directory = "/tmp/global_v2/bare_repos"
+directory = "/tmp/global_v3/bare_repos"

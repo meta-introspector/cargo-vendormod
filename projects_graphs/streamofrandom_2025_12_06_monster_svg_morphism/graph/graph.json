@@ -1,0 +1,2329 @@
+{
+  "nodes": [
+    {
+      "id": "workspace:monster_svg_morphism",
+      "crate_name": "monster_svg_morphism",
+      "version": "0.1.0",
+      "source": "workspace",
+      "is_workspace_member": true,
+      "is_direct_dependency": true,
+      "features": [],
+      "categories": [
+        "workspace"
+      ],
+      "properties": {
+        "is_root": "true",
+        "path": "/mnt/data1/nix/source/github/meta-introspector/streamofrandom/2025/12/06/monster_svg_morphism"
+      }
+    },
+    {
+      "id": "lock:aho-corasick",
+      "crate_name": "aho-corasick",
+      "version": "1.1.4",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:allocator-api2",
+      "crate_name": "allocator-api2",
+      "version": "0.2.21",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:approx",
+      "crate_name": "approx",
+      "version": "0.5.1",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:autocfg",
+      "crate_name": "autocfg",
+      "version": "1.5.0",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:bitvec",
+      "crate_name": "bitvec",
+      "version": "1.0.1",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:bytemuck",
+      "crate_name": "bytemuck",
+      "version": "1.24.0",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:cfg-if",
+      "crate_name": "cfg-if",
+      "version": "1.0.4",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:either",
+      "crate_name": "either",
+      "version": "1.15.0",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:equivalent",
+      "crate_name": "equivalent",
+      "version": "1.0.2",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:fixedbitset",
+      "crate_name": "fixedbitset",
+      "version": "0.5.7",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:foldhash",
+      "crate_name": "foldhash",
+      "version": "0.1.5",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:funty",
+      "crate_name": "funty",
+      "version": "2.0.0",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:getrandom",
+      "crate_name": "getrandom",
+      "version": "0.2.16",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:hashbrown",
+      "crate_name": "hashbrown",
+      "version": "0.15.5",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:indexmap",
+      "crate_name": "indexmap",
+      "version": "2.12.1",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:lazy_static",
+      "crate_name": "lazy_static",
+      "version": "1.5.0",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:libc",
+      "crate_name": "libc",
+      "version": "0.2.178",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:lru",
+      "crate_name": "lru",
+      "version": "0.12.5",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:matrixmultiply",
+      "crate_name": "matrixmultiply",
+      "version": "0.3.10",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:memchr",
+      "crate_name": "memchr",
+      "version": "2.7.6",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:monster_svg_morphism",
+      "crate_name": "monster_svg_morphism",
+      "version": "0.1.0",
+      "source": "workspace",
+      "is_workspace_member": true,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:nalgebra",
+      "crate_name": "nalgebra",
+      "version": "0.32.6",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:nalgebra-macros",
+      "crate_name": "nalgebra-macros",
+      "version": "0.2.2",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:num-bigint",
+      "crate_name": "num-bigint",
+      "version": "0.4.6",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:num-complex",
+      "crate_name": "num-complex",
+      "version": "0.4.6",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:num-integer",
+      "crate_name": "num-integer",
+      "version": "0.1.46",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:num-modular",
+      "crate_name": "num-modular",
+      "version": "0.5.1",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:num-prime",
+      "crate_name": "num-prime",
+      "version": "0.4.4",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:num-rational",
+      "crate_name": "num-rational",
+      "version": "0.4.2",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:num-traits",
+      "crate_name": "num-traits",
+      "version": "0.2.19",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:paste",
+      "crate_name": "paste",
+      "version": "1.0.15",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:petgraph",
+      "crate_name": "petgraph",
+      "version": "0.8.3",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:ppv-lite86",
+      "crate_name": "ppv-lite86",
+      "version": "0.2.21",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:proc-macro2",
+      "crate_name": "proc-macro2",
+      "version": "1.0.103",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:quote",
+      "crate_name": "quote",
+      "version": "1.0.42",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:radium",
+      "crate_name": "radium",
+      "version": "0.7.0",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:rand",
+      "crate_name": "rand",
+      "version": "0.8.5",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:rand_chacha",
+      "crate_name": "rand_chacha",
+      "version": "0.3.1",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:rand_core",
+      "crate_name": "rand_core",
+      "version": "0.6.4",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:rawpointer",
+      "crate_name": "rawpointer",
+      "version": "0.2.1",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:regex",
+      "crate_name": "regex",
+      "version": "1.12.2",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:regex-automata",
+      "crate_name": "regex-automata",
+      "version": "0.4.13",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:regex-syntax",
+      "crate_name": "regex-syntax",
+      "version": "0.8.8",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:safe_arch",
+      "crate_name": "safe_arch",
+      "version": "0.7.4",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:same-file",
+      "crate_name": "same-file",
+      "version": "1.0.6",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:serde",
+      "crate_name": "serde",
+      "version": "1.0.228",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:serde_core",
+      "crate_name": "serde_core",
+      "version": "1.0.228",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:serde_derive",
+      "crate_name": "serde_derive",
+      "version": "1.0.228",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:simba",
+      "crate_name": "simba",
+      "version": "0.8.1",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:syn",
+      "crate_name": "syn",
+      "version": "2.0.111",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:tap",
+      "crate_name": "tap",
+      "version": "1.0.1",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:typenum",
+      "crate_name": "typenum",
+      "version": "1.19.0",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:unicode-ident",
+      "crate_name": "unicode-ident",
+      "version": "1.0.22",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:walkdir",
+      "crate_name": "walkdir",
+      "version": "2.5.0",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:wasi",
+      "crate_name": "wasi",
+      "version": "0.11.1+wasi-snapshot-preview1",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:wide",
+      "crate_name": "wide",
+      "version": "0.7.33",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:winapi-util",
+      "crate_name": "winapi-util",
+      "version": "0.1.11",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:windows-link",
+      "crate_name": "windows-link",
+      "version": "0.2.1",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:windows-sys",
+      "crate_name": "windows-sys",
+      "version": "0.61.2",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:wyz",
+      "crate_name": "wyz",
+      "version": "0.5.1",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:xml",
+      "crate_name": "xml",
+      "version": "0.8.20",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:xml-rs",
+      "crate_name": "xml-rs",
+      "version": "0.8.28",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:zerocopy",
+      "crate_name": "zerocopy",
+      "version": "0.8.31",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:zerocopy-derive",
+      "crate_name": "zerocopy-derive",
+      "version": "0.8.31",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:hashbrown 0.16.1",
+      "crate_name": "hashbrown 0.16.1",
+      "version": "0.0.0",
+      "source": "unknown",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:hashbrown 0.15.5",
+      "crate_name": "hashbrown 0.15.5",
+      "version": "0.0.0",
+      "source": "unknown",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    }
+  ],
+  "edges": [
+    {
+      "from": "lock:aho-corasick",
+      "to": "lock:memchr",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:approx",
+      "to": "lock:num-traits",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:bitvec",
+      "to": "lock:funty",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:bitvec",
+      "to": "lock:radium",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:bitvec",
+      "to": "lock:tap",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:bitvec",
+      "to": "lock:wyz",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:getrandom",
+      "to": "lock:cfg-if",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:getrandom",
+      "to": "lock:libc",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:getrandom",
+      "to": "lock:wasi",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:hashbrown",
+      "to": "lock:allocator-api2",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:hashbrown",
+      "to": "lock:equivalent",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:hashbrown",
+      "to": "lock:foldhash",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:indexmap",
+      "to": "lock:equivalent",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:indexmap",
+      "to": "lock:hashbrown 0.16.1",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:lru",
+      "to": "lock:hashbrown 0.15.5",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:matrixmultiply",
+      "to": "lock:autocfg",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:matrixmultiply",
+      "to": "lock:rawpointer",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:monster_svg_morphism",
+      "to": "lock:lazy_static",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:monster_svg_morphism",
+      "to": "lock:matrixmultiply",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:monster_svg_morphism",
+      "to": "lock:nalgebra",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:monster_svg_morphism",
+      "to": "lock:num-bigint",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:monster_svg_morphism",
+      "to": "lock:num-prime",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:monster_svg_morphism",
+      "to": "lock:num-traits",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:monster_svg_morphism",
+      "to": "lock:petgraph",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:monster_svg_morphism",
+      "to": "lock:quote",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:monster_svg_morphism",
+      "to": "lock:regex",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:monster_svg_morphism",
+      "to": "lock:simba",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:monster_svg_morphism",
+      "to": "lock:syn",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:monster_svg_morphism",
+      "to": "lock:walkdir",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:monster_svg_morphism",
+      "to": "lock:xml",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:nalgebra",
+      "to": "lock:approx",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:nalgebra",
+      "to": "lock:matrixmultiply",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:nalgebra",
+      "to": "lock:nalgebra-macros",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:nalgebra",
+      "to": "lock:num-complex",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:nalgebra",
+      "to": "lock:num-rational",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:nalgebra",
+      "to": "lock:num-traits",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:nalgebra",
+      "to": "lock:simba",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:nalgebra",
+      "to": "lock:typenum",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:nalgebra-macros",
+      "to": "lock:proc-macro2",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:nalgebra-macros",
+      "to": "lock:quote",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:nalgebra-macros",
+      "to": "lock:syn",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:num-bigint",
+      "to": "lock:num-integer",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:num-bigint",
+      "to": "lock:num-traits",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:num-bigint",
+      "to": "lock:rand",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:num-complex",
+      "to": "lock:num-traits",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:num-integer",
+      "to": "lock:num-traits",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:num-modular",
+      "to": "lock:num-bigint",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:num-modular",
+      "to": "lock:num-integer",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:num-modular",
+      "to": "lock:num-traits",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:num-prime",
+      "to": "lock:bitvec",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:num-prime",
+      "to": "lock:either",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:num-prime",
+      "to": "lock:lru",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:num-prime",
+      "to": "lock:num-bigint",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:num-prime",
+      "to": "lock:num-integer",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:num-prime",
+      "to": "lock:num-modular",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:num-prime",
+      "to": "lock:num-traits",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:num-prime",
+      "to": "lock:rand",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:num-rational",
+      "to": "lock:num-integer",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:num-rational",
+      "to": "lock:num-traits",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:num-traits",
+      "to": "lock:autocfg",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:petgraph",
+      "to": "lock:fixedbitset",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:petgraph",
+      "to": "lock:hashbrown 0.15.5",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:petgraph",
+      "to": "lock:indexmap",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:petgraph",
+      "to": "lock:serde",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:ppv-lite86",
+      "to": "lock:zerocopy",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:proc-macro2",
+      "to": "lock:unicode-ident",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:quote",
+      "to": "lock:proc-macro2",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:rand",
+      "to": "lock:libc",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:rand",
+      "to": "lock:rand_chacha",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:rand",
+      "to": "lock:rand_core",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:rand_chacha",
+      "to": "lock:ppv-lite86",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:rand_chacha",
+      "to": "lock:rand_core",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:rand_core",
+      "to": "lock:getrandom",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:regex",
+      "to": "lock:aho-corasick",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:regex",
+      "to": "lock:memchr",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:regex",
+      "to": "lock:regex-automata",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:regex",
+      "to": "lock:regex-syntax",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:regex-automata",
+      "to": "lock:aho-corasick",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:regex-automata",
+      "to": "lock:memchr",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:regex-automata",
+      "to": "lock:regex-syntax",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:safe_arch",
+      "to": "lock:bytemuck",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:same-file",
+      "to": "lock:winapi-util",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:serde",
+      "to": "lock:serde_core",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:serde_core",
+      "to": "lock:serde_derive",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:serde_derive",
+      "to": "lock:proc-macro2",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:serde_derive",
+      "to": "lock:quote",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:serde_derive",
+      "to": "lock:syn",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:simba",
+      "to": "lock:approx",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:simba",
+      "to": "lock:num-complex",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:simba",
+      "to": "lock:num-traits",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:simba",
+      "to": "lock:paste",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:simba",
+      "to": "lock:wide",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:syn",
+      "to": "lock:proc-macro2",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:syn",
+      "to": "lock:quote",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:syn",
+      "to": "lock:unicode-ident",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:walkdir",
+      "to": "lock:same-file",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:walkdir",
+      "to": "lock:winapi-util",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:wide",
+      "to": "lock:bytemuck",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:wide",
+      "to": "lock:safe_arch",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:winapi-util",
+      "to": "lock:windows-sys",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:windows-sys",
+      "to": "lock:windows-link",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:wyz",
+      "to": "lock:tap",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:xml",
+      "to": "lock:xml-rs",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:zerocopy",
+      "to": "lock:zerocopy-derive",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:zerocopy-derive",
+      "to": "lock:proc-macro2",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:zerocopy-derive",
+      "to": "lock:quote",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:zerocopy-derive",
+      "to": "lock:syn",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    }
+  ],
+  "features": [],
+  "toml_structures": [
+    {
+      "crate_name": "monster_svg_morphism",
+      "crate_version": "0.1.0",
+      "file_path": "/mnt/data1/nix/source/github/meta-introspector/streamofrandom/2025/12/06/monster_svg_morphism/Cargo.toml",
+      "schema_elements": [
+        {
+          "element_type": "Package",
+          "path": "package",
+          "value_type": "table",
+          "is_array": false,
+          "is_table": true,
+          "is_inline_table": false,
+          "children": [
+            "package.name",
+            "package.version",
+            "package.edition"
+          ],
+          "properties": {
+            "version": "0.1.0",
+            "name": "monster_svg_morphism",
+            "edition": "2024"
+          }
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.xml",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.syn",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": true,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.quote",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.walkdir",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.ndarray",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": true,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.simba",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.matrixmultiply",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.regex",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.lazy_static",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.num-bigint",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.num-prime",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.num-traits",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.petgraph",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.linfa-linalg",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": true,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.config_lib",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": true,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.svg_hir",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": true,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.serde",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": true,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.serde_json",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.toml",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        }
+      ],
+      "workload_patterns": [],
+      "is_workspace": false,
+      "has_binaries": true,
+      "has_tests": false,
+      "has_benchmarks": false
+    }
+  ],
+  "strongly_connected_components": [],
+  "partitions": [],
+  "metrics": {
+    "node_count": 67,
+    "edge_count": 107,
+    "workspace_members": 2,
+    "direct_dependencies": 107,
+    "transitive_dependencies": 0,
+    "feature_gated_dependencies": 0,
+    "dev_dependencies": 0,
+    "build_dependencies": 0,
+    "strongly_connected_components": 0,
+    "diameter": 6,
+    "average_degree": 3.1940298507462686
+  },
+  "workspace_path": "/mnt/data1/nix/source/github/meta-introspector/streamofrandom/2025/12/06/monster_svg_morphism",
+  "publish_order": [
+    "workspace:monster_svg_morphism",
+    "lock:monster_svg_morphism"
+  ],
+  "topological_order": [
+    "lock:monster_svg_morphism",
+    "lock:xml",
+    "lock:xml-rs",
+    "lock:walkdir",
+    "lock:same-file",
+    "lock:winapi-util",
+    "lock:windows-sys",
+    "lock:windows-link",
+    "lock:regex",
+    "lock:regex-automata",
+    "lock:regex-syntax",
+    "lock:petgraph",
+    "lock:serde",
+    "lock:serde_core",
+    "lock:serde_derive",
+    "lock:num-prime",
+    "lock:num-modular",
+    "lock:num-bigint",
+    "lock:rand",
+    "lock:rand_chacha",
+    "lock:rand_core",
+    "lock:ppv-lite86",
+    "lock:zerocopy",
+    "lock:zerocopy-derive",
+    "lock:nalgebra",
+    "lock:typenum",
+    "lock:simba",
+    "lock:wide",
+    "lock:safe_arch",
+    "lock:paste",
+    "lock:num-rational",
+    "lock:num-integer",
+    "lock:num-complex",
+    "lock:nalgebra-macros",
+    "lock:syn",
+    "lock:quote",
+    "lock:proc-macro2",
+    "lock:unicode-ident",
+    "lock:matrixmultiply",
+    "lock:rawpointer",
+    "lock:lru",
+    "lock:hashbrown 0.15.5",
+    "lock:lazy_static",
+    "lock:indexmap",
+    "lock:hashbrown 0.16.1",
+    "lock:hashbrown",
+    "lock:getrandom",
+    "lock:wasi",
+    "lock:libc",
+    "lock:foldhash",
+    "lock:fixedbitset",
+    "lock:equivalent",
+    "lock:either",
+    "lock:cfg-if",
+    "lock:bytemuck",
+    "lock:bitvec",
+    "lock:wyz",
+    "lock:tap",
+    "lock:radium",
+    "lock:funty",
+    "lock:approx",
+    "lock:num-traits",
+    "lock:autocfg",
+    "lock:allocator-api2",
+    "lock:aho-corasick",
+    "lock:memchr",
+    "workspace:monster_svg_morphism"
+  ],
+  "external_dependency_order": [
+    "lock:hashbrown",
+    "lock:allocator-api2",
+    "lock:petgraph",
+    "lock:walkdir",
+    "lock:regex",
+    "lock:serde",
+    "lock:xml",
+    "lock:xml-rs",
+    "lock:lazy_static",
+    "lock:nalgebra",
+    "lock:matrixmultiply",
+    "lock:nalgebra-macros",
+    "lock:simba",
+    "lock:approx",
+    "lock:fixedbitset",
+    "lock:wide",
+    "lock:safe_arch",
+    "lock:bytemuck",
+    "lock:typenum",
+    "lock:same-file",
+    "lock:serde_core",
+    "lock:serde_derive",
+    "lock:num-prime",
+    "lock:bitvec",
+    "lock:radium",
+    "lock:wyz",
+    "lock:tap",
+    "lock:either",
+    "lock:num-modular",
+    "lock:num-bigint",
+    "lock:rand",
+    "lock:rand_chacha",
+    "lock:rand_core",
+    "lock:getrandom",
+    "lock:libc",
+    "lock:wasi",
+    "lock:cfg-if",
+    "lock:num-complex",
+    "lock:paste",
+    "lock:ppv-lite86",
+    "lock:zerocopy",
+    "lock:zerocopy-derive",
+    "lock:syn",
+    "lock:quote",
+    "lock:rawpointer",
+    "lock:indexmap",
+    "lock:equivalent",
+    "lock:hashbrown 0.16.1",
+    "lock:funty",
+    "lock:regex-automata",
+    "lock:aho-corasick",
+    "lock:memchr",
+    "lock:regex-syntax",
+    "lock:winapi-util",
+    "lock:windows-sys",
+    "lock:windows-link",
+    "lock:foldhash",
+    "lock:lru",
+    "lock:hashbrown 0.15.5",
+    "lock:proc-macro2",
+    "lock:unicode-ident",
+    "lock:num-rational",
+    "lock:num-integer",
+    "lock:num-traits",
+    "lock:autocfg"
+  ]
+}

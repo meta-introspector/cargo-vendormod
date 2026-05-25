@@ -1,0 +1,383 @@
+{
+  "nodes": [
+    {
+      "id": "workspace:svg_parser_tool",
+      "crate_name": "svg_parser_tool",
+      "version": "0.1.0",
+      "source": "workspace",
+      "is_workspace_member": true,
+      "is_direct_dependency": true,
+      "features": [],
+      "categories": [
+        "workspace"
+      ],
+      "properties": {
+        "path": "/mnt/data1/nix/source/github/meta-introspector/streamofrandom/2025/12/06/svg_parser_tool",
+        "is_root": "true"
+      }
+    },
+    {
+      "id": "lock:monster_svg_morphism",
+      "crate_name": "monster_svg_morphism",
+      "version": "0.1.0",
+      "source": "workspace",
+      "is_workspace_member": true,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:svg_parser_tool",
+      "crate_name": "svg_parser_tool",
+      "version": "0.1.0",
+      "source": "workspace",
+      "is_workspace_member": true,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    },
+    {
+      "id": "lock:xml-rs",
+      "crate_name": "xml-rs",
+      "version": "0.8.28",
+      "source": "crates.io",
+      "is_workspace_member": false,
+      "is_direct_dependency": false,
+      "features": [],
+      "categories": [
+        "dependency"
+      ],
+      "properties": {}
+    }
+  ],
+  "edges": [
+    {
+      "from": "lock:svg_parser_tool",
+      "to": "lock:monster_svg_morphism",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    },
+    {
+      "from": "lock:svg_parser_tool",
+      "to": "lock:xml-rs",
+      "edge_type": "Direct",
+      "required_features": [],
+      "optional_features": [],
+      "is_dev_dependency": false,
+      "is_build_dependency": false,
+      "properties": {}
+    }
+  ],
+  "features": [],
+  "toml_structures": [
+    {
+      "crate_name": "svg_parser_tool",
+      "crate_version": "0.1.0",
+      "file_path": "/mnt/data1/nix/source/github/meta-introspector/streamofrandom/2025/12/06/svg_parser_tool/Cargo.toml",
+      "schema_elements": [
+        {
+          "element_type": "Package",
+          "path": "package",
+          "value_type": "table",
+          "is_array": false,
+          "is_table": true,
+          "is_inline_table": false,
+          "children": [
+            "package.name",
+            "package.version",
+            "package.edition"
+          ],
+          "properties": {
+            "name": "svg_parser_tool",
+            "edition": "2021",
+            "version": "0.1.0"
+          }
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.monster_svg_morphism",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": true,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.xml-rs",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.config_lib",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": true,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.serde",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": true,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.serde_json",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.walkdir",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.svg",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": true,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.resvg",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": true,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.xmlwriter",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": true,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.svg_hir",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": true,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.usvg",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": true,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.rocksdb",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": true,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.sha2",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.ignore",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.pico-args",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.encoding_rs",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.redb",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.sled",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.diesel",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": true,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Dependency",
+          "path": "dependencies.dotenvy",
+          "value_type": "dependency",
+          "is_array": false,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Feature",
+          "path": "features.default",
+          "value_type": "feature",
+          "is_array": true,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        },
+        {
+          "element_type": "Feature",
+          "path": "features.rocksdb-backend",
+          "value_type": "feature",
+          "is_array": true,
+          "is_table": false,
+          "is_inline_table": false,
+          "children": [],
+          "properties": {}
+        }
+      ],
+      "workload_patterns": [
+        {
+          "pattern_type": "FeatureFlag",
+          "name": "default",
+          "location": "features.default",
+          "related_elements": [
+            "features.default"
+          ],
+          "properties": {}
+        },
+        {
+          "pattern_type": "FeatureFlag",
+          "name": "rocksdb-backend",
+          "location": "features.rocksdb-backend",
+          "related_elements": [
+            "features.rocksdb-backend"
+          ],
+          "properties": {}
+        }
+      ],
+      "is_workspace": false,
+      "has_binaries": true,
+      "has_tests": false,
+      "has_benchmarks": false
+    }
+  ],
+  "strongly_connected_components": [],
+  "partitions": [],
+  "metrics": {
+    "node_count": 4,
+    "edge_count": 2,
+    "workspace_members": 3,
+    "direct_dependencies": 2,
+    "transitive_dependencies": 0,
+    "feature_gated_dependencies": 0,
+    "dev_dependencies": 0,
+    "build_dependencies": 0,
+    "strongly_connected_components": 0,
+    "diameter": 2,
+    "average_degree": 1.0
+  },
+  "workspace_path": "/mnt/data1/nix/source/github/meta-introspector/streamofrandom/2025/12/06/svg_parser_tool",
+  "publish_order": [
+    "workspace:svg_parser_tool",
+    "lock:svg_parser_tool",
+    "lock:monster_svg_morphism"
+  ],
+  "topological_order": [
+    "lock:svg_parser_tool",
+    "lock:xml-rs",
+    "lock:monster_svg_morphism",
+    "workspace:svg_parser_tool"
+  ],
+  "external_dependency_order": [
+    "lock:xml-rs"
+  ]
+}
