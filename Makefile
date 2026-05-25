@@ -68,6 +68,77 @@ upgrade-plan: global-graph
 bare-repos: global-graph
 	@echo "=== Bare Git Repos (local mirrors) ==="
 	@ls -1 $(GLOBAL_GRAPH)/bare_repos/ 2>/dev/null | sed 's/^/  /' || echo "  (no bare repos)"
+
+# Scan new projects from cargos.txt index (pass name as N=ragit)
+scan-index:
+	@python3 -c "
+import json, os, subprocess, sys
+name = '$(N)'
+if not name:
+    print('Usage: make scan-index N=<project-name>')
+    print('Example: make scan-index N=ragit')
+    sys.exit(1)
+# Find matching paths in cargos.txt
+with open('/home/mdupont/2026/05/25/cargos.txt') as f:
+    paths = [l.strip() for l in f if l.strip()]
+matches = [p for p in paths if name.lower() in p.lower() and p.endswith('Cargo.toml')]
+if not matches:
+    print(f'No Cargo.tomls found for \"{name}\"')
+    sys.exit(1)
+# Find ones with Cargo.lock
+import glob
+for m in matches:
+    pdir = os.path.dirname(m)
+    lock = os.path.join(pdir, 'Cargo.lock')
+    if os.path.exists(lock):
+        print(f'FOUND: {pdir}')
+        print(f'  graph build -w {pdir} -o projects_graphs/{name}/graph --include-dev --include-build')
+        sys.exit(0)
+print(f'Found Cargo.tomls but no Cargo.lock for \"{name}\"')
+" 2>&1
+
+# Batch-extract all workspace roots from cargos.txt
+index-workspace:
+	@python3 -c "
+import os, json
+with open('/home/mdupont/2026/05/25/cargos.txt') as f:
+    raw = [l.strip() for l in f if l.strip()]
+# Check for [workspace] in each Cargo.toml
+workspace_roots = []
+for p in raw[:5000]:
+    if not os.path.exists(p):
+        continue
+    try:
+        with open(p) as f2:
+            if '[workspace]' in f2.read(4096):
+                workspace_roots.append(os.path.dirname(p))
+    except: pass
+# Save for batch processing
+with open('$(PROJECTS_OUTPUT)/workspace_roots.json', 'w') as f:
+    json.dump(sorted(set(workspace_roots)), f, indent=2)
+print(f'Found {len(workspace_roots)} workspace roots (first 5000 Cargo.tomls)')
+" 2>&1
+
+# Decl-splitter runner for any project (pass N=project-name)
+split-project:
+	@python3 -c "
+import os, subprocess, sys
+name = '$(N)'
+if not name:
+    print('Usage: make split-project N=<project-name>')
+    sys.exit(1)
+# Find source dir from project graph metadata
+if os.path.exists('projects_graphs/$(N)/graph/graph.json'):
+    import json
+    with open('projects_graphs/$(N)/graph/graph.json') as f:
+        g = json.load(f)
+    # Get workspace member dirs from Cargo.toml paths
+    print(f'Splitting declarations for {name}...')
+    print('ds = ./target/debug/decl-splitter (build from forgecode worktree)')
+    print(f'find <src> -name *.rs | xargs ds -i {{}} -o /tmp/decls_{name}/{{}}')
+else:
+    print(f'No graph found for {name}. Run: make projects-graphs')
+" 2>&1
 	@echo "Cargo mirror config: $(GLOBAL_GRAPH)/cargo_mirror_config.toml"
 
 # Build all projects via crate2nix (each crate = separate Nix store derivation)
