@@ -1,0 +1,41 @@
+# cargo-vendormod — Pipelight orchestration
+# Run: pipelight run build-process-dasl-index
+# Auto-triggers: manual only
+
+[[pipelines]]
+name = "build-process-dasl-index"
+triggers = [
+  { actions = ["manual"] },
+]
+
+[[pipelines.steps]]
+name = "check-git-status"
+commands = [
+  "echo '=== Checking git status ==='",
+  "cd /home/mdupont/projects/cargo-clean/tools/cargo-vendormod && git status --short",
+  "echo ''",
+]
+
+[[pipelines.steps]]
+name = "build-rust-package"
+commands = [
+  "echo '=== Building process-dasl-index ==='",
+  "cd /home/mdupont/projects/cargo-clean/tools/cargo-vendormod && nix build .#process-dasl-index --no-link --print-build-logs",
+  "echo '  -> Build complete'",
+]
+
+# ---------------------------------------------------------------------------
+
+[[pipelines]]
+name = "build-all"
+triggers = [
+  { actions = ["manual"] },
+]
+
+[[pipelines.steps]]
+name = "build-all-packages"
+commands = [
+  "echo '=== Building all packages ==='",
+  "cd /home/mdupont/projects/cargo-clean/tools/cargo-vendormod && nix flake show",
+  "echo '  -> Flake evaluated'",
+]

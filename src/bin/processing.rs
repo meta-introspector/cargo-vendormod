@@ -78,6 +78,10 @@ struct ProcessingArgs {
     #[arg(long, global = true)]
     mirror_name: Option<String>,
 
+    /// Use nora flake generation mode
+    #[arg(long, global = true)]
+    nora: bool,
+
     /// Verbose output
     #[arg(long, short, global = true)]
     verbose: bool,
@@ -229,6 +233,7 @@ fn cmd_crates(args: &ProcessingArgs, _config: &Config, workspace_path: &PathBuf)
                         style,
                         nix_common.as_deref(),
                         source.clone(),
+                        args.nora,
                     )?;
                 }
             }
@@ -267,6 +272,7 @@ fn cmd_crates(args: &ProcessingArgs, _config: &Config, workspace_path: &PathBuf)
                         style,
                         nix_common.as_deref(),
                         source.clone(),
+                        args.nora,
                     )?;
                 }
             }
@@ -313,6 +319,7 @@ fn cmd_all(args: &ProcessingArgs) -> Result<()> {
                 style,
                 nix_common.as_deref(),
                 source.clone(),
+                args.nora,
             ) {
                 eprintln!("  Failed to generate flake for {}: {:#}", crate_path.display(), e);
             }
@@ -359,6 +366,7 @@ fn cmd_discover(args: &ProcessingArgs, workspace_path: &PathBuf) -> Result<()> {
             nix_common.as_deref(),
             &source,
             args.verbose,
+            args.nora,
         )?;
         println!("  Generated {} flake files", count);
     }
@@ -422,6 +430,7 @@ fn cmd_combined(args: &ProcessingArgs) -> Result<()> {
         nix_common.as_deref(),
         &source,
         args.verbose,
+        args.nora,
     )?;
     println!("  Generated {} flake files", flake_count);
     println!();
@@ -651,6 +660,7 @@ fn cmd_dasl_pipeline(args: &ProcessingArgs) -> Result<()> {
             args.nix_common.as_deref(),
             &source,
             args.verbose,
+            args.nora,
         )?;
         println!("  Generated {} flake files", flake_count);
     }

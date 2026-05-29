@@ -724,13 +724,14 @@ pub fn generate_multi_lang_flake(
     style: FlakeStyle,
     source: &FlakeSource,
     lang_override: Option<crate::lang_detect::Language>,
+    nora: bool,
 ) -> Result<usize> {
     let lang = lang_override
         .unwrap_or_else(|| crate::lang_detect::detect_language(project_dir));
 
     match lang {
         crate::lang_detect::Language::Rust => {
-            crate::crate_flake::generate_flake(project_dir, output_dir, None, style, None, source.clone())
+            crate::crate_flake::generate_flake(project_dir, output_dir, None, style, None, source.clone(), nora)
         }
         crate::lang_detect::Language::Go => {
             generate_go_flake(project_dir, output_dir, style, source)
@@ -749,7 +750,7 @@ pub fn generate_multi_lang_flake(
         }
         crate::lang_detect::Language::Unknown => {
             // Fallback to Rust (default behavior)
-            crate::crate_flake::generate_flake(project_dir, output_dir, None, style, None, source.clone())
+            crate::crate_flake::generate_flake(project_dir, output_dir, None, style, None, source.clone(), nora)
         }
     }
 }
