@@ -52,6 +52,13 @@ pub mod workload_processor;
 pub mod goal_tracker;
 pub mod gitmodules_metadata;
 pub mod dasl_metadata_processor;
+pub mod vendoring_cmds;
+pub mod nur_flake;
+pub mod crate_flake;
+pub mod flake_check;
+pub mod lang_detect;
+pub mod multi_lang_flake;
+pub mod dasl_pipeline;
 
 // Re-export commonly used types
 pub use config::{Config, generate_sample_config};

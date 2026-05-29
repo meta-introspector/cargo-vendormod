@@ -62,6 +62,18 @@ path = "src/bin/goal_tracker.rs"
 name = "dasl_metadata_processor"
 path = "src/bin/dasl_metadata_processor.rs"
 
+[[bin]]
+name = "nur-flake"
+path = "src/bin/nur_flake.rs"
+
+[[bin]]
+name = "process_dasl_index"
+path = "src/bin/process_dasl_index.rs"
+
+[[bin]]
+name = "generate-flake"
+path = "src/bin/generate-flake.rs"
+
 [lib]
 name = "cargo_vendormod"
 path = "src/lib.rs"

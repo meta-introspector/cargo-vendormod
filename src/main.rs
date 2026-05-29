@@ -1,8 +1,8 @@
 //! # Main CLI Dispatcher
 //!
-//! Cargo-vendormod main entry point that delegates to specialized binaries.
+//! Cargo-vendormod main entry point — all command logic runs in-process.
 
-use anyhow::Result;
+use anyhow::{Context, Result};
 use clap::{Parser, Subcommand};
 use std::path::PathBuf;
 
@@ -101,6 +101,10 @@ enum Commands {
     Onboard(OnboardArgs),
     /// Edit workspace manifest
     Edit(EditArgs),
+    /// Generate NUR flake from repos.json
+    NurFlake(NurFlakeArgs),
+    /// Check flake coverage for all target CBOR libs, fuzz tools, and test suites
+    FlakeCheck(FlakeCheckArgs),
 }
 
 #[derive(Parser, Debug)]
@@ -315,6 +319,39 @@ struct EditArgs {
 }
 
 #[derive(Parser, Debug)]
+struct NurFlakeArgs {
+    /// Path to repos.json
+    #[arg(long, default_value = "repos.json")]
+    repos_json: PathBuf,
+
+    /// Path to repos.json.lock
+    #[arg(long, default_value = "repos.json.lock")]
+    lock_json: PathBuf,
+
+    /// Output path for generated flake.nix
+    #[arg(long, default_value = "flake.nix")]
+    output: PathBuf,
+
+    /// Check existing flake.nix without overwriting
+    #[arg(long)]
+    check: bool,
+
+    /// Verbose output
+    #[arg(long, short)]
+    verbose: bool,
+}
+
+#[derive(Parser, Debug)]
+struct FlakeCheckArgs {
+    /// Directory containing flake subdirectories
+    #[arg(long, default_value = "flakes")]
+    flakes_dir: PathBuf,
+    /// Output as JSON
+    #[arg(long)]
+    json: bool,
+}
+
+#[derive(Parser, Debug)]
 struct WorkloadArgs {
     /// Workspace path to analyze
     #[arg(long, default_value = ".")]
@@ -391,66 +428,70 @@ fn main() -> Result<()> {
     };
 
     match args.command {
-        // Delegate to sub-binaries
-        Some(Commands::Vendoring(vcmd)) => {
-            delegate_to_binary("vendoring", &["--config", &args.config.as_ref().map(|p| p.to_string_lossy().to_string()).unwrap_or_default()])
+        // Vendoring sub-commands
+        Some(Commands::Vendoring(ref vcmd)) => {
+            match &vcmd.cmd {
+                Some(VendoringCmd::Init) => handle_init(&args, &config, None),
+                Some(VendoringCmd::FetchUpstream) => handle_fetch_upstream(&args, &config),
+                Some(VendoringCmd::Rebase) => handle_rebase(&args, &config),
+                Some(VendoringCmd::Releases) => handle_releases(&args, &config),
+                Some(VendoringCmd::Status) => handle_status(&args, &config),
+                Some(VendoringCmd::Sync) => handle_sync(&args, &config),
+                Some(VendoringCmd::Patch) => handle_patch(&args, &config),
+                None => handle_init(&args, &config, None),
+            }
         }
-        Some(Commands::Graph(gcmd)) => {
-            delegate_to_binary("graph", &[])
+        Some(Commands::Graph(_gcmd)) => {
+            println!("Graph commands not yet implemented in-process");
+            Ok(())
         }
-        Some(Commands::Process(pcmd)) => {
-            delegate_to_binary("processing", &[])
+        Some(Commands::Process(_pcmd)) => {
+            println!("Process commands not yet implemented in-process");
+            Ok(())
         }
 
-        // Inline commands
-        Some(Commands::Init(_)) => {
-            println!("Use: cargo-vendormod vendoring init");
-            delegate_to_binary("vendoring", &["init"])
-        }
-        Some(Commands::FetchUpstream) => {
-            delegate_to_binary("vendoring", &["fetch-upstream"])
-        }
-        Some(Commands::Rebase) => {
-            delegate_to_binary("vendoring", &["rebase"])
-        }
-        Some(Commands::Releases) => {
-            delegate_to_binary("vendoring", &["releases"])
-        }
-        Some(Commands::Status) => {
-            delegate_to_binary("vendoring", &["status"])
-        }
-        Some(Commands::Sync) => {
-            delegate_to_binary("vendoring", &["sync"])
-        }
-        Some(Commands::Patch) => {
-            delegate_to_binary("vendoring", &["patch"])
-        }
+        // Inline commands — call vendoring_cmds directly
+        Some(Commands::Init(ref a)) => handle_init(&args, &config, Some(&a.source)),
+        Some(Commands::FetchUpstream) => handle_fetch_upstream(&args, &config),
+        Some(Commands::Rebase) => handle_rebase(&args, &config),
+        Some(Commands::Releases) => handle_releases(&args, &config),
+        Some(Commands::Status) => handle_status(&args, &config),
+        Some(Commands::Sync) => handle_sync(&args, &config),
+        Some(Commands::Patch) => handle_patch(&args, &config),
 
         Some(Commands::BuildGraph(_)) => {
-            delegate_to_binary("graph", &["build"])
+            println!("BuildGraph not yet implemented in-process");
+            Ok(())
         }
         Some(Commands::AnalyzeGraph(_)) => {
-            delegate_to_binary("graph", &["analyze"])
+            println!("AnalyzeGraph not yet implemented in-process");
+            Ok(())
         }
         Some(Commands::VisualizeGraph(_)) => {
-            delegate_to_binary("graph", &["visualize"])
+            println!("VisualizeGraph not yet implemented in-process");
+            Ok(())
         }
         Some(Commands::PartitionGraph(_)) => {
-            delegate_to_binary("graph", &["partition"])
+            println!("PartitionGraph not yet implemented in-process");
+            Ok(())
         }
 
         Some(Commands::ProcessCrates(_)) => {
-            delegate_to_binary("processing", &["crates"])
+            println!("ProcessCrates not yet implemented in-process");
+            Ok(())
         }
         Some(Commands::ProcessAll(_)) => {
-            delegate_to_binary("processing", &["all"])
+            println!("ProcessAll not yet implemented in-process");
+            Ok(())
         }
         Some(Commands::RunWorkflow(_)) => {
-            delegate_to_binary("processing", &["workflow"])
+            println!("RunWorkflow not yet implemented in-process");
+            Ok(())
         }
 
         Some(Commands::Report(_)) => {
-            delegate_to_binary("processing", &["report"])
+            println!("Report not yet implemented in-process");
+            Ok(())
         }
 
         Some(Commands::InitConfig) => {
@@ -493,6 +534,50 @@ fn main() -> Result<()> {
             run_workload_worktree(&args.name, args.branch.as_deref(), &args.output_dir)
         }
 
+        Some(Commands::NurFlake(args)) => {
+            let generator = cargo_vendormod::nur_flake::NurFlakeGenerator::new(
+                args.repos_json.clone(),
+                args.lock_json.clone(),
+                args.output.clone(),
+            );
+
+            if args.check {
+                let is_up_to_date = generator
+                    .check()
+                    .context("Failed to check flake.nix status")?;
+                if is_up_to_date {
+                    println!("\u{2713} {} is up to date", args.output.display());
+                } else {
+                    eprintln!("\u{2717} {} is out of date \u{2014} regenerate needed", args.output.display());
+                    eprintln!("  Run: cargo-vendormod nur-flake --repos-json {} --lock-json {} --output {}",
+                        args.repos_json.display(),
+                        args.lock_json.display(),
+                        args.output.display());
+                    std::process::exit(1);
+                }
+            } else {
+                let repo_count = generator
+                    .generate()
+                    .context("Failed to generate flake.nix")?;
+                println!("\u{2713} Generated {} with {} repos", args.output.display(), repo_count);
+                if args.verbose {
+                    eprintln!("  Run: nix flake check --impure  # to validate");
+                }
+            }
+
+            Ok(())
+        }
+
+        Some(Commands::FlakeCheck(args)) => {
+            let report = cargo_vendormod::flake_check::check_flake_coverage(&args.flakes_dir)?;
+            if args.json {
+                cargo_vendormod::flake_check::print_json(&report)?;
+            } else {
+                cargo_vendormod::flake_check::print_report(&report);
+            }
+            Ok(())
+        }
+
         None => {
             // Show help
             println!("Cargo-vendormod - Git submodule vendoring for Cargo");
@@ -503,6 +588,8 @@ fn main() -> Result<()> {
             println!("  process      - Crate processing");
             println!("  workload     - Workload performance analysis");
             println!("  init-config  - Generate sample config");
+            println!("  nur-flake    - Generate flake.nix for NUR workspace");
+            println!("  flake-check  - Check flake coverage for CBOR libs, fuzz, tests");
             Ok(())
         }
     }
@@ -567,10 +654,62 @@ fn run_workload_analysis(path: &PathBuf, format: &str) -> Result<()> {
     Ok(())
 }
 
-fn delegate_to_binary(name: &str, _args: &[&str]) -> Result<()> {
-    // For now, show a message about the binary name
-    // In a full implementation, we'd use std::process::Command to spawn the binary
-    println!("Delegating to {} binary (not yet implemented)", name);
-    println!("Run with cargo run --bin {} -- [args]", name);
-    Ok(())
+// ── Vendoring handler functions (in-process) ──────────────────────────────
+
+fn handle_init(args: &MainArgs, config: &cargo_vendormod::config::Config, source: Option<&PathBuf>) -> Result<()> {
+    let source_repo = source.cloned()
+        .or_else(|| args.root_dir.canonicalize().ok())
+        .unwrap_or_else(|| PathBuf::from("."));
+    let sub_path = args.submodules_path.clone().unwrap_or_else(|| config.submodules_dir.clone());
+    let mir_path = args.mirrors_path.clone().unwrap_or_else(|| config.mirrors_dir.clone());
+    cargo_vendormod::vendoring_cmds::cmd_init(&source_repo, &sub_path, &mir_path, args.dry_run)
 }
+
+fn handle_fetch_upstream(args: &MainArgs, config: &cargo_vendormod::config::Config) -> Result<()> {
+    let sub_path = args.submodules_path.clone().unwrap_or_else(|| config.submodules_dir.clone());
+    let mir_path = args.mirrors_path.clone().unwrap_or_else(|| config.mirrors_dir.clone());
+    let git_exe = &config.git_path;
+    cargo_vendormod::vendoring_cmds::cmd_fetch_upstream(
+        &sub_path, &mir_path, git_exe, args.dry_run, args.verbose, config.default_threads,
+    )
+}
+
+fn handle_rebase(args: &MainArgs, config: &cargo_vendormod::config::Config) -> Result<()> {
+    let sub_path = args.submodules_path.clone().unwrap_or_else(|| config.submodules_dir.clone());
+    let git_exe = &config.git_path;
+    cargo_vendormod::vendoring_cmds::cmd_rebase(
+        &sub_path, &config.target_branch, git_exe, args.dry_run, args.verbose,
+    )
+}
+
+fn handle_releases(args: &MainArgs, config: &cargo_vendormod::config::Config) -> Result<()> {
+    let sub_path = args.submodules_path.clone().unwrap_or_else(|| config.submodules_dir.clone());
+    let mir_path = args.mirrors_path.clone().unwrap_or_else(|| config.mirrors_dir.clone());
+    let git_exe = &config.git_path;
+    cargo_vendormod::vendoring_cmds::cmd_releases(
+        &sub_path, &mir_path, git_exe, &config.version_branch_format,
+        config.create_version_branches, args.dry_run,
+    )
+}
+
+fn handle_status(args: &MainArgs, config: &cargo_vendormod::config::Config) -> Result<()> {
+    let sub_path = args.submodules_path.clone().unwrap_or_else(|| config.submodules_dir.clone());
+    let git_exe = &config.git_path;
+    cargo_vendormod::vendoring_cmds::cmd_status(&sub_path, git_exe)
+}
+
+fn handle_sync(args: &MainArgs, config: &cargo_vendormod::config::Config) -> Result<()> {
+    let sub_path = args.submodules_path.clone().unwrap_or_else(|| config.submodules_dir.clone());
+    let mir_path = args.mirrors_path.clone().unwrap_or_else(|| config.mirrors_dir.clone());
+    let git_exe = &config.git_path;
+    cargo_vendormod::vendoring_cmds::cmd_sync(
+        &sub_path, &mir_path, &config.target_branch, git_exe,
+        args.dry_run, args.verbose, config.default_threads,
+    )
+}
+
+fn handle_patch(args: &MainArgs, config: &cargo_vendormod::config::Config) -> Result<()> {
+    let sub_path = args.submodules_path.clone().unwrap_or_else(|| config.submodules_dir.clone());
+    cargo_vendormod::vendoring_cmds::cmd_patch(&sub_path)
+}
+

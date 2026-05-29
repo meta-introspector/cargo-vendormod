@@ -31,3 +31,6 @@
 [submodule "analysis/self-scan"]
 	path = analysis/self-scan
 	url = ./analysis/self-scan
+[submodule "global_graph"]
+	path = global_graph
+	url = ./global_graph

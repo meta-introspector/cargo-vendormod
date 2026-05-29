@@ -2,11 +2,15 @@
   description = "Cargo Vendormod — vendor git dependencies as submodules with local mirrors";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
+    nixpkgs.url = "git+file:///mnt/data1/git/github.com/NixOS/nixpkgs.git?ref=master";
+    flake-utils.url = "git+file:///mnt/data1/git/github.com/numtide/flake-utils.git?ref=main";
+    crate2nix = {
+      url = "path:/tmp/flake-local/crate2nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, flake-utils }:
+  outputs = { self, nixpkgs, flake-utils, crate2nix }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
@@ -40,6 +44,7 @@
           "simple_repository_mathematical_atlas" "standalone_test_runner"
           "test_runner" "zkperf_coverage_performance_test_runner"
           "zkperf_coverage_test_runner" "zkperf_integration_test_runner"
+          "nur-flake" "process_dasl_index"
         ];
 
         # All ~/projects/ directories that contain Cargo.toml
@@ -151,6 +156,24 @@
         packages = {
           default = cargo-vendormod;
           inherit graph-analysis-runner;
+
+          # Wrapper for process_dasl_index binary with all tool paths configured
+          process-dasl-index = pkgs.writeShellApplication {
+            name = "process-dasl-index";
+            runtimeInputs = [
+              cargo-vendormod
+              crate2nix.packages.${system}.default
+              pkgs.cargo
+              pkgs.nix
+            ];
+            text = ''
+              exec process_dasl_index \
+                --crate2nix-path "${crate2nix.packages.${system}.default}/bin/crate2nix" \
+                --cargo-path     "${pkgs.cargo}/bin/cargo" \
+                --nix-path       "${pkgs.nix}/bin/nix" \
+                "$@"
+            '';
+          };
           # Global graph — merged dependency graph of all ~/projects/ Rust repos
           # Contains: global_graph.json, build_order.json, upgrade_plan.json,
           #           mirrors.json, projects.json, bare_repos/, flakes/
