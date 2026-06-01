@@ -1,4 +1,4 @@
-use crate::group_atlas::{FiniteSimpleGroup, GroupAtlas, GroupComposition, GroupFamily};
+use crate::group_atlas::{FiniteSimpleGroup, GroupAtlas, GroupComposition};
 use std::collections::HashMap;
 use serde::{Serialize, Deserialize};
 use num_bigint::BigUint;
@@ -191,13 +191,13 @@ impl AtlasRenderer {
     }
 
     /// Render connections as SVG
-    fn render_connections_svg(&self, svg: &mut String) {
+    fn render_connections_svg(&self, _svg: &mut String) {
         // This would implement actual connection rendering
         // For now, placeholder
     }
 
     /// Generate a hierarchical view
-    pub fn generate_hierarchical_view(&mut self, atlas: &GroupAtlas) -> String {
+    pub fn generate_hierarchical_view(&mut self, _atlas: &GroupAtlas) -> String {
         let mut svg = String::new();
         
         // SVG header
@@ -259,6 +259,7 @@ impl AtlasRenderer {
                 ));
             }
         }
+        svg.push_str("</svg>");
         svg
     }
 
@@ -284,7 +285,7 @@ impl AtlasRenderer {
     }
 
     /// Count groups by family
-    fn count_groups_by_family(&self, atlas: &GroupAtlas) -> HashMap<String, usize> {
+    fn count_groups_by_family(&self, _atlas: &GroupAtlas) -> HashMap<String, usize> {
         let mut counts = HashMap::new();
         for tile in &self.tiles {
             let family_name = format!("{:?}", tile.group.family);
@@ -357,7 +358,7 @@ impl AtlasRenderer {
     }
 
     /// Generate HTML for group information
-    fn generate_group_info_html(&self, atlas: &GroupAtlas) -> String {
+    fn generate_group_info_html(&self, _atlas: &GroupAtlas) -> String {
         let mut html = String::new();
         
         for tile in &self.tiles {

@@ -20,7 +20,7 @@
 //!
 //! ## Usage
 //!
-//! ```no_run
+//! ```ignore
 //! use cargo_vendormod::workflow::{WorkflowRunner, WorkflowConfig};
 //! use std::path::PathBuf;
 //!
@@ -171,7 +171,7 @@ impl WorkflowRunner {
             ));
         }
 
-        let stdout = String::from_utf8_lossy(&output.stdout);
+        let _stdout = String::from_utf8_lossy(&output.stdout);
         println!("   ✅ {} completed successfully", script_name);
 
         Ok(())

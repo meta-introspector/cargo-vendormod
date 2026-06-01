@@ -139,18 +139,22 @@ fn generate_single_flake(
                 anyhow::bail!("No Cargo.toml in {} (language detected as Rust)", project_dir.display());
             }
             if args.nora {
-                // Write the .cargo/config.toml alongside the flake
-                let cargo_dir = output_dir.join(".cargo");
-                fs::create_dir_all(&cargo_dir).context("Failed to create .cargo dir")?;
-                fs::write(
-                    cargo_dir.join("config.toml"),
-                    r#"[source.crates-io]
-replace-with = "nora"
-
-[source.nora]
-registry = "http://127.0.0.1:4000/cargo/index"
-"#
-                ).context("Failed to write .cargo/config.toml")?;
+                // Run cargo vendor to create vendored deps for offline nix builds
+                // This uses nora as the registry (via global .cargo/config.toml)
+                let vendor_dir = output_dir.join("vendor");
+                if !vendor_dir.exists() {
+                    eprintln!("[nora] Running cargo vendor for {}...", project_dir.display());
+                    let status = std::process::Command::new("cargo")
+                        .args(["vendor", vendor_dir.to_str().unwrap_or("vendor")])
+                        .current_dir(project_dir)
+                        .env("CARGO_TARGET_DIR", "/tmp/cargo-vendormod-target")
+                        .status()
+                        .context("Failed to run cargo vendor")?;
+                    if !status.success() {
+                        anyhow::bail!("cargo vendor failed for {}", project_dir.display());
+                    }
+                    eprintln!("[nora] Vendored {} deps to {}", vendor_dir.display(), vendor_dir.display());
+                }
             }
             if let Some(mirror) = &args.git_mirror {
                 crate_flake::generate_flake(
@@ -187,6 +191,9 @@ registry = "http://127.0.0.1:4000/cargo/index"
         }
         Language::Java => {
             multi_lang_flake::generate_java_flake(project_dir, output_dir, style, &source)
+        }
+        Language::Lean4 => {
+            anyhow::bail!("Lean4 flake generation not yet implemented for {}. Use --lang rust as fallback.", project_dir.display())
         }
         Language::Unknown => {
             anyhow::bail!("Could not detect language in {}. Use --lang to specify.", project_dir.display())

@@ -1,6 +1,8 @@
 //! # Per-Crate Flake Generator
 //!
 //! Generates production-quality `flake.nix` files for individual Rust crates
+//!
+//! Generates production-quality `flake.nix` files for individual Rust crates
 //! processed through the cargo-vendormod pipeline.
 //!
 //! Supports multiple flake generation styles:
@@ -31,6 +33,14 @@
 //! ```
 
 use anyhow::{bail, Context, Result};
+
+/// .cargo/config.toml content for redirecting to nora registry
+const NORA_CARGO_CONFIG: &str = r#"[source.crates-io]
+replace-with = "nora"
+
+[source.nora]
+registry = "http://127.0.0.1:4000/cargo/index"
+"#;
 use serde::Deserialize;
 use std::fmt;
 use std::fs;
@@ -181,6 +191,36 @@ pub fn generate_flake(
             fs::write(flake_dir.join("flake.nix"), &flake_nix)
                 .with_context(|| format!("Failed to write flake.nix for {}", crate_name))?;
 
+            // When using nora, copy Cargo.lock and write .cargo/config.toml
+            if nora {
+                let lock_src = if has_lock {
+                    crate_dir.join("Cargo.lock")
+                } else if let Some(ref wl) = workspace_lock {
+                    wl.clone()
+                } else {
+                    // No lock file — generate one via cargo generate-lockfile
+                    let status = std::process::Command::new("cargo")
+                        .args(["generate-lockfile"])
+                        .current_dir(crate_dir)
+                        .env("CARGO_TARGET_DIR", "/tmp/cargo-vendormod-target")
+                        .status()?;
+                    if !status.success() {
+                        bail!("cargo generate-lockfile failed for {}", crate_dir.display());
+                    }
+                    crate_dir.join("Cargo.lock")
+                };
+                if lock_src.exists() {
+                    fs::copy(&lock_src, flake_dir.join("Cargo.lock"))
+                        .with_context(|| format!("Failed to copy Cargo.lock from {}", lock_src.display()))?;
+                }
+
+                // Write .cargo/config.toml for non-nix cargo builds (redirects to nora)
+                // Place it in the output root, NOT in the flake dir (which becomes the nix source)
+                let cargo_dir = output_dir.join(".cargo");
+                fs::create_dir_all(&cargo_dir)?;
+                fs::write(cargo_dir.join("config.toml"), NORA_CARGO_CONFIG)?;
+            }
+
             Ok(2)
         }
         FlakeStyle::Crate2Nix => {
@@ -229,19 +269,18 @@ fn render_package_nix(
     lines.push("  src = ./.;".to_string());
 
     if nora {
-        lines.push("  preBuild = ''".to_string());
-        lines.push("    mkdir -p .cargo".to_string());
-        lines.push(r##"    cat > .cargo/config.toml << 'EOF'"##.to_string());
-        lines.push("[source.crates-io]".to_string());
-        lines.push("replace-with = \"nora\"".to_string());
-        lines.push(String::new());
-        lines.push("[source.nora]".to_string());
-        lines.push("registry = \"http://127.0.0.1:4000/cargo/index\"".to_string());
-        lines.push("EOF".to_string());
-        lines.push("  '';".to_string());
-    }
-
-    if let Some(vendor) = vendor_dir {
+        // Nora integration: for nix builds, cargoLock.lockFile is used (nix fetches deps
+        // as fixed-output derivations). For non-nix cargo builds, the .cargo/config.toml
+        // redirecting to nora is written separately (outside the source dir).
+        if has_lock {
+            lines.push("  cargoLock.lockFile = ./Cargo.lock;".to_string());
+        } else if let Some(wl) = workspace_lock {
+            lines.push("  cargoLock.lockFile = ./Cargo.lock;".to_string());
+            lines.push(format!("  # (workspace lock originally at: {})", wl.display()));
+        }
+        // Skip tests in nix sandbox (many crates have test failures in sandbox)
+        lines.push("  doCheck = false;".to_string());
+    } else if let Some(vendor) = vendor_dir {
         // Vendored deps mode — vendored dir already materialized
         lines.push(format!("  cargoVendorDir = ./{};", vendor.display()));
         lines.push("  # vendorHash = \"\";  # set after first build".to_string());
@@ -294,9 +333,9 @@ fn render_flake_nix_simple(crate_name: &str, crate_version: &str, source: &Flake
     };
 
     let src_reference = if src_attr.is_empty() {
-        "src = ./.;".to_string()
+        "./.".to_string()
     } else {
-        format!("src = {src_attr};")
+        src_attr.clone()
     };
 
     format!(
@@ -521,7 +560,7 @@ mod tests {
 
     #[test]
     fn test_render_package_nix_with_lock() {
-        let result = render_package_nix("my-crate", "1.2.3", true, None, None);
+        let result = render_package_nix("my-crate", "1.2.3", true, None, None, false);
         assert!(result.contains("pname = \"my-crate\";"), "expected pname");
         assert!(result.contains("version = \"1.2.3\";"), "expected version");
         assert!(result.contains("cargoLock.lockFile"), "expected lock file reference");
@@ -529,7 +568,7 @@ mod tests {
 
     #[test]
     fn test_render_package_nix_with_vendor() {
-        let result = render_package_nix("my-crate", "0.1.0", false, Some(Path::new("vendor")), None);
+        let result = render_package_nix("my-crate", "0.1.0", false, Some(Path::new("vendor")), None, false);
         assert!(result.contains("cargoVendorDir = ./vendor;"), "expected vendored dir");
         assert!(!result.contains("cargoLock.lockFile"), "lock file should not appear");
     }
@@ -562,7 +601,7 @@ version = "0.5.0"
         let out_dir = tmp.path().join("output");
         let count = generate_flake(
             &crate_dir, &out_dir, None,
-            FlakeStyle::Simple, None, FlakeSource::LocalDir,
+            FlakeStyle::Simple, None, FlakeSource::LocalDir, false,
         ).unwrap();
         assert_eq!(count, 2);
 
@@ -596,7 +635,7 @@ version = "0.2.0"
         let out_dir = tmp.path().join("output");
         let count = generate_flake(
             &crate_dir, &out_dir, Some(vendor_dir.as_path()),
-            FlakeStyle::Simple, None, FlakeSource::LocalDir,
+            FlakeStyle::Simple, None, FlakeSource::LocalDir, false,
         ).unwrap();
         assert_eq!(count, 2);
 

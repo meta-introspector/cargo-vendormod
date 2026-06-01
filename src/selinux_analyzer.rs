@@ -7,8 +7,7 @@ use anyhow::{Context, Result};
 use serde::{Deserialize, Serialize};
 use std::collections::{HashMap, HashSet};
 use std::fs;
-use std::path::{Path, PathBuf};
-use std::process::Command;
+use std::path::Path;
 
 /// Access requirements extracted from a .service file
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
@@ -353,7 +352,8 @@ WantedBy=multi-user.target
 
         let policy = generate_te_policy(&[svc]);
         assert!(policy.contains("test_service_t"));
-        assert!(policy.contains("network.target"));
+        assert!(policy.contains("tcp_socket"));
+        assert!(policy.contains("udp_socket"));
     }
 
     #[test]

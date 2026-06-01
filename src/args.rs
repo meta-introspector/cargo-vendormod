@@ -187,14 +187,6 @@ pub enum SelinuxCommands {
         #[arg(long, default_value = "./selinux_output/zkperf_services.te")]
         output: PathBuf,
     },
-    /// Generate Lean4 formal verification model
-    Lean4 {
-        /// Input .service file(s) or directory
-        inputs: Vec<PathBuf>,
-        /// Output Lean4 model file
-        #[arg(long, default_value = "./selinux_output/model.lean")]
-        output: PathBuf,
-    },
 }
 
 /******************************************************************************/
@@ -362,6 +354,14 @@ pub enum Commands {
         #[arg(long, default_value = "./processed_all")]
         output_dir: PathBuf,
     },
+    /// Generate Lean4 formal verification model
+    Lean4 {
+        /// Input .service file(s) or directory
+        inputs: Vec<PathBuf>,
+        /// Output Lean4 model file
+        #[arg(long, default_value = "./lean4_output/model.lean")]
+        output: PathBuf,
+    },
     /// Split a Lean 4 mathlib-style project into per-declaration flakes via lean-split-tool
     SplitLean4 {
         /// Path to mathlib source (directory containing Mathlib/)
@@ -384,6 +384,7 @@ pub enum Commands {
         #[arg(long)]
         dry_run: bool,
     },
+    NixBuild {
         /// Path to directory containing Nix flakes
         flake_dir: PathBuf,
         /// Maximum number of parallel builds
@@ -413,7 +414,7 @@ pub enum Commands {
         #[arg(long, default_value = "./llm_error_report.md")]
         output_path: PathBuf,
     },
-/// Generate comprehensive workload status report
+    /// Generate comprehensive workload status report
     Report {
         /// Path to workspace root directory
         #[arg(long)]
@@ -421,6 +422,11 @@ pub enum Commands {
         /// Output directory for report
         #[arg(long, default_value = "./crate_report")]
         output_dir: PathBuf,
+    },
+    /// SELinux-related commands
+    Selinux {
+        #[command(subcommand)]
+        command: SelinuxCommands,
     },
     /// Workload discovery, creation, and management
     Workloads {

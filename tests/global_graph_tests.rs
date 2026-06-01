@@ -1,15 +1,29 @@
 use cargo_vendormod::global_dep_graph::{
-    DependencyNode, DependencyEdge, DependencyEdgeType, GlobalDependencyGraphBuilder,
-    GraphMetrics, GraphPartition, PartitionMetrics, PartitioningAlgorithm, FeatureSet,
-    TomlStructure, SchemaElement, SchemaElementType, WorkloadPattern, WorkloadPatternType,
+    DependencyEdge, DependencyEdgeType, DependencyNode, FeatureSet, GlobalDependencyGraphBuilder,
+    GraphMetrics, GraphPartition, PartitionMetrics, PartitioningAlgorithm, SchemaElement,
+    SchemaElementType, TomlStructure, WorkloadPattern, WorkloadPatternType,
 };
-use std::path::PathBuf;
 use std::collections::{HashMap, HashSet};
+use std::fs;
 use tempfile::tempdir;
 
 #[cfg(test)]
 mod global_graph_tests {
     use super::*;
+
+    fn write_minimal_crate(dir: &std::path::Path) {
+        fs::create_dir_all(dir.join("src")).unwrap();
+        fs::write(
+            dir.join("Cargo.toml"),
+            r#"[package]
+name = "test-crate"
+version = "0.1.0"
+edition = "2021"
+"#,
+        )
+        .unwrap();
+        fs::write(dir.join("src/lib.rs"), "pub fn answer() -> u32 { 42 }\n").unwrap();
+    }
 
     #[test]
     fn test_dependency_node_creation() {
@@ -79,23 +93,24 @@ mod global_graph_tests {
     #[test]
     fn test_graph_builder_creation() {
         let temp_dir = tempdir().unwrap();
-        let builder = GlobalDependencyGraphBuilder::new(temp_dir.path().to_path_buf());
-        assert_eq!(builder.graph.node_count(), 0);
-        assert!(builder.node_map.is_empty());
-    }
+        write_minimal_crate(temp_dir.path());
 
-    #[test]
-    fn test_graph_builder_with_options() {
-        let temp_dir = tempdir().unwrap();
         let mut builder = GlobalDependencyGraphBuilder::new(temp_dir.path().to_path_buf());
         builder.set_options(false, false, false);
-        // Verify builder was modified (internal state not directly accessible, but method chains)
+
+        let graph = builder.build_global_graph().unwrap();
+        assert_eq!(graph.workspace_path, temp_dir.path().to_path_buf());
+        assert!(!graph.nodes.is_empty());
+        assert!(graph.metrics.node_count >= 1);
+        assert!(graph.nodes.iter().any(|node| node.is_workspace_member));
     }
 
     #[test]
     fn test_feature_set_creation() {
-        let mut feature_deps = HashMap::new();
-        feature_deps.insert("serde".to_string(), HashSet::new());
+        let feature_dependencies = HashMap::from([(
+            "serde".to_string(),
+            HashSet::<String>::new(),
+        )]);
 
         let fs = FeatureSet {
             crate_name: "tokio".to_string(),

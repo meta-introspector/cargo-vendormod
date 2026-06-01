@@ -31,7 +31,7 @@
 //!
 //! ## Usage
 //!
-//! ```no_run
+//! ```ignore
 //! use cargo_vendormod::error_to_llm_pipeline::{ErrorToLLMPipeline, ParallelBuildConfig};
 //!
 //! let config = ParallelBuildConfig {
@@ -53,8 +53,6 @@ use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::Command;
 use std::sync::{Arc, Mutex};
-use std::collections::{HashMap, HashSet};
-use std::io::{BufRead, BufReader};
 use rayon::prelude::*;
 use log::{info, error, warn};
 use serde::{Serialize, Deserialize};

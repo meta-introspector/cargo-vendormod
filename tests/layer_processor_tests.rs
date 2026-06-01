@@ -1,144 +1,132 @@
-use cargo_vendormod::global_dep_graph::{GlobalDependencyGraph, GlobalDependencyGraphBuilder, DependencyNode, DependencyEdge, DependencyEdgeType};
-use std::path::PathBuf;
+use cargo_vendormod::global_dep_graph::{
+    DependencyNode, GlobalDependencyGraph, GraphMetrics,
+};
+use cargo_vendormod::layer_processor::LayerProcessor;
 use std::collections::{HashMap, HashSet};
+use std::fs;
+use std::path::PathBuf;
 use tempfile::tempdir;
 
 #[cfg(test)]
 mod layer_processor_tests {
     use super::*;
 
-    #[test]
-    fn test_graph_node_lookup() {
-        let temp_dir = tempdir().unwrap();
-        let cargo_toml = temp_dir.path().join("Cargo.toml");
-        std::fs::write(&cargo_toml, "[package]\nname = \"test\"\nversion = \"0.1.0\"\n").unwrap();
-
-        let mut builder = GlobalDependencyGraphBuilder::new(temp_dir.path().to_path_buf());
-
-        // Manually add nodes to simulate graph state
-        let node_a = DependencyNode {
-            id: "crate:serde".to_string(),
-            crate_name: "serde".to_string(),
-            version: "1.0.0".to_string(),
-            source: "crates.io".to_string(),
-            is_workspace_member: false,
-            is_direct_dependency: true,
-            features: HashSet::new(),
-            categories: vec![],
-            properties: HashMap::new(),
-        };
-        builder.node_map.insert(node_a.id.clone(), builder.graph.add_node(node_a));
-
-        let found = builder.graph.node_weights()
-            .find(|n| n.crate_name == "serde");
-
-        assert!(found.is_some());
-        assert_eq!(found.unwrap().version, "1.0.0");
+    fn empty_metrics() -> GraphMetrics {
+        GraphMetrics {
+            node_count: 0,
+            edge_count: 0,
+            workspace_members: 0,
+            direct_dependencies: 0,
+            transitive_dependencies: 0,
+            feature_gated_dependencies: 0,
+            dev_dependencies: 0,
+            build_dependencies: 0,
+            strongly_connected_components: 0,
+            diameter: 0,
+            average_degree: 0.0,
+        }
     }
 
-    #[test]
-    fn test_edge_lookup_between_nodes() {
-        let mut builder = GlobalDependencyGraphBuilder::new(PathBuf::from("."));
-
-        let app = DependencyNode {
-            id: "crate:app".to_string(),
-            crate_name: "app".to_string(),
+    fn dependency_node(id: &str, crate_name: &str, source: &str, is_workspace_member: bool) -> DependencyNode {
+        DependencyNode {
+            id: id.to_string(),
+            crate_name: crate_name.to_string(),
             version: "0.1.0".to_string(),
-            source: "workspace".to_string(),
-            is_workspace_member: true,
+            source: source.to_string(),
+            is_workspace_member,
             is_direct_dependency: true,
             features: HashSet::new(),
             categories: vec![],
             properties: HashMap::new(),
-        };
+        }
+    }
 
-        let serde = DependencyNode {
-            id: "crate:serde".to_string(),
-            crate_name: "serde".to_string(),
-            version: "1.0.0".to_string(),
-            source: "crates.io".to_string(),
-            is_workspace_member: false,
-            is_direct_dependency: false,
-            features: HashSet::new(),
-            categories: vec![],
-            properties: HashMap::new(),
-        };
-
-        let app_idx = builder.graph.add_node(app);
-        let serde_idx = builder.graph.add_node(serde);
-
-        builder.graph.add_edge(app_idx, serde_idx, DependencyEdge {
-            from: "crate:app".to_string(),
-            to: "crate:serde".to_string(),
-            edge_type: DependencyEdgeType::Direct,
-            required_features: HashSet::new(),
-            optional_features: HashSet::new(),
-            is_dev_dependency: false,
-            is_build_dependency: false,
-            properties: HashMap::new(),
-        });
-
-        let edges: Vec<_> = builder.graph.edges(app_idx).collect();
-        assert_eq!(edges.len(), 1);
-        assert_eq!(edges[0].target(), serde_idx);
-        assert!(matches!(edges[0].weight().edge_type, DependencyEdgeType::Direct));
+    fn make_graph(
+        workspace_path: PathBuf,
+        nodes: Vec<DependencyNode>,
+        publish_order: Vec<String>,
+        external_dependency_order: Vec<String>,
+    ) -> GlobalDependencyGraph {
+        GlobalDependencyGraph {
+            nodes,
+            edges: Vec::new(),
+            features: Vec::new(),
+            toml_structures: Vec::new(),
+            strongly_connected_components: Vec::new(),
+            partitions: Vec::new(),
+            metrics: empty_metrics(),
+            workspace_path,
+            publish_order,
+            topological_order: Vec::new(),
+            external_dependency_order,
+        }
     }
 
     #[test]
-    fn test_node_map_consistency() {
-        let mut builder = GlobalDependencyGraphBuilder::new(PathBuf::from("."));
-        let node = DependencyNode {
-            id: "crate:test".to_string(),
-            crate_name: "test".to_string(),
-            version: "1.0.0".to_string(),
-            source: "crates.io".to_string(),
-            is_workspace_member: false,
-            is_direct_dependency: false,
-            features: HashSet::new(),
-            categories: vec![],
-            properties: HashMap::new(),
-        };
+    fn test_process_layer1_writes_flake_for_external_dependency() {
+        let workspace_dir = tempdir().unwrap();
+        let output_dir = tempdir().unwrap();
+        let home_dir = tempdir().unwrap();
 
-        let idx = builder.graph.add_node(node.clone());
-        builder.node_map.insert(node.id.clone(), idx);
+        let node = dependency_node("crate:serde", "serde", "crates.io", false);
+        let graph = make_graph(
+            workspace_dir.path().to_path_buf(),
+            vec![node],
+            Vec::new(),
+            vec!["crate:serde".to_string()],
+        );
 
-        assert!(builder.node_map.contains_key(&node.id));
-        assert_eq!(builder.node_map[&node.id], idx);
+        let processor = LayerProcessor::new(
+            graph,
+            workspace_dir.path().to_path_buf(),
+            output_dir.path().to_path_buf(),
+            PathBuf::from("git"),
+            home_dir.path().to_path_buf(),
+        );
+
+        processor.process_layer1().unwrap();
+
+        assert!(output_dir.path().join("layer1/serde/flake.nix").exists());
+        assert!(output_dir.path().join("crates-io-cache/serde").exists());
     }
 
     #[test]
-    fn test_external_dependency_identification() {
-        let nodes = vec![
-            DependencyNode {
-                id: "ws:app".to_string(),
-                crate_name: "app".to_string(),
-                version: "0.1.0".to_string(),
-                source: "workspace".to_string(),
-                is_workspace_member: true,
-                is_direct_dependency: true,
-                features: HashSet::new(),
-                categories: vec![],
-                properties: HashMap::new(),
-            },
-            DependencyNode {
-                id: "crate:serde".to_string(),
-                crate_name: "serde".to_string(),
-                version: "1.0.0".to_string(),
-                source: "crates.io".to_string(),
-                is_workspace_member: false,
-                is_direct_dependency: false,
-                features: HashSet::new(),
-                categories: vec![],
-                properties: HashMap::new(),
-            },
-        ];
+    fn test_process_layer2_builds_workspace_member() {
+        let workspace_dir = tempdir().unwrap();
+        let output_dir = tempdir().unwrap();
+        let home_dir = tempdir().unwrap();
 
-        let external: Vec<_> = nodes.iter().filter(|n| !n.is_workspace_member).collect();
-        let workspace: Vec<_> = nodes.iter().filter(|n| n.is_workspace_member).collect();
+        let crate_dir = workspace_dir.path().join("app");
+        fs::create_dir_all(crate_dir.join("src")).unwrap();
+        fs::write(
+            crate_dir.join("Cargo.toml"),
+            r#"[package]
+name = "app"
+version = "0.1.0"
+edition = "2021"
+"#,
+        )
+        .unwrap();
+        fs::write(crate_dir.join("src/lib.rs"), "pub fn app() -> u32 { 1 }\n").unwrap();
 
-        assert_eq!(external.len(), 1);
-        assert_eq!(workspace.len(), 1);
-        assert_eq!(external[0].crate_name, "serde");
-        assert_eq!(workspace[0].crate_name, "app");
+        let node = dependency_node("workspace:app", "app", "workspace", true);
+        let graph = make_graph(
+            workspace_dir.path().to_path_buf(),
+            vec![node],
+            vec!["workspace:app".to_string()],
+            Vec::new(),
+        );
+
+        let processor = LayerProcessor::new(
+            graph,
+            workspace_dir.path().to_path_buf(),
+            output_dir.path().to_path_buf(),
+            PathBuf::from("git"),
+            home_dir.path().to_path_buf(),
+        );
+
+        processor.process_layer2().unwrap();
+
+        assert!(output_dir.path().join("layer2/app/flake.nix").exists());
     }
 }

@@ -15,7 +15,7 @@
 
 use anyhow::{Context, Result};
 use std::fs;
-use std::path::{Path, PathBuf};
+use std::path::Path;
 
 use crate::crate_flake::{FlakeSource, FlakeStyle};
 
@@ -748,6 +748,11 @@ pub fn generate_multi_lang_flake(
         }
         crate::lang_detect::Language::Java => {
             generate_java_flake(project_dir, output_dir, style, source)
+        }
+        crate::lang_detect::Language::Lean4 => {
+            // Lean 4 projects use a custom flake with lake2nix
+            eprintln!("[warn] Lean4 flake generation not yet implemented, falling back to Rust");
+            crate::crate_flake::generate_flake(project_dir, output_dir, None, style, None, source.clone(), nora)
         }
         crate::lang_detect::Language::Unknown => {
             // Fallback to Rust (default behavior)

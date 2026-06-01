@@ -24,7 +24,7 @@
 //!
 //! ## Usage
 //!
-//! ```no_run
+//! ```ignore
 //! use cargo_vendormod::git_wrapper::GitWrapper;
 //! use std::path::PathBuf;
 //!

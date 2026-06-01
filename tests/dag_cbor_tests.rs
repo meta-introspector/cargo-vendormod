@@ -64,7 +64,10 @@ mod tests {
         let report = check_flake_coverage(&flakes_dir);
         assert!(report.is_ok());
         let cov = report.unwrap();
-        assert!(cov.total_targets >= 0);
+        assert_eq!(cov.summary.total, target_projects().len());
+        assert_eq!(cov.summary.complete, 0);
+        assert_eq!(cov.summary.partial, 0);
+        assert_eq!(cov.summary.missing, cov.summary.total);
     }
 
     #[test]
@@ -81,7 +84,8 @@ mod tests {
     #[test]
     fn test_cbor_lib_projects_have_correct_source_prefix() {
         let projects = target_projects();
-        let cbor: Vec<_> = projects.iter()
+        let cbor: Vec<_> = projects
+            .iter()
             .filter(|p| p.category == ProjectCategory::CborLib)
             .collect();
 

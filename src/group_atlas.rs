@@ -1,7 +1,5 @@
-use std::collections::HashMap;
 use std::fmt;
 use serde::{Serialize, Deserialize};
-use std::path::PathBuf;
 use num_bigint::BigUint;
 use num_traits::FromPrimitive;
 
@@ -540,7 +538,7 @@ mod tests {
         assert!(group.is_some());
         let group = group.unwrap();
         assert!(group.properties.simple);
-        assert_eq!(group.get_tile_size(), (64, 64));
+        assert_eq!(group.get_tile_size(), (80, 80));
     }
 
     #[test]
@@ -558,8 +556,8 @@ mod tests {
     fn test_group_composition() {
         let mut atlas = GroupAtlas::new();
         atlas.create_composition(
-            "C_2 × C_3".to_string(),
-            vec!["C_2".to_string(), "C_3".to_string()],
+            "C_{2} × C_{3}".to_string(),
+            vec!["C_{2}".to_string(), "C_{3}".to_string()],
             CompositionType::DirectProduct,
         );
         

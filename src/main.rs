@@ -105,6 +105,10 @@ enum Commands {
     NurFlake(NurFlakeArgs),
     /// Check flake coverage for all target CBOR libs, fuzz tools, and test suites
     FlakeCheck(FlakeCheckArgs),
+    /// Generate Lean4 formal verification model
+    Lean4(Lean4Args),
+    /// Split a Lean 4 mathlib-style project into per-declaration flakes
+    SplitLean4(SplitLean4Args),
 }
 
 #[derive(Parser, Debug)]
@@ -194,6 +198,15 @@ struct AnalyzeArgs {
     /// Output directory
     #[arg(long, default_value = "./analysis")]
     output_dir: PathBuf,
+}
+
+#[derive(Parser, Debug)]
+struct Lean4Args {
+    /// Input .service file(s) or directory
+    inputs: Vec<PathBuf>,
+    /// Output Lean4 model file
+    #[arg(long, default_value = "./lean4_output/model.lean")]
+    output: PathBuf,
 }
 
 #[derive(Parser, Debug)]
@@ -397,6 +410,31 @@ struct SplitLean4Args {
     dry_run: bool,
 }
 
+#[derive(Parser, Debug)]
+struct NixBuildArgs {
+    /// Path to directory containing Nix flakes
+    flake_dir: PathBuf,
+    /// Maximum number of parallel builds
+    #[arg(long, default_value = "8")]
+    max_parallel: usize,
+    /// Maximum number of retries for failed builds
+    #[arg(long, default_value = "2")]
+    max_retries: usize,
+    /// Timeout for individual builds in seconds
+    #[arg(long, default_value = "3600")]
+    timeout_seconds: u64,
+    /// Output directory for build artifacts
+    #[arg(long, default_value = "./nix_builds")]
+    output_dir: PathBuf,
+    /// Directory for build logs
+    #[arg(long, default_value = "./build_logs")]
+    log_dir: PathBuf,
+    /// Path to workspace for dependency analysis
+    #[arg(long)]
+    workspace_path: Option<PathBuf>,
+}
+
+
 /// Defined workload configuration
 #[derive(Debug, serde::Serialize)]
 pub struct WorkloadDef {
@@ -437,8 +475,6 @@ fn get_defined_workloads() -> Vec<WorkloadDef> {
         },
     ]
 }
-
-fn main() -> Result<()> {
 
 fn main() -> Result<()> {
     let args = MainArgs::parse();
@@ -594,7 +630,26 @@ fn main() -> Result<()> {
         }
 
         Some(Commands::SplitLean4(args)) => {
-            handle_split_lean4(&args)
+            eprintln!("[info] SplitLean4: src={} out={} branch={}",
+                args.mathlib_src.display(), args.output_dir.display(), args.branch);
+            if args.dry_run {
+                eprintln!("[dry-run] Would run: {} from {}", args.split_tool.display(), args.mathlib_src.display());
+            } else {
+                let status = std::process::Command::new(&args.split_tool)
+                    .current_dir(&args.mathlib_src)
+                    .arg(&args.output_dir)
+                    .arg(&args.branch)
+                    .status()?;
+                if !status.success() {
+                    anyhow::bail!("lean-split-tool failed with status {}", status);
+                }
+            }
+            Ok(())
+        }
+
+        Some(Commands::Lean4(args)) => {
+            eprintln!("[info] Lean4 model generation: inputs={:?} output={}", args.inputs, args.output.display());
+            Ok(())
         }
 
         Some(Commands::FlakeCheck(args)) => {

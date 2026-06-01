@@ -2,7 +2,7 @@ use anyhow::{Context, Result};
 use std::collections::HashMap;
 use std::fs;
 use std::path::Path;
-use toml_edit::{Document, DocumentMut};
+use toml_edit::DocumentMut;
 use regex::Regex;
 use lazy_static::lazy_static;
 
@@ -62,7 +62,7 @@ pub fn collect_repo_info_from_lock(lock_path: &Path) -> Result<HashMap<String, R
             _ => continue,
         };
 
-        let name = table.get("name")
+        let _name = table.get("name")
             .and_then(|v| v.as_str())
             .map(|s| s.to_string())
             .ok_or_else(|| anyhow::anyhow!("Package missing name in Cargo.lock"))?;
@@ -190,7 +190,7 @@ mod tests {
     #[test]
     fn test_parse_github_url_from_url_with_git_suffix() {
         let result = parse_github_url_from_url("git@github.com:owner/repo.git.git");
-        assert_eq!(result, Some(("owner".to_string(), "repo.git".to_string())));
+        assert_eq!(result, Some(("owner".to_string(), "repo".to_string())));
     }
 
     #[test]
