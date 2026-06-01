@@ -1,0 +1,1604 @@
+warning: updating lock file "/mnt/data1/nix/vendor/rust/cargo2nix/submodules/cargo-clean/tools/cargo-vendormod/flake.lock":
+• Added input 'crate2nix':
+    'path:/tmp/flake-local/crate2nix?lastModified=1779937780&narHash=sha256-YeCF4iBhlvTqkn4mihjZgixnDcEVgfyQlNeBsbLYUgQ%3D' (2026-05-28)
+• Added input 'crate2nix/cachix':
+    'github:cachix/cachix/894c649f0daaa38bbcfb21de64be47dfa7cd0ec9?narHash=sha256-WaTs0t1CxhgxbIuvQ97OFhDTVUGd1HA%2BKzLZUZBhe0s%3D' (2026-01-06)
+• Added input 'crate2nix/cachix/devenv':
+    follows 'crate2nix'
+• Added input 'crate2nix/cachix/flake-compat':
+    follows 'crate2nix'
+• Added input 'crate2nix/cachix/git-hooks':
+    'github:cachix/git-hooks.nix/2d6f58930fbcd82f6f9fd59fb6d13e37684ca529?narHash=sha256-%2BZDU2d%2BvzWkEJiqprvV5PR26DVFN2vgddwG5SnPZcUM%3D' (2025-12-10)
+• Added input 'crate2nix/cachix/git-hooks/flake-compat':
+    follows 'crate2nix/cachix/flake-compat'
+• Added input 'crate2nix/cachix/git-hooks/gitignore':
+    'github:hercules-ci/gitignore.nix/637db329424fd7e46cf4185293b9cc8c88c95394?narHash=sha256-HG2cCnktfHsKV0s4XW83gU3F57gaTljL9KNSuG6bnQs%3D' (2024-02-28)
+• Added input 'crate2nix/cachix/git-hooks/gitignore/nixpkgs':
+    follows 'crate2nix/cachix/git-hooks/nixpkgs'
+• Added input 'crate2nix/cachix/git-hooks/nixpkgs':
+    follows 'crate2nix/cachix/nixpkgs'
+• Added input 'crate2nix/cachix/nixpkgs':
+    'github:NixOS/nixpkgs/addf7cf5f383a3101ecfba091b98d0a1263dc9b8?narHash=sha256-hM20uyap1a0M9d344I692r%2Bik4gTMyj60cQWO%2BhAYP8%3D' (2025-12-08)
+• Added input 'crate2nix/devshell':
+    'github:numtide/devshell/255a2b1725a20d060f566e4755dbf571bbbb5f76?narHash=sha256-460jc0%2BCZfyaO8%2Bw8JNtlClB2n4ui1RbHfPTLkpwhU8%3D' (2026-01-19)
+• Added input 'crate2nix/devshell/nixpkgs':
+    follows 'crate2nix/nixpkgs'
+• Added input 'crate2nix/flake-compat':
+    'https://api.flakehub.com/f/pinned/edolstra/flake-compat/1.1.0/01948eb7-9cba-704f-bbf3-3fa956735b52/source.tar.gz?narHash=sha256-NeCCThCEP3eCl2l/%2B27kNNK7QrwZB1IJCrXfrbv5oqU%3D' (2024-12-04)
+• Added input 'crate2nix/flake-parts':
+    'github:hercules-ci/flake-parts/80daad04eddbbf5a4d883996a73f3f542fa437ac?narHash=sha256-PVvu7OqHBGWN16zSi6tEmPwwHQ4rLPU9Plvs8/1TUBY%3D' (2026-01-11)
+• Added input 'crate2nix/flake-parts/nixpkgs-lib':
+    follows 'crate2nix/nixpkgs'
+• Added input 'crate2nix/nix-test-runner':
+    'github:stoeffel/nix-test-runner/c45d45b11ecef3eb9d834c3b6304c05c49b06ca2?narHash=sha256-FKJykltAN/g3eIceJl4SfDnnyuH2jHImhMrXS2KvGIs%3D' (2020-05-06)
+• Added input 'crate2nix/nixpkgs':
+    follows 'nixpkgs'
+• Added input 'crate2nix/pre-commit-hooks':
+    'github:cachix/pre-commit-hooks.nix/a1ef738813b15cf8ec759bdff5761b027e3e1d23?narHash=sha256-Efs3VUPelRduf3PpfPP2ovEB4CXT7vHf8W%2Bxc49RL/U%3D' (2026-01-22)
+• Added input 'crate2nix/pre-commit-hooks/flake-compat':
+    follows 'crate2nix/flake-compat'
+• Added input 'crate2nix/pre-commit-hooks/gitignore':
+    'github:hercules-ci/gitignore.nix/637db329424fd7e46cf4185293b9cc8c88c95394?narHash=sha256-HG2cCnktfHsKV0s4XW83gU3F57gaTljL9KNSuG6bnQs%3D' (2024-02-28)
+• Added input 'crate2nix/pre-commit-hooks/gitignore/nixpkgs':
+    follows 'crate2nix/pre-commit-hooks/nixpkgs'
+• Added input 'crate2nix/pre-commit-hooks/nixpkgs':
+    follows 'crate2nix/nixpkgs'
+• Added input 'flake-utils':
+    'git+file:///mnt/data1/git/github.com/numtide/flake-utils.git?ref=main&rev=11707dc2f618dd54ca8739b309ec4fc024de578b' (2024-11-13)
+• Added input 'flake-utils/systems':
+    'github:nix-systems/default/da67096a3b9bf56a91d16901293e51ba5b49a27e?narHash=sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768%3D' (2023-04-09)
+• Added input 'nixpkgs':
+    'git+file:///mnt/data1/git/github.com/NixOS/nixpkgs.git?ref=master&rev=400de68cd101e8cfebffea121397683caf7f5a34' (2026-03-04)
+these 2 derivations will be built:
+  /nix/store/6f2xp71pim0bja989bxn8c4xvs86kkgh-cargo-vendormod-0.2.0.drv
+  /nix/store/5bjss3hfnridf56z7gszr6cyjhhmmy6j-process-dasl-index.drv
+building '/nix/store/6f2xp71pim0bja989bxn8c4xvs86kkgh-cargo-vendormod-0.2.0.drv'...
+cargo-vendormod> Running phase: unpackPhase
+cargo-vendormod> unpacking source archive /nix/store/kfy36ix3bz9gs0sr5pa0mhm7ba00k912-d9qlqd9wzk5kfk5zn6fdz12zpnxwl5gx-source
+cargo-vendormod> source root is d9qlqd9wzk5kfk5zn6fdz12zpnxwl5gx-source
+cargo-vendormod> Executing cargoSetupPostUnpackHook
+cargo-vendormod> Finished cargoSetupPostUnpackHook
+cargo-vendormod> Running phase: patchPhase
+cargo-vendormod> Executing cargoSetupPostPatchHook
+cargo-vendormod> Validating consistency between /build/d9qlqd9wzk5kfk5zn6fdz12zpnxwl5gx-source/Cargo.lock and /build/cargo-vendor-dir/Cargo.lock
+cargo-vendormod> Finished cargoSetupPostPatchHook
+cargo-vendormod> Running phase: updateAutotoolsGnuConfigScriptsPhase
+cargo-vendormod> Running phase: configurePhase
+cargo-vendormod> Running phase: buildPhase
+cargo-vendormod> Executing cargoBuildHook
+cargo-vendormod> cargoBuildHook flags: -j 24 --target x86_64-unknown-linux-gnu --offline --profile release
+cargo-vendormod> warning: unused manifest key: lib.num-bigint
+cargo-vendormod>    Compiling libc v0.2.186
+cargo-vendormod>    Compiling proc-macro2 v1.0.106
+cargo-vendormod>    Compiling quote v1.0.45
+cargo-vendormod>    Compiling unicode-ident v1.0.24
+cargo-vendormod>    Compiling serde_core v1.0.228
+cargo-vendormod>    Compiling find-msvc-tools v0.1.9
+cargo-vendormod>    Compiling shlex v1.3.0
+cargo-vendormod>    Compiling cfg-if v1.0.4
+cargo-vendormod>    Compiling stable_deref_trait v1.2.1
+cargo-vendormod>    Compiling serde v1.0.228
+cargo-vendormod>    Compiling pkg-config v0.3.33
+cargo-vendormod>    Compiling vcpkg v0.2.15
+cargo-vendormod>    Compiling memchr v2.8.0
+cargo-vendormod>    Compiling crossbeam-utils v0.8.21
+cargo-vendormod>    Compiling smallvec v1.15.1
+cargo-vendormod>    Compiling writeable v0.6.3
+cargo-vendormod>    Compiling litemap v0.8.2
+cargo-vendormod>    Compiling icu_normalizer_data v2.2.0
+cargo-vendormod>    Compiling icu_properties_data v2.2.0
+cargo-vendormod>    Compiling version_check v0.9.5
+cargo-vendormod>    Compiling utf8_iter v1.0.4
+cargo-vendormod>    Compiling ucd-trie v0.1.7
+cargo-vendormod>    Compiling once_cell v1.21.4
+cargo-vendormod>    Compiling autocfg v1.5.0
+cargo-vendormod>    Compiling signal-hook v0.3.18
+cargo-vendormod>    Compiling zerocopy v0.8.48
+cargo-vendormod>    Compiling zmij v1.0.21
+cargo-vendormod>    Compiling log v0.4.29
+cargo-vendormod>    Compiling hashbrown v0.17.0
+cargo-vendormod>    Compiling serde_json v1.0.149
+cargo-vendormod>    Compiling bitflags v1.3.2
+cargo-vendormod>    Compiling equivalent v1.0.2
+cargo-vendormod>    Compiling parking_lot_core v0.9.12
+cargo-vendormod>    Compiling utf8parse v0.2.2
+cargo-vendormod>    Compiling colorchoice v1.0.5
+cargo-vendormod>    Compiling camino v1.2.2
+cargo-vendormod>    Compiling anstyle v1.0.14
+cargo-vendormod>    Compiling thiserror v1.0.69
+cargo-vendormod>    Compiling scopeguard v1.2.0
+cargo-vendormod>    Compiling ahash v0.7.8
+cargo-vendormod>    Compiling anstyle-parse v1.0.0
+cargo-vendormod>    Compiling anstyle-query v1.1.5
+cargo-vendormod>    Compiling regex-syntax v0.8.10
+cargo-vendormod>    Compiling percent-encoding v2.3.2
+cargo-vendormod>    Compiling getrandom v0.4.2
+cargo-vendormod>    Compiling is_terminal_polyfill v1.70.2
+cargo-vendormod>    Compiling rayon-core v1.13.0
+cargo-vendormod>    Compiling num-traits v0.2.19
+cargo-vendormod>    Compiling dlv-list v0.3.0
+cargo-vendormod>    Compiling itoa v1.0.18
+cargo-vendormod>    Compiling form_urlencoded v1.2.2
+cargo-vendormod>    Compiling anstream v1.0.0
+cargo-vendormod>    Compiling lock_api v0.4.14
+cargo-vendormod>    Compiling heck v0.5.0
+cargo-vendormod>    Compiling linked-hash-map v0.5.6
+cargo-vendormod>    Compiling pest v2.8.6
+cargo-vendormod>    Compiling base64 v0.13.1
+cargo-vendormod>    Compiling aho-corasick v1.1.4
+cargo-vendormod>    Compiling strsim v0.11.1
+cargo-vendormod>    Compiling option-ext v0.2.0
+cargo-vendormod>    Compiling minimal-lexical v0.2.1
+cargo-vendormod>    Compiling toml_write v0.1.2
+cargo-vendormod>    Compiling clap_lex v1.1.0
+cargo-vendormod>    Compiling either v1.15.0
+cargo-vendormod>    Compiling same-file v1.0.6
+cargo-vendormod>    Compiling crossbeam-epoch v0.9.18
+cargo-vendormod>    Compiling crossbeam-channel v0.5.15
+cargo-vendormod>    Compiling anyhow v1.0.102
+cargo-vendormod>    Compiling winnow v0.7.15
+cargo-vendormod>    Compiling clap_builder v4.6.0
+cargo-vendormod>    Compiling walkdir v2.5.0
+cargo-vendormod>    Compiling crossbeam-queue v0.3.12
+cargo-vendormod>    Compiling yaml-rust v0.4.5
+cargo-vendormod>    Compiling termcolor v1.4.1
+cargo-vendormod>    Compiling indexmap v2.14.0
+cargo-vendormod>    Compiling nom v7.1.3
+cargo-vendormod>    Compiling arrayref v0.3.9
+cargo-vendormod>    Compiling pin-project-lite v0.2.17
+cargo-vendormod>    Compiling crossbeam-deque v0.8.6
+cargo-vendormod>    Compiling humantime v2.3.0
+cargo-vendormod>    Compiling syn v2.0.117
+cargo-vendormod>    Compiling cpufeatures v0.3.0
+cargo-vendormod>    Compiling openssl-probe v0.1.6
+cargo-vendormod>    Compiling bytes v1.11.1
+cargo-vendormod>    Compiling bitflags v2.11.1
+cargo-vendormod>    Compiling getrandom v0.2.17
+cargo-vendormod>    Compiling errno v0.3.14
+cargo-vendormod>    Compiling os_pipe v1.2.3
+cargo-vendormod>    Compiling signal-hook-registry v1.4.8
+cargo-vendormod>    Compiling rand_core v0.6.4
+cargo-vendormod>    Compiling inotify-sys v0.1.5
+cargo-vendormod>    Compiling jobserver v0.1.34
+cargo-vendormod>    Compiling inotify v0.9.6
+cargo-vendormod>    Compiling num-integer v0.1.46
+cargo-vendormod>    Compiling filetime v0.2.29
+cargo-vendormod>    Compiling mio v0.8.11
+cargo-vendormod>    Compiling hashbrown v0.12.3
+cargo-vendormod>    Compiling parking_lot v0.12.5
+cargo-vendormod>    Compiling is-terminal v0.4.17
+cargo-vendormod>    Compiling mio v1.2.0
+cargo-vendormod>    Compiling cc v1.2.61
+cargo-vendormod>    Compiling sigchld v0.2.4
+cargo-vendormod>    Compiling dirs-sys v0.4.1
+cargo-vendormod>    Compiling socket2 v0.6.3
+cargo-vendormod>    Compiling shared_child v1.1.1
+cargo-vendormod>    Compiling lazy_static v1.5.0
+cargo-vendormod>    Compiling constant_time_eq v0.4.2
+cargo-vendormod>    Compiling pest_meta v2.8.6
+cargo-vendormod>    Compiling fixedbitset v0.4.2
+cargo-vendormod>    Compiling pathdiff v0.2.3
+cargo-vendormod>    Compiling iana-time-zone v0.1.65
+cargo-vendormod>    Compiling arrayvec v0.7.6
+cargo-vendormod>    Compiling numtoa v0.1.0
+cargo-vendormod>    Compiling duct v0.13.7
+cargo-vendormod>    Compiling dirs v5.0.1
+cargo-vendormod>    Compiling rayon v1.12.0
+cargo-vendormod>    Compiling ordered-multimap v0.4.3
+cargo-vendormod>    Compiling notify v6.1.1
+cargo-vendormod>    Compiling num_cpus v1.17.0
+cargo-vendormod>    Compiling crossbeam v0.8.4
+cargo-vendormod>    Compiling termion v2.0.3
+cargo-vendormod>    Compiling petgraph v0.6.5
+cargo-vendormod>    Compiling itertools v0.12.1
+cargo-vendormod>    Compiling glob v0.3.3
+cargo-vendormod>    Compiling path-clean v0.1.0
+cargo-vendormod>    Compiling rust-ini v0.18.0
+cargo-vendormod>    Compiling regex-automata v0.4.14
+cargo-vendormod>    Compiling openssl-src v300.6.0+3.6.2
+cargo-vendormod>    Compiling semver v1.0.28
+cargo-vendormod>    Compiling uuid v1.23.1
+cargo-vendormod>    Compiling openssl-sys v0.9.116
+cargo-vendormod>    Compiling libz-sys v1.1.28
+cargo-vendormod>    Compiling libssh2-sys v0.3.1
+cargo-vendormod>    Compiling libgit2-sys v0.16.2+1.7.2
+cargo-vendormod>    Compiling blake3 v1.8.5
+cargo-vendormod>    Compiling synstructure v0.13.2
+cargo-vendormod>    Compiling pest_generator v2.8.6
+cargo-vendormod>    Compiling ppv-lite86 v0.2.21
+cargo-vendormod>    Compiling regex v1.12.3
+cargo-vendormod>    Compiling zerofrom-derive v0.1.7
+cargo-vendormod>    Compiling yoke-derive v0.8.2
+cargo-vendormod>    Compiling serde_derive v1.0.228
+cargo-vendormod>    Compiling zerovec-derive v0.11.3
+cargo-vendormod>    Compiling displaydoc v0.2.5
+cargo-vendormod>    Compiling thiserror-impl v1.0.69
+cargo-vendormod>    Compiling clap_derive v4.6.1
+cargo-vendormod>    Compiling async-trait v0.1.89
+cargo-vendormod>    Compiling tokio-macros v2.7.0
+cargo-vendormod>    Compiling rand_chacha v0.3.1
+cargo-vendormod>    Compiling env_logger v0.10.2
+cargo-vendormod>    Compiling rand v0.8.6
+cargo-vendormod>    Compiling pest_derive v2.8.6
+cargo-vendormod>    Compiling tokio v1.52.3
+cargo-vendormod>    Compiling zerofrom v0.1.8
+cargo-vendormod>    Compiling yoke v0.8.2
+cargo-vendormod>    Compiling zerovec v0.11.6
+cargo-vendormod>    Compiling zerotrie v0.2.4
+cargo-vendormod>    Compiling clap v4.6.1
+cargo-vendormod>    Compiling tinystr v0.8.3
+cargo-vendormod>    Compiling potential_utf v0.1.5
+cargo-vendormod>    Compiling icu_collections v2.2.0
+cargo-vendormod>    Compiling icu_locale_core v2.2.0
+cargo-vendormod>    Compiling icu_provider v2.2.0
+cargo-vendormod>    Compiling serde_spanned v0.6.9
+cargo-vendormod>    Compiling toml_datetime v0.6.11
+cargo-vendormod>    Compiling toml v0.5.11
+cargo-vendormod>    Compiling ron v0.7.1
+cargo-vendormod>    Compiling json5 v0.4.1
+cargo-vendormod>    Compiling cargo-platform v0.1.9
+cargo-vendormod>    Compiling num-bigint v0.4.6
+cargo-vendormod>    Compiling chrono v0.4.44
+cargo-vendormod>    Compiling icu_properties v2.2.0
+cargo-vendormod>    Compiling icu_normalizer v2.2.0
+cargo-vendormod>    Compiling toml_edit v0.22.27
+cargo-vendormod>    Compiling cargo_metadata v0.18.1
+cargo-vendormod>    Compiling config v0.13.4
+cargo-vendormod>    Compiling idna_adapter v1.2.2
+cargo-vendormod>    Compiling idna v1.1.0
+cargo-vendormod>    Compiling url v2.5.8
+cargo-vendormod>    Compiling toml v0.8.23
+cargo-vendormod>    Compiling git2 v0.18.3
+cargo-vendormod>    Compiling cargo-vendormod v0.2.0 (/build/d9qlqd9wzk5kfk5zn6fdz12zpnxwl5gx-source)
+cargo-vendormod> warning: unused import: `ArgAction`
+cargo-vendormod>  --> src/context.rs:2:20
+cargo-vendormod>   |
+cargo-vendormod> 2 | use clap::{Parser, ArgAction};
+cargo-vendormod>   |                    ^^^^^^^^^
+cargo-vendormod>   |
+cargo-vendormod>   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `std::collections::HashMap`
+cargo-vendormod>  --> src/context.rs:3:5
+cargo-vendormod>   |
+cargo-vendormod> 3 | use std::collections::HashMap;
+cargo-vendormod>   |     ^^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `Path`
+cargo-vendormod>  --> src/context.rs:5:17
+cargo-vendormod>   |
+cargo-vendormod> 5 | use std::path::{Path, PathBuf};
+cargo-vendormod>   |                 ^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `std::process::Command`
+cargo-vendormod>  --> src/context.rs:6:5
+cargo-vendormod>   |
+cargo-vendormod> 6 | use std::process::Command;
+cargo-vendormod>   |     ^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused imports: `Document` and `Value`
+cargo-vendormod>  --> src/context.rs:7:17
+cargo-vendormod>   |
+cargo-vendormod> 7 | use toml_edit::{Document, DocumentMut, Value};
+cargo-vendormod>   |                 ^^^^^^^^               ^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `glob::glob`
+cargo-vendormod>  --> src/context.rs:8:5
+cargo-vendormod>   |
+cargo-vendormod> 8 | use glob::glob;
+cargo-vendormod>   |     ^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `lazy_static::lazy_static`
+cargo-vendormod>  --> src/context.rs:9:5
+cargo-vendormod>   |
+cargo-vendormod> 9 | use lazy_static::lazy_static;
+cargo-vendormod>   |     ^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `regex::Regex`
+cargo-vendormod>   --> src/context.rs:10:5
+cargo-vendormod>    |
+cargo-vendormod> 10 | use regex::Regex;
+cargo-vendormod>    |     ^^^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused imports: `error`, `info`, and `warn`
+cargo-vendormod>  --> src/layer_processor.rs:5:11
+cargo-vendormod>   |
+cargo-vendormod> 5 | use log::{info, error, warn};
+cargo-vendormod>   |           ^^^^  ^^^^^  ^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `Document`
+cargo-vendormod>  --> src/repo_collection.rs:5:17
+cargo-vendormod>   |
+cargo-vendormod> 5 | use toml_edit::{Document, DocumentMut};
+cargo-vendormod>   |                 ^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `Value`
+cargo-vendormod>  --> src/submodule_discovery.rs:5:30
+cargo-vendormod>   |
+cargo-vendormod> 5 | use toml_edit::{DocumentMut, Value};
+cargo-vendormod>   |                              ^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `Path`
+cargo-vendormod>  --> src/workspace.rs:2:17
+cargo-vendormod>   |
+cargo-vendormod> 2 | use std::path::{Path, PathBuf};
+cargo-vendormod>   |                 ^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused imports: `Document` and `Value`
+cargo-vendormod>  --> src/workspace.rs:5:17
+cargo-vendormod>   |
+cargo-vendormod> 5 | use toml_edit::{Document, DocumentMut, Value};
+cargo-vendormod>   |                 ^^^^^^^^               ^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `RepoIdentifier`
+cargo-vendormod>  --> src/workspace.rs:8:49
+cargo-vendormod>   |
+cargo-vendormod> 8 | use crate::repo_collection::{collect_repo_info, RepoIdentifier};
+cargo-vendormod>   |                                                 ^^^^^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `std::collections::HashSet`
+cargo-vendormod>   --> src/onboard.rs:10:5
+cargo-vendormod>    |
+cargo-vendormod> 10 | use std::collections::HashSet;
+cargo-vendormod>    |     ^^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `std::path::Path`
+cargo-vendormod>  --> src/patch.rs:3:5
+cargo-vendormod>   |
+cargo-vendormod> 3 | use std::path::Path;
+cargo-vendormod>   |     ^^^^^^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused imports: `Document` and `Value`
+cargo-vendormod>  --> src/patch.rs:4:17
+cargo-vendormod>   |
+cargo-vendormod> 4 | use toml_edit::{Document, DocumentMut, Value};
+cargo-vendormod>   |                 ^^^^^^^^               ^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `std::collections::HashMap`
+cargo-vendormod>  --> src/report_generator.rs:6:5
+cargo-vendormod>   |
+cargo-vendormod> 6 | use std::collections::HashMap;
+cargo-vendormod>   |     ^^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `BufReader`
+cargo-vendormod>  --> src/report_processing.rs:4:24
+cargo-vendormod>   |
+cargo-vendormod> 4 | use std::io::{BufRead, BufReader};
+cargo-vendormod>   |                        ^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `std::sync::Arc`
+cargo-vendormod>  --> src/process_all_crates.rs:5:5
+cargo-vendormod>   |
+cargo-vendormod> 5 | use std::sync::Arc;
+cargo-vendormod>   |     ^^^^^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `warn`
+cargo-vendormod>  --> src/process_all_crates.rs:7:24
+cargo-vendormod>   |
+cargo-vendormod> 7 | use log::{info, error, warn};
+cargo-vendormod>   |                        ^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `GlobalDependencyGraph`
+cargo-vendormod>   --> src/process_all_crates.rs:10:61
+cargo-vendormod>    |
+cargo-vendormod> 10 | use crate::global_dep_graph::{GlobalDependencyGraphBuilder, GlobalDependencyGraph};
+cargo-vendormod>    |                                                             ^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `Path`
+cargo-vendormod>  --> src/workload.rs:2:17
+cargo-vendormod>   |
+cargo-vendormod> 2 | use std::path::{Path, PathBuf};
+cargo-vendormod>   |                 ^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `Document`
+cargo-vendormod>  --> src/workload.rs:6:17
+cargo-vendormod>   |
+cargo-vendormod> 6 | use toml_edit::{Document, DocumentMut};
+cargo-vendormod>   |                 ^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `Document`
+cargo-vendormod>  --> src/zkperf_integration.rs:5:17
+cargo-vendormod>   |
+cargo-vendormod> 5 | use toml_edit::{Document, DocumentMut};
+cargo-vendormod>   |                 ^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused imports: `HashMap` and `HashSet`
+cargo-vendormod>   --> src/error_to_llm_pipeline.rs:56:24
+cargo-vendormod>    |
+cargo-vendormod> 56 | use std::collections::{HashMap, HashSet};
+cargo-vendormod>    |                        ^^^^^^^  ^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused imports: `BufRead` and `BufReader`
+cargo-vendormod>   --> src/error_to_llm_pipeline.rs:57:15
+cargo-vendormod>    |
+cargo-vendormod> 57 | use std::io::{BufRead, BufReader};
+cargo-vendormod>    |               ^^^^^^^  ^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `PathBuf`
+cargo-vendormod>   --> src/selinux_analyzer.rs:10:23
+cargo-vendormod>    |
+cargo-vendormod> 10 | use std::path::{Path, PathBuf};
+cargo-vendormod>    |                       ^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `std::process::Command`
+cargo-vendormod>   --> src/selinux_analyzer.rs:11:5
+cargo-vendormod>    |
+cargo-vendormod> 11 | use std::process::Command;
+cargo-vendormod>    |     ^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `std::collections::HashMap`
+cargo-vendormod>  --> src/group_atlas.rs:1:5
+cargo-vendormod>   |
+cargo-vendormod> 1 | use std::collections::HashMap;
+cargo-vendormod>   |     ^^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `std::path::PathBuf`
+cargo-vendormod>  --> src/group_atlas.rs:4:5
+cargo-vendormod>   |
+cargo-vendormod> 4 | use std::path::PathBuf;
+cargo-vendormod>   |     ^^^^^^^^^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: type `n` should have an upper camel case name
+cargo-vendormod>    --> src/group_atlas.rs:124:12
+cargo-vendormod>     |
+cargo-vendormod> 124 | pub struct n {
+cargo-vendormod>     |            ^ help: convert the identifier to upper camel case: `N`
+cargo-vendormod>     |
+cargo-vendormod>     = note: `#[warn(non_camel_case_types)]` (part of `#[warn(nonstandard_style)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `GroupFamily`
+cargo-vendormod>  --> src/visualization.rs:1:75
+cargo-vendormod>   |
+cargo-vendormod> 1 | use crate::group_atlas::{FiniteSimpleGroup, GroupAtlas, GroupComposition, GroupFamily};
+cargo-vendormod>   |                                                                           ^^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `std::fs`
+cargo-vendormod>  --> src/pastbin_atlas.rs:3:5
+cargo-vendormod>   |
+cargo-vendormod> 3 | use std::fs;
+cargo-vendormod>   |     ^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `std::path::Path`
+cargo-vendormod>  --> src/pastbin_atlas.rs:4:5
+cargo-vendormod>   |
+cargo-vendormod> 4 | use std::path::Path;
+cargo-vendormod>   |     ^^^^^^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `std::collections::HashMap`
+cargo-vendormod>   --> src/coverage.rs:13:5
+cargo-vendormod>    |
+cargo-vendormod> 13 | use std::collections::HashMap;
+cargo-vendormod>    |     ^^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `PathBuf`
+cargo-vendormod>  --> src/vendoring_cmds.rs:5:23
+cargo-vendormod>   |
+cargo-vendormod> 5 | use std::path::{Path, PathBuf};
+cargo-vendormod>   |                       ^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `Path`
+cargo-vendormod>   --> src/nur_flake.rs:14:17
+cargo-vendormod>    |
+cargo-vendormod> 14 | use std::path::{Path, PathBuf};
+cargo-vendormod>    |                 ^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `Context`
+cargo-vendormod>  --> src/flake_check.rs:7:14
+cargo-vendormod>   |
+cargo-vendormod> 7 | use anyhow::{Context, Result};
+cargo-vendormod>   |              ^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `PathBuf`
+cargo-vendormod>   --> src/multi_lang_flake.rs:17:23
+cargo-vendormod>    |
+cargo-vendormod> 17 | use std::path::{Path, PathBuf};
+cargo-vendormod>    |                       ^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `std::collections::BTreeMap`
+cargo-vendormod>   --> src/dasl_pipeline.rs:33:5
+cargo-vendormod>    |
+cargo-vendormod> 33 | use std::collections::BTreeMap;
+cargo-vendormod>    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: use of deprecated type alias `toml_edit::Document`: Replaced with `DocumentMut`
+cargo-vendormod>  --> src/context.rs:7:17
+cargo-vendormod>   |
+cargo-vendormod> 7 | use toml_edit::{Document, DocumentMut, Value};
+cargo-vendormod>   |                 ^^^^^^^^
+cargo-vendormod>   |
+cargo-vendormod>   = note: `#[warn(deprecated)]` on by default
+cargo-vendormod> 
+cargo-vendormod> warning: use of deprecated type alias `toml_edit::Document`: Replaced with `DocumentMut`
+cargo-vendormod>    --> src/global_dep_graph.rs:384:46
+cargo-vendormod>     |
+cargo-vendormod> 384 |         let doc = content.parse::<toml_edit::Document>()
+cargo-vendormod>     |                                              ^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: use of deprecated type alias `toml_edit::Document`: Replaced with `DocumentMut`
+cargo-vendormod>    --> src/global_dep_graph.rs:424:50
+cargo-vendormod>     |
+cargo-vendormod> 424 |             let doc = content.parse::<toml_edit::Document>()?;
+cargo-vendormod>     |                                                  ^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: use of deprecated type alias `toml_edit::Document`: Replaced with `DocumentMut`
+cargo-vendormod>    --> src/global_dep_graph.rs:440:46
+cargo-vendormod>     |
+cargo-vendormod> 440 |         let doc = content.parse::<toml_edit::Document>()
+cargo-vendormod>     |                                              ^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: use of deprecated type alias `toml_edit::Document`: Replaced with `DocumentMut`
+cargo-vendormod>  --> src/repo_collection.rs:5:17
+cargo-vendormod>   |
+cargo-vendormod> 5 | use toml_edit::{Document, DocumentMut};
+cargo-vendormod>   |                 ^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: use of deprecated type alias `toml_edit::Document`: Replaced with `DocumentMut`
+cargo-vendormod>  --> src/workspace.rs:5:17
+cargo-vendormod>   |
+cargo-vendormod> 5 | use toml_edit::{Document, DocumentMut, Value};
+cargo-vendormod>   |                 ^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: use of deprecated type alias `toml_edit::Document`: Replaced with `DocumentMut`
+cargo-vendormod>  --> src/patch.rs:4:17
+cargo-vendormod>   |
+cargo-vendormod> 4 | use toml_edit::{Document, DocumentMut, Value};
+cargo-vendormod>   |                 ^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: use of deprecated type alias `toml_edit::Document`: Replaced with `DocumentMut`
+cargo-vendormod>  --> src/workload.rs:6:17
+cargo-vendormod>   |
+cargo-vendormod> 6 | use toml_edit::{Document, DocumentMut};
+cargo-vendormod>   |                 ^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: use of deprecated type alias `toml_edit::Document`: Replaced with `DocumentMut`
+cargo-vendormod>  --> src/zkperf_integration.rs:5:17
+cargo-vendormod>   |
+cargo-vendormod> 5 | use toml_edit::{Document, DocumentMut};
+cargo-vendormod>   |                 ^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `Parser`
+cargo-vendormod>  --> src/context.rs:2:12
+cargo-vendormod>   |
+cargo-vendormod> 2 | use clap::{Parser, ArgAction};
+cargo-vendormod>   |            ^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `BufRead`
+cargo-vendormod>  --> src/report_processing.rs:4:15
+cargo-vendormod>   |
+cargo-vendormod> 4 | use std::io::{BufRead, BufReader};
+cargo-vendormod>   |               ^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused variable: `get_path`
+cargo-vendormod>    --> src/context.rs:144:13
+cargo-vendormod>     |
+cargo-vendormod> 144 |         let get_path = |table: Option<&toml_edit::Table>, key: &str| -> Option<PathBuf> {
+cargo-vendormod>     |             ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_get_path`
+cargo-vendormod>     |
+cargo-vendormod>     = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: unused variable: `ctx`
+cargo-vendormod>    --> src/vendoring.rs:358:58
+cargo-vendormod>     |
+cargo-vendormod> 358 | fn apply_zkperf_annotations(repo_path: &std::path::Path, ctx: &AppContext) -> Result<()> {
+cargo-vendormod>     |                                                          ^^^ help: if this is intentional, prefix it with an underscore: `_ctx`
+cargo-vendormod> 
+cargo-vendormod> warning: unused variable: `is_external`
+cargo-vendormod>    --> src/layer_processor.rs:570:52
+cargo-vendormod>     |
+cargo-vendormod> 570 |     fn compile_standalone(&self, repo_path: &Path, is_external: bool) -> Result<()> {
+cargo-vendormod>     |                                                    ^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_is_external`
+cargo-vendormod> 
+cargo-vendormod> warning: unused variable: `stdout`
+cargo-vendormod>    --> src/workflow.rs:174:13
+cargo-vendormod>     |
+cargo-vendormod> 174 |         let stdout = String::from_utf8_lossy(&output.stdout);
+cargo-vendormod>     |             ^^^^^^ help: if this is intentional, prefix it with an underscore: `_stdout`
+cargo-vendormod> 
+cargo-vendormod> warning: unused variable: `name`
+cargo-vendormod>   --> src/repo_collection.rs:65:13
+cargo-vendormod>    |
+cargo-vendormod> 65 |         let name = table.get("name")
+cargo-vendormod>    |             ^^^^ help: if this is intentional, prefix it with an underscore: `_name`
+cargo-vendormod> 
+cargo-vendormod> warning: unused variable: `recursive`
+cargo-vendormod>    --> src/workspace.rs:111:61
+cargo-vendormod>     |
+cargo-vendormod> 111 | pub fn find_workspace_cargo_files(workspace_path: &PathBuf, recursive: bool) -> Result<Vec<PathBuf>> {
+cargo-vendormod>     |                                                             ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_recursive`
+cargo-vendormod> 
+cargo-vendormod> warning: unused variable: `git_exe`
+cargo-vendormod>    --> src/workload.rs:335:65
+cargo-vendormod>     |
+cargo-vendormod> 335 | fn apply_zkperf_annotations_with_integrator(fork_dir: &PathBuf, git_exe: &PathBuf) -> Result<()> {
+cargo-vendormod>     |                                                                 ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_git_exe`
+cargo-vendormod> 
+cargo-vendormod> warning: variable does not need to be mutable
+cargo-vendormod>   --> src/fix_cargo_toml.rs:82:13
+cargo-vendormod>    |
+cargo-vendormod> 82 |         let mut doc = content.parse::<DocumentMut>()?;
+cargo-vendormod>    |             ----^^^
+cargo-vendormod>    |             |
+cargo-vendormod>    |             help: remove this `mut`
+cargo-vendormod>    |
+cargo-vendormod>    = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: unused variable: `ts_gap`
+cargo-vendormod>    --> src/trace_compactor.rs:142:13
+cargo-vendormod>     |
+cargo-vendormod> 142 |         let ts_gap = annotation.timestamp
+cargo-vendormod>     |             ^^^^^^ help: if this is intentional, prefix it with an underscore: `_ts_gap`
+cargo-vendormod> 
+cargo-vendormod> warning: unused variable: `matrix`
+cargo-vendormod>    --> src/trace_compactor.rs:186:13
+cargo-vendormod>     |
+cargo-vendormod> 186 |         let matrix = matrix_row(row.step, period, ts_gap, row.pid, row.tid, &row.cpu_mode);
+cargo-vendormod>     |             ^^^^^^ help: if this is intentional, prefix it with an underscore: `_matrix`
+cargo-vendormod> 
+cargo-vendormod> warning: unused variable: `svg`
+cargo-vendormod>    --> src/visualization.rs:194:38
+cargo-vendormod>     |
+cargo-vendormod> 194 |     fn render_connections_svg(&self, svg: &mut String) {
+cargo-vendormod>     |                                      ^^^ help: if this is intentional, prefix it with an underscore: `_svg`
+cargo-vendormod> 
+cargo-vendormod> warning: unused variable: `atlas`
+cargo-vendormod>    --> src/visualization.rs:200:50
+cargo-vendormod>     |
+cargo-vendormod> 200 |     pub fn generate_hierarchical_view(&mut self, atlas: &GroupAtlas) -> String {
+cargo-vendormod>     |                                                  ^^^^^ help: if this is intentional, prefix it with an underscore: `_atlas`
+cargo-vendormod> 
+cargo-vendormod> warning: unused variable: `atlas`
+cargo-vendormod>    --> src/visualization.rs:287:38
+cargo-vendormod>     |
+cargo-vendormod> 287 |     fn count_groups_by_family(&self, atlas: &GroupAtlas) -> HashMap<String, usize> {
+cargo-vendormod>     |                                      ^^^^^ help: if this is intentional, prefix it with an underscore: `_atlas`
+cargo-vendormod> 
+cargo-vendormod> warning: unused variable: `atlas`
+cargo-vendormod>    --> src/visualization.rs:360:40
+cargo-vendormod>     |
+cargo-vendormod> 360 |     fn generate_group_info_html(&self, atlas: &GroupAtlas) -> String {
+cargo-vendormod>     |                                        ^^^^^ help: if this is intentional, prefix it with an underscore: `_atlas`
+cargo-vendormod> 
+cargo-vendormod> warning: constant `DEFAULT_MANIFEST_PATH` is never used
+cargo-vendormod>   --> src/context.rs:35:7
+cargo-vendormod>    |
+cargo-vendormod> 35 | const DEFAULT_MANIFEST_PATH: &str = "/mnt/data1/nix/vendor/rust/cargo2nix/CargoRepSyncCargo.toml";
+cargo-vendormod>    |       ^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod>    |
+cargo-vendormod>    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: struct `VendormodConfig` is never constructed
+cargo-vendormod>   --> src/context.rs:38:8
+cargo-vendormod>    |
+cargo-vendormod> 38 | struct VendormodConfig {
+cargo-vendormod>    |        ^^^^^^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: field `cargo_tools` is never read
+cargo-vendormod>    --> src/global_dep_graph.rs:249:5
+cargo-vendormod>     |
+cargo-vendormod> 245 | pub struct GlobalDependencyGraphBuilder {
+cargo-vendormod>     |            ---------------------------- field in this struct
+cargo-vendormod> ...
+cargo-vendormod> 249 |     cargo_tools: Option<CargoToolDiscovery>,
+cargo-vendormod>     |     ^^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: methods `process_rust_repository`, `process_non_rust_repository`, and `add_package_dependencies` are never used
+cargo-vendormod>    --> src/global_dep_graph.rs:436:8
+cargo-vendormod>     |
+cargo-vendormod> 256 | impl GlobalDependencyGraphBuilder {
+cargo-vendormod>     | --------------------------------- methods in this implementation
+cargo-vendormod> ...
+cargo-vendormod> 436 |     fn process_rust_repository(&mut self, repo_path: &Path, cargo_toml: &Path) -> Result<()> {
+cargo-vendormod>     |        ^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod> ...
+cargo-vendormod> 490 |     fn process_non_rust_repository(&mut self, repo_path: &Path) -> Result<()> {
+cargo-vendormod>     |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod> ...
+cargo-vendormod> 989 |     fn add_package_dependencies(&mut self, package: &Package, parent_node_id: &str) -> Result<()> {
+cargo-vendormod>     |        ^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: function `parse_github_url_from_url` is never used
+cargo-vendormod>    --> src/repo_collection.rs:122:4
+cargo-vendormod>     |
+cargo-vendormod> 122 | fn parse_github_url_from_url(url: &str) -> Option<(String, String)> {
+cargo-vendormod>     |    ^^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: field `output_dir` is never read
+cargo-vendormod>   --> src/report_generator.rs:80:5
+cargo-vendormod>    |
+cargo-vendormod> 78 | pub struct ReportGenerator {
+cargo-vendormod>    |            --------------- field in this struct
+cargo-vendormod> 79 |     workspace_path: PathBuf,
+cargo-vendormod> 80 |     output_dir: PathBuf,
+cargo-vendormod>    |     ^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: function `check_submodule_integration` is never used
+cargo-vendormod>    --> src/report_processing.rs:188:4
+cargo-vendormod>     |
+cargo-vendormod> 188 | fn check_submodule_integration(output_base: &Path) -> Result<SubmoduleUsage> {
+cargo-vendormod>     |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: function `count_files_recursively` is never used
+cargo-vendormod>    --> src/report_processing.rs:215:4
+cargo-vendormod>     |
+cargo-vendormod> 215 | fn count_files_recursively(base: &Path, filename: &str) -> Result<usize> {
+cargo-vendormod>     |    ^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: function `find_files_recursively` is never used
+cargo-vendormod>    --> src/report_processing.rs:236:4
+cargo-vendormod>     |
+cargo-vendormod> 236 | fn find_files_recursively(base: &Path, pattern: &str) -> Result<Vec<PathBuf>> {
+cargo-vendormod>     |    ^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: field `github_token` is never read
+cargo-vendormod>   --> src/cargo_tool_discovery.rs:70:5
+cargo-vendormod>    |
+cargo-vendormod> 68 | pub struct CargoToolDiscovery {
+cargo-vendormod>    |            ------------------ field in this struct
+cargo-vendormod> 69 |     // client: Client,
+cargo-vendormod> 70 |     github_token: Option<String>,
+cargo-vendormod>    |     ^^^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: constant `REGISTER_LABELS` is never used
+cargo-vendormod>   --> src/trace_compactor.rs:12:7
+cargo-vendormod>    |
+cargo-vendormod> 12 | const REGISTER_LABELS: [&str; 6] = [
+cargo-vendormod>    |       ^^^^^^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: function `as_int` is never used
+cargo-vendormod>   --> src/trace_compactor.rs:91:4
+cargo-vendormod>    |
+cargo-vendormod> 91 | fn as_int(value: serde_json::Value) -> i64 {
+cargo-vendormod>    |    ^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: method `add_connection` is never used
+cargo-vendormod>    --> src/visualization.rs:108:8
+cargo-vendormod>     |
+cargo-vendormod>  39 | impl AtlasRenderer {
+cargo-vendormod>     | ------------------ method in this implementation
+cargo-vendormod> ...
+cargo-vendormod> 108 |     fn add_connection(&self, from: &GroupTile, to: &GroupTile) {
+cargo-vendormod>     |        ^^^^^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: fields `file`, `type`, and `submodules` are never read
+cargo-vendormod>   --> src/nur_flake.rs:27:5
+cargo-vendormod>    |
+cargo-vendormod> 24 | struct RepoEntry {
+cargo-vendormod>    |        --------- fields in this struct
+cargo-vendormod> ...
+cargo-vendormod> 27 |     file: Option<String>,
+cargo-vendormod>    |     ^^^^
+cargo-vendormod> 28 |     #[serde(default)]
+cargo-vendormod> 29 |     r#type: Option<String>,
+cargo-vendormod>    |     ^^^^^^
+cargo-vendormod> 30 |     #[serde(default)]
+cargo-vendormod> 31 |     submodules: Option<bool>,
+cargo-vendormod>    |     ^^^^^^^^^^
+cargo-vendormod>    |
+cargo-vendormod>    = note: `RepoEntry` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+cargo-vendormod> 
+cargo-vendormod> warning: field `sha256` is never read
+cargo-vendormod>   --> src/nur_flake.rs:42:5
+cargo-vendormod>    |
+cargo-vendormod> 40 | struct LockEntry {
+cargo-vendormod>    |        --------- field in this struct
+cargo-vendormod> 41 |     rev: String,
+cargo-vendormod> 42 |     sha256: Option<String>,
+cargo-vendormod>    |     ^^^^^^
+cargo-vendormod>    |
+cargo-vendormod>    = note: `LockEntry` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+cargo-vendormod> 
+cargo-vendormod> warning: structure field `total_cargoTOMs` should have a snake case name
+cargo-vendormod>   --> src/workload_processor.rs:15:9
+cargo-vendormod>    |
+cargo-vendormod> 15 |     pub total_cargoTOMs: usize,
+cargo-vendormod>    |         ^^^^^^^^^^^^^^^ help: convert the identifier to snake case: `total_cargo_toms`
+cargo-vendormod>    |
+cargo-vendormod>    = note: `#[warn(non_snake_case)]` (part of `#[warn(nonstandard_style)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: structure field `cargoTOMs` should have a snake case name
+cargo-vendormod>   --> src/workload_processor.rs:24:9
+cargo-vendormod>    |
+cargo-vendormod> 24 |     pub cargoTOMs: usize,
+cargo-vendormod>    |         ^^^^^^^^^ help: convert the identifier to snake case: `cargo_toms`
+cargo-vendormod> 
+cargo-vendormod> warning: `cargo-vendormod` (lib) generated 83 warnings (run `cargo fix --lib -p cargo-vendormod` to apply 54 suggestions)
+cargo-vendormod> warning: unused import: `std::collections::HashMap`
+cargo-vendormod>  --> src/bin/atlas_composer.rs:2:5
+cargo-vendormod>   |
+cargo-vendormod> 2 | use std::collections::HashMap;
+cargo-vendormod>   |     ^^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod>   |
+cargo-vendormod>   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: unused variable: `public`
+cargo-vendormod>    --> src/bin/atlas_composer.rs:253:5
+cargo-vendormod>     |
+cargo-vendormod> 253 |     public: bool,
+cargo-vendormod>     |     ^^^^^^ help: if this is intentional, prefix it with an underscore: `_public`
+cargo-vendormod>     |
+cargo-vendormod>     = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: unused variable: `composer`
+cargo-vendormod>    --> src/bin/atlas_composer.rs:370:15
+cargo-vendormod>     |
+cargo-vendormod> 370 | fn share_view(composer: &mut AtlasViewComposer, view_id: &str, public: bool) -> Result<(), Box<dyn std::error::Error>> {
+cargo-vendormod>     |               ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_composer`
+cargo-vendormod> 
+cargo-vendormod> warning: unused variable: `composer`
+cargo-vendormod>    --> src/bin/atlas_composer.rs:378:16
+cargo-vendormod>     |
+cargo-vendormod> 378 | fn import_view(composer: &mut AtlasViewComposer, paste_id: &str) -> Result<(), Box<dyn std::error::Error>> {
+cargo-vendormod>     |                ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_composer`
+cargo-vendormod> 
+cargo-vendormod> warning: unused variable: `composer`
+cargo-vendormod>    --> src/bin/atlas_composer.rs:414:24
+cargo-vendormod>     |
+cargo-vendormod> 414 | fn browse_public_views(composer: &AtlasViewComposer, tag: Option<String>) -> Result<(), Box<dyn std::error::Error>> {
+cargo-vendormod>     |                        ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_composer`
+cargo-vendormod> 
+cargo-vendormod> warning: unused variable: `composer`
+cargo-vendormod>    --> src/bin/atlas_composer.rs:592:24
+cargo-vendormod>     |
+cargo-vendormod> 592 | fn load_existing_views(composer: &mut AtlasViewComposer, output_dir: &str) {
+cargo-vendormod>     |                        ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_composer`
+cargo-vendormod> 
+cargo-vendormod> warning: unused variable: `output_dir`
+cargo-vendormod>    --> src/bin/atlas_composer.rs:592:58
+cargo-vendormod>     |
+cargo-vendormod> 592 | fn load_existing_views(composer: &mut AtlasViewComposer, output_dir: &str) {
+cargo-vendormod>     |                                                          ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_output_dir`
+cargo-vendormod> 
+cargo-vendormod> warning: unused variable: `composer`
+cargo-vendormod>    --> src/bin/atlas_composer.rs:598:15
+cargo-vendormod>     |
+cargo-vendormod> 598 | fn save_views(composer: &AtlasViewComposer, output_dir: &str) {
+cargo-vendormod>     |               ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_composer`
+cargo-vendormod> 
+cargo-vendormod> warning: unused imports: `SystemTime` and `UNIX_EPOCH`
+cargo-vendormod>  --> src/bin/enhanced_repository_mathematical_atlas_with_zkperf.rs:3:17
+cargo-vendormod>   |
+cargo-vendormod> 3 | use std::time::{SystemTime, UNIX_EPOCH};
+cargo-vendormod>   |                 ^^^^^^^^^^  ^^^^^^^^^^
+cargo-vendormod>   |
+cargo-vendormod>   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: unused variable: `total_time`
+cargo-vendormod>   --> src/bin/workload_processor.rs:23:9
+cargo-vendormod>    |
+cargo-vendormod> 23 |     let total_time = start.elapsed();
+cargo-vendormod>    |         ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_total_time`
+cargo-vendormod>    |
+cargo-vendormod>    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `std::collections::HashMap`
+cargo-vendormod>  --> src/bin/benchmark_runner.rs:1:5
+cargo-vendormod>   |
+cargo-vendormod> 1 | use std::collections::HashMap;
+cargo-vendormod>   |     ^^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod>   |
+cargo-vendormod>   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `SixSigmaMetrics`
+cargo-vendormod>  --> src/bin/goal_tracker.rs:5:79
+cargo-vendormod>   |
+cargo-vendormod> 5 | use cargo_vendormod::goal_tracker::{Goal, GoalTracker, DmaicPhase, CrqStatus, SixSigmaMetrics};
+cargo-vendormod>   |                                                                               ^^^^^^^^^^^^^^^
+cargo-vendormod>   |
+cargo-vendormod>   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `std::path::PathBuf`
+cargo-vendormod>  --> src/bin/goal_tracker.rs:6:5
+cargo-vendormod>   |
+cargo-vendormod> 6 | use std::path::PathBuf;
+cargo-vendormod>   |     ^^^^^^^^^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `std::path::Path`
+cargo-vendormod>  --> src/bin/enhanced_repository_mathematical_atlas.rs:3:5
+cargo-vendormod>   |
+cargo-vendormod> 3 | use std::path::Path;
+cargo-vendormod>   |     ^^^^^^^^^^^^^^^
+cargo-vendormod>   |
+cargo-vendormod>   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `cargo_vendormod::args::Args`
+cargo-vendormod>  --> src/bin/vendoring.rs:7:5
+cargo-vendormod>   |
+cargo-vendormod> 7 | use cargo_vendormod::args::Args;
+cargo-vendormod>   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod>   |
+cargo-vendormod>   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `crossbeam::channel`
+cargo-vendormod>   --> src/bin/vendoring.rs:12:5
+cargo-vendormod>    |
+cargo-vendormod> 12 | use crossbeam::channel;
+cargo-vendormod>    |     ^^^^^^^^^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused imports: `clone_submodules_to_target` and `discover_submodules`
+cargo-vendormod>    --> src/bin/vendoring.rs:124:48
+cargo-vendormod>     |
+cargo-vendormod> 124 |     use cargo_vendormod::submodule_discovery::{discover_submodules, clone_submodules_to_target};
+cargo-vendormod>     |                                                ^^^^^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: fields `test_categories_passed` and `test_categories_failed` are never read
+cargo-vendormod>   --> src/bin/enhanced_repository_mathematical_atlas_with_zkperf.rs:12:5
+cargo-vendormod>    |
+cargo-vendormod>  6 | struct ZkperfMetrics {
+cargo-vendormod>    |        ------------- fields in this struct
+cargo-vendormod> ...
+cargo-vendormod> 12 |     test_categories_passed: usize,
+cargo-vendormod>    |     ^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod> 13 |     test_categories_failed: usize,
+cargo-vendormod>    |     ^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod>    |
+cargo-vendormod>    = note: `ZkperfMetrics` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+cargo-vendormod>    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: unused variable: `performance`
+cargo-vendormod>   --> src/bin/project_performance_coverage_tile.rs:44:13
+cargo-vendormod>    |
+cargo-vendormod> 44 |         let performance = self.performance_score;
+cargo-vendormod>    |             ^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_performance`
+cargo-vendormod>    |
+cargo-vendormod>    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: variable does not need to be mutable
+cargo-vendormod>    --> src/bin/integration_test_runner.rs:226:9
+cargo-vendormod>     |
+cargo-vendormod> 226 |     let mut total_complexity = 0.0;
+cargo-vendormod>     |         ----^^^^^^^^^^^^^^^^
+cargo-vendormod>     |         |
+cargo-vendormod>     |         help: remove this `mut`
+cargo-vendormod>     |
+cargo-vendormod>     = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: unused variable: `total_complexity`
+cargo-vendormod>    --> src/bin/integration_test_runner.rs:226:9
+cargo-vendormod>     |
+cargo-vendormod> 226 |     let mut total_complexity = 0.0;
+cargo-vendormod>     |         ^^^^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_total_complexity`
+cargo-vendormod>     |
+cargo-vendormod>     = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: unused variable: `output_backup`
+cargo-vendormod>    --> src/bin/integration_test_runner.rs:286:9
+cargo-vendormod>     |
+cargo-vendormod> 286 |     let output_backup = fs::read_dir("repository_atlas_output").unwrap().count();
+cargo-vendormod>     |         ^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_output_backup`
+cargo-vendormod> 
+cargo-vendormod> warning: unused variable: `i`
+cargo-vendormod>    --> src/bin/standalone_test_runner.rs:208:9
+cargo-vendormod>     |
+cargo-vendormod> 208 |     for i in 0..5 {
+cargo-vendormod>     |         ^ help: if this is intentional, prefix it with an underscore: `_i`
+cargo-vendormod>     |
+cargo-vendormod>     = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: variable `complexity` is assigned to, but never used
+cargo-vendormod>   --> src/bin/benchmark_runner.rs:74:13
+cargo-vendormod>    |
+cargo-vendormod> 74 |         let mut complexity = 0.0;
+cargo-vendormod>    |             ^^^^^^^^^^^^^^
+cargo-vendormod>    |
+cargo-vendormod>    = note: consider using `_complexity` instead
+cargo-vendormod>    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: variable `complexity` is assigned to, but never used
+cargo-vendormod>    --> src/bin/benchmark_runner.rs:107:13
+cargo-vendormod>     |
+cargo-vendormod> 107 |         let mut complexity = 0.0;
+cargo-vendormod>     |             ^^^^^^^^^^^^^^
+cargo-vendormod>     |
+cargo-vendormod>     = note: consider using `_complexity` instead
+cargo-vendormod> 
+cargo-vendormod> warning: variable `complexity` is assigned to, but never used
+cargo-vendormod>    --> src/bin/benchmark_runner.rs:141:17
+cargo-vendormod>     |
+cargo-vendormod> 141 |             let mut complexity = 0.0;
+cargo-vendormod>     |                 ^^^^^^^^^^^^^^
+cargo-vendormod>     |
+cargo-vendormod>     = note: consider using `_complexity` instead
+cargo-vendormod> 
+cargo-vendormod> warning: value assigned to `complexity` is never read
+cargo-vendormod>   --> src/bin/benchmark_runner.rs:81:9
+cargo-vendormod>    |
+cargo-vendormod> 81 |         complexity += (stars as f64 + 1.0).log10() * 0.25;
+cargo-vendormod>    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod>    |
+cargo-vendormod>    = help: maybe it is overwritten before being read?
+cargo-vendormod>    = note: `#[warn(unused_assignments)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: value assigned to `complexity` is never read
+cargo-vendormod>   --> src/bin/benchmark_runner.rs:82:9
+cargo-vendormod>    |
+cargo-vendormod> 82 |         complexity += (forks as f64 + 1.0).log10() * 0.15;
+cargo-vendormod>    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod>    |
+cargo-vendormod>    = help: maybe it is overwritten before being read?
+cargo-vendormod> 
+cargo-vendormod> warning: value assigned to `complexity` is never read
+cargo-vendormod>   --> src/bin/benchmark_runner.rs:83:9
+cargo-vendormod>    |
+cargo-vendormod> 83 |         complexity += (contributors as f64 + 1.0).log10() * 0.20;
+cargo-vendormod>    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod>    |
+cargo-vendormod>    = help: maybe it is overwritten before being read?
+cargo-vendormod> 
+cargo-vendormod> warning: value assigned to `complexity` is never read
+cargo-vendormod>   --> src/bin/benchmark_runner.rs:84:9
+cargo-vendormod>    |
+cargo-vendormod> 84 |         complexity += (size_mb as f64 + 1.0).log10() * 0.10;
+cargo-vendormod>    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod>    |
+cargo-vendormod>    = help: maybe it is overwritten before being read?
+cargo-vendormod> 
+cargo-vendormod> warning: value assigned to `complexity` is never read
+cargo-vendormod>   --> src/bin/benchmark_runner.rs:86:13
+cargo-vendormod>    |
+cargo-vendormod> 86 |             complexity += (365.0 / last_commit_days as f64).log10() * 0.10;
+cargo-vendormod>    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod>    |
+cargo-vendormod>    = help: maybe it is overwritten before being read?
+cargo-vendormod> 
+cargo-vendormod> warning: value assigned to `complexity` is never read
+cargo-vendormod>    --> src/bin/benchmark_runner.rs:114:9
+cargo-vendormod>     |
+cargo-vendormod> 114 |         complexity += (stars as f64 + 1.0).log10() * 0.25;
+cargo-vendormod>     |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod>     |
+cargo-vendormod>     = help: maybe it is overwritten before being read?
+cargo-vendormod> 
+cargo-vendormod> warning: value assigned to `complexity` is never read
+cargo-vendormod>    --> src/bin/benchmark_runner.rs:115:9
+cargo-vendormod>     |
+cargo-vendormod> 115 |         complexity += (forks as f64 + 1.0).log10() * 0.15;
+cargo-vendormod>     |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod>     |
+cargo-vendormod>     = help: maybe it is overwritten before being read?
+cargo-vendormod> 
+cargo-vendormod> warning: value assigned to `complexity` is never read
+cargo-vendormod>    --> src/bin/benchmark_runner.rs:116:9
+cargo-vendormod>     |
+cargo-vendormod> 116 |         complexity += (contributors as f64 + 1.0).log10() * 0.20;
+cargo-vendormod>     |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod>     |
+cargo-vendormod>     = help: maybe it is overwritten before being read?
+cargo-vendormod> 
+cargo-vendormod> warning: value assigned to `complexity` is never read
+cargo-vendormod>    --> src/bin/benchmark_runner.rs:117:9
+cargo-vendormod>     |
+cargo-vendormod> 117 |         complexity += (size_mb as f64 + 1.0).log10() * 0.10;
+cargo-vendormod>     |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod>     |
+cargo-vendormod>     = help: maybe it is overwritten before being read?
+cargo-vendormod> 
+cargo-vendormod> warning: value assigned to `complexity` is never read
+cargo-vendormod>    --> src/bin/benchmark_runner.rs:119:13
+cargo-vendormod>     |
+cargo-vendormod> 119 |             complexity += (365.0 / last_commit_days as f64).log10() * 0.10;
+cargo-vendormod>     |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod>     |
+cargo-vendormod>     = help: maybe it is overwritten before being read?
+cargo-vendormod> 
+cargo-vendormod> warning: value assigned to `complexity` is never read
+cargo-vendormod>    --> src/bin/benchmark_runner.rs:148:13
+cargo-vendormod>     |
+cargo-vendormod> 148 |             complexity += (stars as f64 + 1.0).log10() * 0.25;
+cargo-vendormod>     |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod>     |
+cargo-vendormod>     = help: maybe it is overwritten before being read?
+cargo-vendormod> 
+cargo-vendormod> warning: value assigned to `complexity` is never read
+cargo-vendormod>    --> src/bin/benchmark_runner.rs:149:13
+cargo-vendormod>     |
+cargo-vendormod> 149 |             complexity += (forks as f64 + 1.0).log10() * 0.15;
+cargo-vendormod>     |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod>     |
+cargo-vendormod>     = help: maybe it is overwritten before being read?
+cargo-vendormod> 
+cargo-vendormod> warning: value assigned to `complexity` is never read
+cargo-vendormod>    --> src/bin/benchmark_runner.rs:150:13
+cargo-vendormod>     |
+cargo-vendormod> 150 |             complexity += (contributors as f64 + 1.0).log10() * 0.20;
+cargo-vendormod>     |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod>     |
+cargo-vendormod>     = help: maybe it is overwritten before being read?
+cargo-vendormod> 
+cargo-vendormod> warning: value assigned to `complexity` is never read
+cargo-vendormod>    --> src/bin/benchmark_runner.rs:151:13
+cargo-vendormod>     |
+cargo-vendormod> 151 |             complexity += (size_mb as f64 + 1.0).log10() * 0.10;
+cargo-vendormod>     |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod>     |
+cargo-vendormod>     = help: maybe it is overwritten before being read?
+cargo-vendormod> 
+cargo-vendormod> warning: value assigned to `complexity` is never read
+cargo-vendormod>    --> src/bin/benchmark_runner.rs:153:17
+cargo-vendormod>     |
+cargo-vendormod> 153 |                 complexity += (365.0 / last_commit_days as f64).log10() * 0.10;
+cargo-vendormod>     |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod>     |
+cargo-vendormod>     = help: maybe it is overwritten before being read?
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `rayon::prelude`
+cargo-vendormod>  --> src/bin/scanner.rs:8:5
+cargo-vendormod>   |
+cargo-vendormod> 8 | use rayon::prelude::*;
+cargo-vendormod>   |     ^^^^^^^^^^^^^^
+cargo-vendormod>   |
+cargo-vendormod>   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: unused variable: `project_root`
+cargo-vendormod>   --> src/bin/project_self_coverage_tile.rs:43:13
+cargo-vendormod>    |
+cargo-vendormod> 43 |         let project_root = ".";
+cargo-vendormod>    |             ^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_project_root`
+cargo-vendormod>    |
+cargo-vendormod>    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: unused variable: `performance`
+cargo-vendormod>    --> src/bin/project_self_coverage_tile.rs:126:13
+cargo-vendormod>     |
+cargo-vendormod> 126 |         let performance = self.performance_score;
+cargo-vendormod>     |             ^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_performance`
+cargo-vendormod> 
+cargo-vendormod> warning: unused variable: `i`
+cargo-vendormod>    --> src/bin/enhanced_repository_mathematical_atlas.rs:171:13
+cargo-vendormod>     |
+cargo-vendormod> 171 |         for i in 1..=rank {
+cargo-vendormod>     |             ^ help: if this is intentional, prefix it with an underscore: `_i`
+cargo-vendormod>     |
+cargo-vendormod>     = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: variable does not need to be mutable
+cargo-vendormod>    --> src/bin/enhanced_repository_mathematical_atlas.rs:677:9
+cargo-vendormod>     |
+cargo-vendormod> 677 |     let mut cyclic_view = composer.create_view(
+cargo-vendormod>     |         ----^^^^^^^^^^^
+cargo-vendormod>     |         |
+cargo-vendormod>     |         help: remove this `mut`
+cargo-vendormod>     |
+cargo-vendormod>     = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: variable does not need to be mutable
+cargo-vendormod>    --> src/bin/enhanced_repository_mathematical_atlas.rs:685:9
+cargo-vendormod>     |
+cargo-vendormod> 685 |     let mut high_complexity_view = composer.create_view(
+cargo-vendormod>     |         ----^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod>     |         |
+cargo-vendormod>     |         help: remove this `mut`
+cargo-vendormod> 
+cargo-vendormod> warning: variable does not need to be mutable
+cargo-vendormod>    --> src/bin/enhanced_repository_mathematical_atlas.rs:693:9
+cargo-vendormod>     |
+cargo-vendormod> 693 |     let mut js_view = composer.create_view(
+cargo-vendormod>     |         ----^^^^^^^
+cargo-vendormod>     |         |
+cargo-vendormod>     |         help: remove this `mut`
+cargo-vendormod> 
+cargo-vendormod> warning: variable does not need to be mutable
+cargo-vendormod>    --> src/bin/enhanced_repository_mathematical_atlas.rs:701:9
+cargo-vendormod>     |
+cargo-vendormod> 701 |     let mut star_view = composer.create_view(
+cargo-vendormod>     |         ----^^^^^^^^^
+cargo-vendormod>     |         |
+cargo-vendormod>     |         help: remove this `mut`
+cargo-vendormod> 
+cargo-vendormod> warning: variable does not need to be mutable
+cargo-vendormod>    --> src/bin/enhanced_repository_mathematical_atlas.rs:709:9
+cargo-vendormod>     |
+cargo-vendormod> 709 |     let mut lie_view = composer.create_view(
+cargo-vendormod>     |         ----^^^^^^^^
+cargo-vendormod>     |         |
+cargo-vendormod>     |         help: remove this `mut`
+cargo-vendormod> 
+cargo-vendormod> warning: method `export_view` is never used
+cargo-vendormod>    --> src/bin/enhanced_repository_mathematical_atlas.rs:590:8
+cargo-vendormod>     |
+cargo-vendormod> 497 | impl RepositoryAtlasComposer {
+cargo-vendormod>     | ---------------------------- method in this implementation
+cargo-vendormod> ...
+cargo-vendormod> 590 |     fn export_view(&self, view_name: String, output_path: &str) -> Result<(), String> {
+cargo-vendormod>     |        ^^^^^^^^^^^
+cargo-vendormod>     |
+cargo-vendormod>     = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: variable does not need to be mutable
+cargo-vendormod>    --> src/bin/crate_info.rs:386:13
+cargo-vendormod>     |
+cargo-vendormod> 386 |         let mut cache = cache.lock().unwrap();
+cargo-vendormod>     |             ----^^^^^
+cargo-vendormod>     |             |
+cargo-vendormod>     |             help: remove this `mut`
+cargo-vendormod>     |
+cargo-vendormod>     = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: function `extract_repo_name` is never used
+cargo-vendormod>    --> src/bin/crate_info.rs:171:4
+cargo-vendormod>     |
+cargo-vendormod> 171 | fn extract_repo_name(url: &str) -> String {
+cargo-vendormod>     |    ^^^^^^^^^^^^^^^^^
+cargo-vendormod>     |
+cargo-vendormod>     = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: function `get_cargo_lock_transitive_deps` is never used
+cargo-vendormod>    --> src/bin/crate_info.rs:618:4
+cargo-vendormod>     |
+cargo-vendormod> 618 | fn get_cargo_lock_transitive_deps(lock_path: &Path) -> Vec<(String, String, String)> {
+cargo-vendormod>     |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: function `get_git_deps_from_lock` is never used
+cargo-vendormod>    --> src/bin/crate_info.rs:647:4
+cargo-vendormod>     |
+cargo-vendormod> 647 | fn get_git_deps_from_lock(lock_path: &Path) -> HashMap<String, String> {
+cargo-vendormod>     |    ^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: `cargo-vendormod` (bin "project_performance_coverage_tile") generated 1 warning (run `cargo fix --bin "project_performance_coverage_tile" -p cargo-vendormod` to apply 1 suggestion)
+cargo-vendormod> warning: `cargo-vendormod` (bin "project_self_coverage_tile") generated 2 warnings (run `cargo fix --bin "project_self_coverage_tile" -p cargo-vendormod` to apply 2 suggestions)
+cargo-vendormod> warning: unused import: `std::path::Path`
+cargo-vendormod>  --> src/bin/repository_mathematical_atlas.rs:3:5
+cargo-vendormod>   |
+cargo-vendormod> 3 | use std::path::Path;
+cargo-vendormod>   |     ^^^^^^^^^^^^^^^
+cargo-vendormod>   |
+cargo-vendormod>   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: unused imports: `SystemTime` and `UNIX_EPOCH`
+cargo-vendormod>  --> src/bin/simple_repository_mathematical_atlas.rs:3:17
+cargo-vendormod>   |
+cargo-vendormod> 3 | use std::time::{SystemTime, UNIX_EPOCH};
+cargo-vendormod>   |                 ^^^^^^^^^^  ^^^^^^^^^^
+cargo-vendormod>   |
+cargo-vendormod>   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: variable does not need to be mutable
+cargo-vendormod>    --> src/bin/repository_mathematical_atlas.rs:433:9
+cargo-vendormod>     |
+cargo-vendormod> 433 |     let mut cyclic_view = composer.create_view(
+cargo-vendormod>     |         ----^^^^^^^^^^^
+cargo-vendormod>     |         |
+cargo-vendormod>     |         help: remove this `mut`
+cargo-vendormod>     |
+cargo-vendormod>     = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: variable does not need to be mutable
+cargo-vendormod>    --> src/bin/repository_mathematical_atlas.rs:440:9
+cargo-vendormod>     |
+cargo-vendormod> 440 |     let mut high_complexity_view = composer.create_view(
+cargo-vendormod>     |         ----^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod>     |         |
+cargo-vendormod>     |         help: remove this `mut`
+cargo-vendormod> 
+cargo-vendormod> warning: variable does not need to be mutable
+cargo-vendormod>    --> src/bin/repository_mathematical_atlas.rs:447:9
+cargo-vendormod>     |
+cargo-vendormod> 447 |     let mut js_view = composer.create_view(
+cargo-vendormod>     |         ----^^^^^^^
+cargo-vendormod>     |         |
+cargo-vendormod>     |         help: remove this `mut`
+cargo-vendormod> 
+cargo-vendormod> warning: variable does not need to be mutable
+cargo-vendormod>    --> src/bin/repository_mathematical_atlas.rs:454:9
+cargo-vendormod>     |
+cargo-vendormod> 454 |     let mut star_view = composer.create_view(
+cargo-vendormod>     |         ----^^^^^^^^^
+cargo-vendormod>     |         |
+cargo-vendormod>     |         help: remove this `mut`
+cargo-vendormod> 
+cargo-vendormod> warning: method `export_view` is never used
+cargo-vendormod>    --> src/bin/repository_mathematical_atlas.rs:363:8
+cargo-vendormod>     |
+cargo-vendormod> 281 | impl RepositoryAtlasComposer {
+cargo-vendormod>     | ---------------------------- method in this implementation
+cargo-vendormod> ...
+cargo-vendormod> 363 |     fn export_view(&self, view_name: String, output_path: &str) -> Result<(), String> {
+cargo-vendormod>     |        ^^^^^^^^^^^
+cargo-vendormod>     |
+cargo-vendormod>     = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: `cargo-vendormod` (bin "integration_test_runner") generated 3 warnings (run `cargo fix --bin "integration_test_runner" -p cargo-vendormod` to apply 3 suggestions)
+cargo-vendormod> warning: `cargo-vendormod` (bin "benchmark_runner") generated 19 warnings (run `cargo fix --bin "benchmark_runner" -p cargo-vendormod` to apply 1 suggestion)
+cargo-vendormod> warning: unused import: `rayon::prelude`
+cargo-vendormod>  --> src/bin/full_scan.rs:5:5
+cargo-vendormod>   |
+cargo-vendormod> 5 | use rayon::prelude::*;
+cargo-vendormod>   |     ^^^^^^^^^^^^^^
+cargo-vendormod>   |
+cargo-vendormod>   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: unused variable: `name`
+cargo-vendormod>    --> src/bin/full_scan.rs:230:10
+cargo-vendormod>     |
+cargo-vendormod> 230 |     for (name, value) in table {
+cargo-vendormod>     |          ^^^^ help: if this is intentional, prefix it with an underscore: `_name`
+cargo-vendormod>     |
+cargo-vendormod>     = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: `cargo-vendormod` (bin "standalone_test_runner") generated 1 warning (run `cargo fix --bin "standalone_test_runner" -p cargo-vendormod` to apply 1 suggestion)
+cargo-vendormod> warning: unused variable: `owner`
+cargo-vendormod>    --> src/bin/full_scan.rs:316:13
+cargo-vendormod>     |
+cargo-vendormod> 316 |     let (_, owner, repo) = parse_url(url)?;
+cargo-vendormod>     |             ^^^^^ help: if this is intentional, prefix it with an underscore: `_owner`
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `std::fs`
+cargo-vendormod>  --> src/bin/cli_tile_renderer.rs:2:5
+cargo-vendormod>   |
+cargo-vendormod> 2 | use std::fs;
+cargo-vendormod>   |     ^^^^^^^
+cargo-vendormod>   |
+cargo-vendormod>   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `std::collections::HashMap`
+cargo-vendormod>  --> src/bin/test_runner.rs:1:5
+cargo-vendormod>   |
+cargo-vendormod> 1 | use std::collections::HashMap;
+cargo-vendormod>   |     ^^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod>   |
+cargo-vendormod>   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `std::process::Command`
+cargo-vendormod>  --> src/bin/test_runner.rs:3:5
+cargo-vendormod>   |
+cargo-vendormod> 3 | use std::process::Command;
+cargo-vendormod>   |     ^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: unused import: `std::path::Path`
+cargo-vendormod>  --> src/bin/test_runner.rs:4:5
+cargo-vendormod>   |
+cargo-vendormod> 4 | use std::path::Path;
+cargo-vendormod>   |     ^^^^^^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: method `export_view` is never used
+cargo-vendormod>    --> src/bin/final_repository_mathematical_atlas.rs:557:8
+cargo-vendormod>     |
+cargo-vendormod> 468 | impl RepositoryAtlasComposer {
+cargo-vendormod>     | ---------------------------- method in this implementation
+cargo-vendormod> ...
+cargo-vendormod> 557 |     fn export_view(&self, view_name: String, output_path: &str) -> Result<(), String> {
+cargo-vendormod>     |        ^^^^^^^^^^^
+cargo-vendormod>     |
+cargo-vendormod>     = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: unused variable: `selected`
+cargo-vendormod>    --> src/bin/cli_tile_renderer.rs:229:52
+cargo-vendormod>     |
+cargo-vendormod> 229 |     fn render_tile<W: Write>(&self, mut writer: W, selected: bool) -> io::Result<()> {
+cargo-vendormod>     |                                                    ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_selected`
+cargo-vendormod>     |
+cargo-vendormod>     = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: variable does not need to be mutable
+cargo-vendormod>    --> src/bin/cli_tile_renderer.rs:399:38
+cargo-vendormod>     |
+cargo-vendormod> 399 |     fn render_tiles<W: Write>(&self, mut writer: W, selected_index: Option<usize>) -> io::Result<()> {
+cargo-vendormod>     |                                      ----^^^^^^
+cargo-vendormod>     |                                      |
+cargo-vendormod>     |                                      help: remove this `mut`
+cargo-vendormod>     |
+cargo-vendormod>     = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: unused variable: `writer`
+cargo-vendormod>    --> src/bin/cli_tile_renderer.rs:399:38
+cargo-vendormod>     |
+cargo-vendormod> 399 |     fn render_tiles<W: Write>(&self, mut writer: W, selected_index: Option<usize>) -> io::Result<()> {
+cargo-vendormod>     |                                      ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_writer`
+cargo-vendormod> 
+cargo-vendormod> warning: variable does not need to be mutable
+cargo-vendormod>    --> src/bin/cli_tile_renderer.rs:454:46
+cargo-vendormod>     |
+cargo-vendormod> 454 |     fn render_detailed_view<W: Write>(&self, mut writer: W, index: usize) -> io::Result<()> {
+cargo-vendormod>     |                                              ----^^^^^^
+cargo-vendormod>     |                                              |
+cargo-vendormod>     |                                              help: remove this `mut`
+cargo-vendormod> 
+cargo-vendormod> warning: variable `complexity` is assigned to, but never used
+cargo-vendormod>    --> src/bin/test_runner.rs:427:13
+cargo-vendormod>     |
+cargo-vendormod> 427 |         let mut complexity = 0.0;
+cargo-vendormod>     |             ^^^^^^^^^^^^^^
+cargo-vendormod>     |
+cargo-vendormod>     = note: consider using `_complexity` instead
+cargo-vendormod>     = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: value assigned to `complexity` is never read
+cargo-vendormod>    --> src/bin/test_runner.rs:428:9
+cargo-vendormod>     |
+cargo-vendormod> 428 |         complexity += (stars as f64 + 1.0).log10() * 0.25;
+cargo-vendormod>     |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod>     |
+cargo-vendormod>     = help: maybe it is overwritten before being read?
+cargo-vendormod>     = note: `#[warn(unused_assignments)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: value assigned to `complexity` is never read
+cargo-vendormod>    --> src/bin/test_runner.rs:429:9
+cargo-vendormod>     |
+cargo-vendormod> 429 |         complexity += (forks as f64 + 1.0).log10() * 0.15;
+cargo-vendormod>     |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod>     |
+cargo-vendormod>     = help: maybe it is overwritten before being read?
+cargo-vendormod> 
+cargo-vendormod> warning: value assigned to `complexity` is never read
+cargo-vendormod>    --> src/bin/test_runner.rs:430:9
+cargo-vendormod>     |
+cargo-vendormod> 430 |         complexity += (contributors as f64 + 1.0).log10() * 0.20;
+cargo-vendormod>     |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod>     |
+cargo-vendormod>     = help: maybe it is overwritten before being read?
+cargo-vendormod> 
+cargo-vendormod> warning: value assigned to `complexity` is never read
+cargo-vendormod>    --> src/bin/test_runner.rs:431:9
+cargo-vendormod>     |
+cargo-vendormod> 431 |         complexity += (size_mb as f64 + 1.0).log10() * 0.10;
+cargo-vendormod>     |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod>     |
+cargo-vendormod>     = help: maybe it is overwritten before being read?
+cargo-vendormod> 
+cargo-vendormod> warning: value assigned to `complexity` is never read
+cargo-vendormod>    --> src/bin/test_runner.rs:433:13
+cargo-vendormod>     |
+cargo-vendormod> 433 |             complexity += (365.0 / last_commit_days as f64).log10() * 0.10;
+cargo-vendormod>     |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cargo-vendormod>     |
+cargo-vendormod>     = help: maybe it is overwritten before being read?
+cargo-vendormod> 
+cargo-vendormod> warning: comparison is useless due to type limits
+cargo-vendormod>    --> src/bin/integration_test.rs:383:17
+cargo-vendormod>     |
+cargo-vendormod> 383 |         assert!(cyclic_count >= 0);
+cargo-vendormod>     |                 ^^^^^^^^^^^^^^^^^
+cargo-vendormod>     |
+cargo-vendormod>     = note: `#[warn(unused_comparisons)]` on by default
+cargo-vendormod> 
+cargo-vendormod> warning: comparison is useless due to type limits
+cargo-vendormod>    --> src/bin/integration_test.rs:384:17
+cargo-vendormod>     |
+cargo-vendormod> 384 |         assert!(js_count >= 0);
+cargo-vendormod>     |                 ^^^^^^^^^^^^^
+cargo-vendormod> 
+cargo-vendormod> warning: `cargo-vendormod` (bin "enhanced_repository_mathematical_atlas_with_zkperf") generated 2 warnings (run `cargo fix --bin "enhanced_repository_mathematical_atlas_with_zkperf" -p cargo-vendormod` to apply 1 suggestion)
+cargo-vendormod> warning: `cargo-vendormod` (bin "enhanced_repository_mathematical_atlas") generated 8 warnings (run `cargo fix --bin "enhanced_repository_mathematical_atlas" -p cargo-vendormod` to apply 7 suggestions)
+cargo-vendormod> warning: `cargo-vendormod` (bin "goal_tracker") generated 2 warnings (run `cargo fix --bin "goal_tracker" -p cargo-vendormod` to apply 2 suggestions)
+cargo-vendormod> warning: `cargo-vendormod` (bin "simple_repository_mathematical_atlas") generated 1 warning (run `cargo fix --bin "simple_repository_mathematical_atlas" -p cargo-vendormod` to apply 1 suggestion)
+cargo-vendormod> warning: `cargo-vendormod` (bin "repository_mathematical_atlas") generated 6 warnings (run `cargo fix --bin "repository_mathematical_atlas" -p cargo-vendormod` to apply 5 suggestions)
+cargo-vendormod> warning: `cargo-vendormod` (bin "cli_tile_renderer") generated 5 warnings (run `cargo fix --bin "cli_tile_renderer" -p cargo-vendormod` to apply 5 suggestions)
+cargo-vendormod> warning: unused import: `HashMap`
+cargo-vendormod>   --> src/bin/process_dasl_index.rs:48:34
+cargo-vendormod>    |
+cargo-vendormod> 48 | use std::collections::{BTreeSet, HashMap};
+cargo-vendormod>    |                                  ^^^^^^^
+cargo-vendormod>    |
+cargo-vendormod>    = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: unused variable: `output_dir`
+cargo-vendormod>    --> src/bin/process_dasl_index.rs:434:35
+cargo-vendormod>     |
+cargo-vendormod> 434 | fn generate_flake(project: &Path, output_dir: &Path, verbose: bool) -> Result<bool> {
+cargo-vendormod>     |                                   ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_output_dir`
+cargo-vendormod>     |
+cargo-vendormod>     = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> 
+cargo-vendormod> warning: field `0` is never read
+cargo-vendormod>    --> src/bin/process_dasl_index.rs:128:15
+cargo-vendormod>     |
+cargo-vendormod> 128 |     GitConfig(PathBuf),
+cargo-vendormod>     |     --------- ^^^^^^^
+cargo-vendormod>     |     |
+cargo-vendormod>     |     field in this variant
+cargo-vendormod>     |
+cargo-vendormod>     = note: `IndexEntry` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+cargo-vendormod>     = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+cargo-vendormod> help: consider changing the field to be of unit type to suppress this warning while preserving the field numbering, or remove the field
+cargo-vendormod>     |
+cargo-vendormod> 128 -     GitConfig(PathBuf),
+cargo-vendormod> 128 +     GitConfig(()),
+cargo-vendormod>     |
+cargo-vendormod> 
+cargo-vendormod> warning: field `0` is never read
+cargo-vendormod>    --> src/bin/process_dasl_index.rs:130:11
+cargo-vendormod>     |
+cargo-vendormod> 130 |     CFile(PathBuf),
+cargo-vendormod>     |     ----- ^^^^^^^
+cargo-vendormod>     |     |
+cargo-vendormod>     |     field in this variant
+cargo-vendormod>     |
+cargo-vendormod>     = note: `IndexEntry` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+cargo-vendormod> help: consider changing the field to be of unit type to suppress this warning while preserving the field numbering, or remove the field
+cargo-vendormod>     |
+cargo-vendormod> 130 -     CFile(PathBuf),
+cargo-vendormod> 130 +     CFile(()),
+cargo-vendormod>     |
+cargo-vendormod> 
+cargo-vendormod> warning: field `0` is never read
+cargo-vendormod>    --> src/bin/process_dasl_index.rs:132:17
+cargo-vendormod>     |
+cargo-vendormod> 132 |     CborRelated(PathBuf),
+cargo-vendormod>     |     ----------- ^^^^^^^
+cargo-vendormod>     |     |
+cargo-vendormod>     |     field in this variant
+cargo-vendormod>     |
+cargo-vendormod>     = note: `IndexEntry` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+cargo-vendormod> help: consider changing the field to be of unit type to suppress this warning while preserving the field numbering, or remove the field
+cargo-vendormod>     |
+cargo-vendormod> 132 -     CborRelated(PathBuf),
+cargo-vendormod> 132 +     CborRelated(()),
+cargo-vendormod>     |
+cargo-vendormod> 
+cargo-vendormod> warning: field `0` is never read
+cargo-vendormod>    --> src/bin/process_dasl_index.rs:134:15
+cargo-vendormod>     |
+cargo-vendormod> 134 |     Untracked(PathBuf),
+cargo-vendormod>     |     --------- ^^^^^^^
+cargo-vendormod>     |     |
+cargo-vendormod>     |     field in this variant
+cargo-vendormod>     |
+cargo-vendormod>     = note: `IndexEntry` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+cargo-vendormod> help: consider changing the field to be of unit type to suppress this warning while preserving the field numbering, or remove the field
+cargo-vendormod>     |
+cargo-vendormod> 134 -     Untracked(PathBuf),
+cargo-vendormod> 134 +     Untracked(()),
+cargo-vendormod>     |
+cargo-vendormod> 
+cargo-vendormod> warning: `cargo-vendormod` (bin "test_runner") generated 9 warnings (run `cargo fix --bin "test_runner" -p cargo-vendormod` to apply 3 suggestions)
+cargo-vendormod> warning: `cargo-vendormod` (bin "integration_test") generated 2 warnings
+cargo-vendormod> warning: `cargo-vendormod` (bin "final_repository_mathematical_atlas") generated 1 warning
+cargo-vendormod> warning: `cargo-vendormod` (bin "workload_processor") generated 1 warning (run `cargo fix --bin "workload_processor" -p cargo-vendormod` to apply 1 suggestion)
+cargo-vendormod> warning: `cargo-vendormod` (bin "atlas_composer") generated 8 warnings (run `cargo fix --bin "atlas_composer" -p cargo-vendormod` to apply 8 suggestions)
+cargo-vendormod> warning: `cargo-vendormod` (bin "vendoring") generated 3 warnings (run `cargo fix --bin "vendoring" -p cargo-vendormod` to apply 3 suggestions)
+cargo-vendormod> warning: `cargo-vendormod` (bin "process_dasl_index") generated 6 warnings (run `cargo fix --bin "process_dasl_index" -p cargo-vendormod` to apply 2 suggestions)
+cargo-vendormod> warning: `cargo-vendormod` (bin "scanner") generated 1 warning
+cargo-vendormod> warning: `cargo-vendormod` (bin "crate_info") generated 4 warnings (run `cargo fix --bin "crate_info" -p cargo-vendormod` to apply 1 suggestion)
+cargo-vendormod> warning: `cargo-vendormod` (bin "full-scan") generated 3 warnings (run `cargo fix --bin "full-scan" -p cargo-vendormod` to apply 2 suggestions)
+cargo-vendormod>     Finished `release` profile [optimized] target(s) in 1m 38s
+cargo-vendormod> Executing cargoInstallPostBuildHook
+cargo-vendormod> Finished cargoInstallPostBuildHook
+cargo-vendormod> Finished cargoBuildHook
+cargo-vendormod> buildPhase completed in 1 minutes 40 seconds
+cargo-vendormod> Running phase: installPhase
+cargo-vendormod> Executing cargoInstallHook
+cargo-vendormod> Finished cargoInstallHook
+cargo-vendormod> Running phase: fixupPhase
+cargo-vendormod> shrinking RPATHs of ELF executables and libraries in /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/generate-flake
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/simple_cli_tile_renderer
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/atlas_composer
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/integration_test_runner
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/scan-mirrors
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/nur-flake
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/workload_report
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/final_cli_tile_renderer
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/vendoring
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/cargo-vendormod
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/cli_tile_renderer
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/standalone_test_runner
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/final_repository_mathematical_atlas
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/final_standalone_test_runner
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/zkperf_coverage_test_runner
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/group_atlas
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/full-scan
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/process_dasl_index
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/repository_mathematical_atlas
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/project_self_coverage_tile
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/test_runner
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/scanner
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/zkperf_coverage_performance_test_runner
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/extract-git-refs
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/simple_repository_mathematical_atlas
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/simple_group_atlas
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/processing
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/dasl_metadata_processor
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/workload_processor
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/final_benchmark_runner
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/goal_tracker
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/benchmark_runner
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/crate_info
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/integration_test
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/zkperf_integration_test_runner
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/graph
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/enhanced_repository_mathematical_atlas_with_zkperf
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/project_performance_coverage_tile
+cargo-vendormod> shrinking /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin/enhanced_repository_mathematical_atlas
+cargo-vendormod> checking for references to /build/ in /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0...
+cargo-vendormod> patching script interpreter paths in /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0
+cargo-vendormod> stripping (with command strip and flags -S -p) in  /nix/store/7mpa1jq755bvhzc62ysjcrymnqg5i6zm-cargo-vendormod-0.2.0/bin
+building '/nix/store/5bjss3hfnridf56z7gszr6cyjhhmmy6j-process-dasl-index.drv'...
