@@ -136,6 +136,30 @@ num-traits = "0.2"
 [dev-dependencies]
 tempfile = "3"
 
+[[test]]
+name = "basic_tests"
+path = "tests/basic_tests.rs"
+
+[[test]]
+name = "global_graph_tests"
+path = "tests/global_graph_tests.rs"
+
+[[test]]
+name = "integration_tests"
+path = "tests/integration_tests.rs"
+
+[[test]]
+name = "layer_processor_tests"
+path = "tests/layer_processor_tests.rs"
+
+[[test]]
+name = "topological_tests"
+path = "tests/topological_tests.rs"
+
+[[test]]
+name = "cli_tests"
+path = "tests/cli_tests.rs"
+
 [profile.release]
 opt-level = 3
 lto = true
