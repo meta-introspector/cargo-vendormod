@@ -28,6 +28,7 @@ use anyhow::{Context, Result};
 use cargo_vendormod::crate_flake::{self, FlakeSource, FlakeStyle};
 use cargo_vendormod::lang_detect::{self, Language};
 use cargo_vendormod::multi_lang_flake;
+use cargo_vendormod::lattice::{self, LatticeProject};
 use clap::Parser;
 use std::path::PathBuf;
 use std::fs;
@@ -83,6 +84,10 @@ struct Args {
     /// Verbose output
     #[arg(long, short)]
     verbose: bool,
+
+    /// Generate full lattice node (flake + pipelight + skill + nora config) per project
+    #[arg(long)]
+    lattice: bool,
 }
 
 fn detect_project_language(path: &std::path::Path, force_lang: Option<&str>) -> Result<Language> {
@@ -206,7 +211,67 @@ fn main() -> Result<()> {
     fs::create_dir_all(&args.output)
         .context("Failed to create output directory")?;
 
-    if args.discover {
+    if args.lattice && args.discover {
+        // ── Lattice mode: generate full lattice nodes per project ──
+        let projects = lang_detect::discover_projects(&args.path, args.max_depth);
+        if projects.is_empty() {
+            eprintln!("No supported projects found under {}", args.path.display());
+            return Ok(());
+        }
+        println!("Found {} projects — generating lattice nodes", projects.len());
+
+        let mut total_files = 0usize;
+        let mut success = 0usize;
+        let mut failures = 0usize;
+
+        for (proj_path, proj_lang) in &projects {
+            let proj_name = proj_path.file_name()
+                .and_then(|s| s.to_str())
+                .unwrap_or("unknown");
+
+            // Read Cargo.toml for crate name, version, description
+            let (crate_name, version, description, deps) = if *proj_lang == Language::Rust {
+                parse_cargo_toml_metadata(proj_path)
+            } else {
+                (proj_name.to_string(), "0.0.0".to_string(), String::new(), Vec::new())
+            };
+
+            // Find git mirror
+            let git_mirror = find_git_mirror(proj_path);
+
+            let project = LatticeProject {
+                name: proj_name.to_string(),
+                crate_name,
+                version,
+                source_dir: proj_path.clone(),
+                language: format!("{:?}", proj_lang),
+                description,
+                git_mirror,
+                dependencies: deps,
+            };
+
+            if args.verbose {
+                println!("  {:?} {} ({:?})", proj_path, project.crate_name, proj_lang);
+            }
+
+            match lattice::generate_lattice_node(&project, &args.output, args.nora) {
+                Ok(count) => {
+                    total_files += count;
+                    success += 1;
+                }
+                Err(e) => {
+                    eprintln!("  FAILED {}: {}", project.crate_name, e);
+                    failures += 1;
+                }
+            }
+        }
+
+        println!("\nGenerated {} file(s) for {}/{} lattice nodes in {}",
+            total_files, success, success + failures, args.output.display());
+        if failures > 0 {
+            eprintln!("{} project(s) failed", failures);
+        }
+    } else if args.discover {
         // ── Discovery mode ──
         let projects = lang_detect::discover_projects(&args.path, args.max_depth);
 
@@ -259,4 +324,108 @@ fn main() -> Result<()> {
     }
 
     Ok(())
+}
+
+/// Parse Cargo.toml for crate name, version, description, and dependency names
+fn parse_cargo_toml_metadata(proj_path: &std::path::Path) -> (String, String, String, Vec<String>) {
+    let cargo_toml = proj_path.join("Cargo.toml");
+    let content = match std::fs::read_to_string(&cargo_toml) {
+        Ok(c) => c,
+        Err(_) => {
+            let name = proj_path.file_name()
+                .and_then(|s| s.to_str())
+                .unwrap_or("unknown")
+                .to_string();
+            return (name, "0.0.0".to_string(), String::new(), Vec::new());
+        }
+    };
+
+    // Simple TOML parsing (no dependency on toml crate in this binary)
+    let mut name = String::new();
+    let mut version = String::new();
+    let mut description = String::new();
+    let mut deps = Vec::new();
+    let mut in_deps = false;
+
+    for line in content.lines() {
+        let trimmed = line.trim();
+
+        if trimmed.starts_with("[dependencies]") {
+            in_deps = true;
+            continue;
+        }
+        if trimmed.starts_with('[') && !trimmed.starts_with("[dependencies") {
+            in_deps = false;
+            continue;
+        }
+
+        if in_deps {
+            if let Some(dep_name) = trimmed.split('=').next() {
+                let dep = dep_name.trim().to_string();
+                if !dep.is_empty() && !dep.starts_with('#') {
+                    deps.push(dep);
+                }
+            }
+        } else {
+            if name.is_empty() && trimmed.starts_with("name") {
+                name = extract_toml_value(trimmed);
+            }
+            if version.is_empty() && trimmed.starts_with("version") {
+                version = extract_toml_value(trimmed);
+            }
+            if description.is_empty() && trimmed.starts_with("description") {
+                description = extract_toml_value(trimmed);
+            }
+        }
+    }
+
+    if name.is_empty() {
+        name = proj_path.file_name()
+            .and_then(|s| s.to_str())
+            .unwrap_or("unknown")
+            .to_string();
+    }
+    if version.is_empty() {
+        version = "0.0.0".to_string();
+    }
+
+    (name, version, description, deps)
+}
+
+/// Extract a TOML value (simple: key = "value" or key = 'value')
+fn extract_toml_value(line: &str) -> String {
+    if let Some(eq_pos) = line.find('=') {
+        let val = line[eq_pos + 1..].trim();
+        // Strip quotes
+        val.trim_matches('"').trim_matches('\'').to_string()
+    } else {
+        String::new()
+    }
+}
+
+/// Try to find a git mirror for the project
+fn find_git_mirror(proj_path: &std::path::Path) -> Option<PathBuf> {
+    // Check if the project has a "local" or "mirror" remote
+    let output = std::process::Command::new("git")
+        .args(["remote", "-v"])
+        .current_dir(proj_path)
+        .output()
+        .ok()?;
+
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    for line in stdout.lines() {
+        // Look for local mirror paths
+        if line.contains("~/git/") || line.contains("/git/") {
+            if let Some(url_start) = line.find('\t') {
+                let after_tab = &line[url_start + 1..];
+                if let Some(url_end) = after_tab.find(' ') {
+                    let url = &after_tab[..url_end];
+                    if url.starts_with('/') || url.starts_with("~/") {
+                        return Some(PathBuf::from(url.replace("~", &std::env::var("HOME").unwrap_or_default())));
+                    }
+                }
+            }
+        }
+    }
+    None
 }
