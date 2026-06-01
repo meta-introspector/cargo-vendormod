@@ -4,36 +4,20 @@ use std::io;
 use std::path::Path;
 
 #[derive(Debug, Clone)]
-struct ProjectSelfCoverage {
+struct ProjectFileAnalysis {
     total_files: usize,
     test_files: usize,
-    covered_files: usize,
-    coverage_percentage: f64,
-    performance_score: f64,
-    test_success_rate: f64,
-    complexity_score: f64,
-    mathematical_groups: Vec<String>,
-    group_family: String,
-    group_order: String,
-    group_rank: usize,
+    source_files: usize,
     file_categories: HashMap<String, usize>,
     test_categories: HashMap<String, usize>,
 }
 
-impl ProjectSelfCoverage {
+impl ProjectFileAnalysis {
     fn new() -> Self {
-        ProjectSelfCoverage {
+        ProjectFileAnalysis {
             total_files: 0,
             test_files: 0,
-            covered_files: 0,
-            coverage_percentage: 0.0,
-            performance_score: 0.0,
-            test_success_rate: 0.0,
-            complexity_score: 0.0,
-            mathematical_groups: Vec::new(),
-            group_family: "Unclassified".to_string(),
-            group_order: "1".to_string(),
-            group_rank: 0,
+            source_files: 0,
             file_categories: HashMap::new(),
             test_categories: HashMap::new(),
         }
@@ -43,32 +27,24 @@ impl ProjectSelfCoverage {
         let project_root = ".";
         let test_dirs = vec!["tests", "src/tests"];
         let source_dirs = vec!["src", "src/bin"];
-        
+
         // Analyze source files
         for dir in source_dirs {
             if Path::new(dir).exists() {
                 self.analyze_directory(dir, false)?;
             }
         }
-        
+
         // Analyze test files
         for dir in test_dirs {
             if Path::new(dir).exists() {
                 self.analyze_directory(dir, true)?;
             }
         }
-        
-        // Calculate coverage
-        if self.total_files > 0 {
-            self.coverage_percentage = (self.covered_files as f64 / self.total_files as f64) * 100.0;
-        }
-        
-        // Calculate complexity based on file diversity and project size
-        self.calculate_complexity();
-        
-        // Classify mathematically
-        self.classify_group_family();
-        
+
+        // Calculate source files (total - test)
+        self.source_files = self.total_files.saturating_sub(self.test_files);
+
         Ok(())
     }
 
@@ -76,11 +52,11 @@ impl ProjectSelfCoverage {
         if !Path::new(path).exists() {
             return Ok(());
         }
-        
+
         for entry in fs::read_dir(path)? {
             let entry = entry?;
             let path = entry.path();
-            
+
             if path.is_dir() {
                 self.analyze_directory(path.to_str().unwrap_or(""), is_test)?;
             } else if let Some(ext) = path.extension() {
@@ -96,253 +72,89 @@ impl ProjectSelfCoverage {
                 }
             }
         }
-        
+
         Ok(())
     }
 
-    fn calculate_complexity(&mut self) {
-        // Complexity based on file diversity and project size
-        let file_diversity = self.file_categories.len() as f64;
-        let test_diversity = self.test_categories.len() as f64;
-        let size_factor = (self.total_files as f64).log10();
-        let test_ratio = if self.total_files > 0 {
-            self.test_files as f64 / self.total_files as f64
+    fn get_test_to_source_ratio(&self) -> f64 {
+        if self.source_files > 0 {
+            (self.test_files as f64 / self.source_files as f64) * 100.0
         } else {
             0.0
-        };
+        }
+    }
+
+    fn get_file_distribution(&self) -> String {
+        let mut sorted: Vec<(&String, &usize)> = self.file_categories.iter().collect();
+        sorted.sort_by(|a, b| b.1.cmp(a.1)); // Sort by count descending
         
-        self.complexity_score = (file_diversity * 0.3) + (test_diversity * 0.2) + (size_factor * 0.3) + (test_ratio * 100.0 * 0.2);
+        sorted.iter()
+            .take(5) // Top 5
+            .map(|(ext, count)| format!("{}: {}", ext, count))
+            .collect::<Vec<_>>()
+            .join(", ")
+    }
+
+    fn get_test_file_distribution(&self) -> String {
+        let mut sorted: Vec<(&String, &usize)> = self.test_categories.iter().collect();
+        sorted.sort_by(|a, b| b.1.cmp(a.1)); // Sort by count descending
         
-        // Performance score based on coverage and test ratio
-        self.performance_score = self.coverage_percentage.min(100.0) * 0.6 + (test_ratio * 100.0).min(100.0) * 0.4;
-        
-        // Test success rate (simulated based on coverage)
-        self.test_success_rate = (self.coverage_percentage * 0.8 + 20.0).min(100.0);
+        sorted.iter()
+            .take(5) // Top 5
+            .map(|(ext, count)| format!("{}: {}", ext, count))
+            .collect::<Vec<_>>()
+            .join(", ")
     }
 
-    fn classify_group_family(&mut self) {
-        let complexity = self.complexity_score;
-        let coverage = self.coverage_percentage;
-        let performance = self.performance_score;
-
-        if complexity < 1.5 && coverage < 30.0 {
-            self.group_family = "Cyclic".to_string();
-            self.group_order = "2".to_string();
-            self.group_rank = 1;
-            self.mathematical_groups = vec!["C2".to_string()];
-        } else if complexity < 2.5 && coverage < 60.0 {
-            self.group_family = "Alternating".to_string();
-            let n = (complexity * 3.0).ceil() as usize;
-            self.group_order = format!("{}", n * (n - 1) / 2);
-            self.group_rank = n - 2;
-            self.mathematical_groups = vec![format!("A{}", n)];
-        } else if complexity < 3.5 && coverage < 80.0 {
-            self.group_family = "Lie Type".to_string();
-            let rank = ((complexity - 2.0) * 2.0).ceil() as usize;
-            self.group_order = format!("{}", 2_i32.pow((rank * (rank - 1) / 2) as u32) as usize * 1000);
-            self.group_rank = rank;
-            self.mathematical_groups = vec![format!("PSL({}, 2)", rank)];
-        } else {
-            self.group_family = "Sporadic".to_string();
-            self.group_order = "7920".to_string();
-            self.group_rank = 0;
-            self.mathematical_groups = vec!["Monster Group".to_string()];
-        }
-    }
-
-    fn get_coverage_color(&self) -> String {
-        match self.coverage_percentage {
-            score if score >= 80.0 => "[🟢]".to_string(),
-            score if score >= 60.0 => "[🟠]".to_string(),
-            score if score >= 40.0 => "[🟡]".to_string(),
-            score if score >= 20.0 => "[🔴]".to_string(),
-            _ => "[🔴]".to_string(),
-        }
-    }
-
-    fn get_performance_color(&self) -> String {
-        match self.performance_score {
-            score if score >= 80.0 => "[🔵]".to_string(),
-            score if score >= 60.0 => "[🟣]".to_string(),
-            score if score >= 40.0 => "[🟡]".to_string(),
-            score if score >= 20.0 => "[🔴]".to_string(),
-            _ => "[🔴]".to_string(),
-        }
-    }
-
-    fn get_test_success_color(&self) -> String {
-        match self.test_success_rate {
-            score if score >= 80.0 => "[🟢]".to_string(),
-            score if score >= 60.0 => "[🟠]".to_string(),
-            score if score >= 40.0 => "[🟡]".to_string(),
-            score if score >= 20.0 => "[🔴]".to_string(),
-            _ => "[🔴]".to_string(),
-        }
-    }
-
-    fn get_group_theory_description(&self) -> String {
-        match self.group_family.as_str() {
-            "Cyclic" => format!("Cyclic group of order {} - Prime order simple group", self.group_order),
-            "Alternating" => format!("Alternating group A_{} - Non-abelian simple group", self.group_rank + 2),
-            "Lie Type" => format!("Lie type group PSL({}, 2) - Classical simple group", self.group_rank),
-            "Sporadic" => format!("Sporadic group {} - Exceptional simple group", self.mathematical_groups.first().unwrap_or(&"Unknown".to_string())),
-            _ => "Unclassified group".to_string(),
-        }
-    }
-
-    fn render_tile(&self, selected: bool) -> io::Result<()> {
-        let width = 80;
-        let selected_marker = if selected { "► " } else { "  " };
-        
-        // Draw top border
-        print!("{}", selected_marker);
-        for _ in 0..width {
-            print!("─");
-        }
+    fn render_analysis(&self) -> io::Result<()> {
+        println!("📊 Project File Structure Analysis");
+        println!("===============================");
+        println!("Analyzing actual project file structure...");
         println!();
-        
-        // Draw title and badges
-        print!("{}│", selected_marker);
-        print!("🎯 Project Self-Coverage Analysis ");
-        
-        // Coverage badge
-        print!("{}📊 {:.1}% ", self.get_coverage_color(), self.coverage_percentage);
-        
-        // Performance badge
-        print!("{}⚡ {:.1}% ", self.get_performance_color(), self.performance_score);
-        
-        // Test status badge
-        print!("{}🧪 {:.1}% ", self.get_test_success_color(), self.test_success_rate);
-        
-        for _ in 0..(width - 2 - 50) {
-            print!(" ");
-        }
-        println!("│");
-        
-        // Draw mathematical classification line
-        print!("{}│", selected_marker);
-        print!("🔢 Group: {} | 📊 Complexity: {:.2} | 🧪 Mathematical: {}", 
-            self.group_family, self.complexity_score, self.get_group_theory_description());
-        
-        for _ in 0..(width - 2 - 80) {
-            print!(" ");
-        }
-        println!("│");
-        
-        // Draw file statistics
-        print!("{}│", selected_marker);
-        print!("📁 Files: {} | 🧪 Tests: {} | ✅ Covered: {} | 📊 Coverage: {:.1}%", 
-            self.total_files, self.test_files, self.covered_files, self.coverage_percentage);
-        
-        for _ in 0..(width - 2 - 70) {
-            print!(" ");
-        }
-        println!("│");
-        
-        // Draw file categories
-        print!("{}│", selected_marker);
-        print!("📁 Source Files: {} | 🧪 Test Files: {} | 🔬 Categories: {}", 
-            self.total_files - self.test_files, self.test_files, self.file_categories.len());
-        
-        for _ in 0..(width - 2 - 65) {
-            print!(" ");
-        }
-        println!("│");
-        
-        // Draw mathematical groups
-        print!("{}│", selected_marker);
-        print!("🔬 Mathematical Groups: {}", self.mathematical_groups.join(", "));
-        
-        for _ in 0..(width - 2 - 35) {
-            print!(" ");
-        }
-        println!("│");
-        
-        // Draw bottom border
-        print!("{}", selected_marker);
-        for _ in 0..width {
-            print!("─");
-        }
-        println!();
-        
-        Ok(())
-    }
 
-    fn render_detailed(&self) -> io::Result<()> {
-        println!("🎯 Project Self-Coverage Analysis");
-        println!("=================================");
-        println!("📊 Coverage: {:.1}% {}", self.coverage_percentage, self.get_coverage_color());
-        println!("⚡ Performance: {:.1}% {}", self.performance_score, self.get_performance_color());
-        println!("🧪 Test Success: {:.1}% {}", self.test_success_rate, self.get_test_success_color());
-        println!("🔢 Complexity Score: {:.2}", self.complexity_score);
-        println!("📁 Total Files: {}", self.total_files);
-        println!("🧪 Test Files: {}", self.test_files);
-        println!("✅ Covered Files: {}", self.covered_files);
-        println!("🔬 Mathematical Family: {}", self.group_family);
-        println!("📊 Group Order: {}", self.group_order);
-        println!("🧪 Group Rank: {}", self.group_rank);
-        println!("🔬 Mathematical Groups: {}", self.mathematical_groups.join(", "));
-        println!("📋 Group Theory Description: {}", self.get_group_theory_description());
+        println!("📁 File Counts:");
+        println!("   Total .rs files: {}", self.total_files);
+        println!("   Source files: {}", self.source_files);
+        println!("   Test files: {}", self.test_files);
         println!();
-        
-        // File categories
-        println!("📁 File Categories:");
-        for (ext, count) in &self.file_categories {
-            println!("   {}: {} files", ext, count);
+
+        println!("📈 Test-to-Source Ratio: {:.1}%", self.get_test_to_source_ratio());
+        println!("   (Test files ÷ Source files × 100)");
+        println!("   ℹ️  This measures test file quantity relative to source files.");
+        println!("   ℹ️  It does NOT measure actual test coverage or test execution success.");
+        println!();
+
+        if !self.file_categories.is_empty() {
+            println!("📂 Top Source File Types: {}", self.get_file_distribution());
         }
-        println!();
-        
-        // Test categories
-        println!("🧪 Test Categories:");
-        for (ext, count) in &self.test_categories {
-            println!("   {}: {} test files", ext, count);
+
+        if !self.test_categories.is_empty() {
+            println!("🧪 Top Test File Types: {}", self.get_test_file_distribution());
         }
+
         println!();
-        
+        println!("📝 For actual test coverage measurement, consider:");
+        println!("   - cargo tarpaulin --all-features");
+        println!("   - grcov . -s . -t html --branch --ignore-not-existing");
+        println!("   - cargo tarpaulin --out Xml");
+        println!();
+
         Ok(())
     }
 }
 
 fn main() -> io::Result<()> {
-    println!("🎯 Project Self-Coverage Analysis");
-    println!("=================================");
-    println!("Analyzing actual project structure and self-coverage...");
-    
-    let mut coverage = ProjectSelfCoverage::new();
-    
-    match coverage.analyze_project_structure() {
+    let mut analysis = ProjectFileAnalysis::new();
+
+    match analysis.analyze_project_structure() {
         Ok(_) => {
-            println!("✅ Project analysis complete");
-            println!();
-            
-            // Render main tile
-            coverage.render_tile(true)?;
-            println!();
-            
-            // Render detailed view
-            coverage.render_detailed()?;
-            println!();
-            
-            // Render recommendations
-            println!("📋 Recommendations:");
-            if coverage.coverage_percentage < 50.0 {
-                println!("   🔴 Low coverage: Consider adding more test files");
-            } else if coverage.coverage_percentage < 80.0 {
-                println!("   🟡 Moderate coverage: Good progress, room for improvement");
-            } else {
-                println!("   🟢 Excellent coverage: Well-tested project");
-            }
-            
-            println!("🎯 Mathematical classification: {}", coverage.group_family);
-            println!("📊 Coverage efficiency: {:.1}%", coverage.coverage_percentage);
-            println!("⚡ Performance efficiency: {:.1}%", coverage.performance_score);
-            println!("🧪 Test success rate: {:.1}%", coverage.test_success_rate);
+            analysis.render_analysis()?;
         }
         Err(e) => {
             eprintln!("Error analyzing project: {}", e);
             return Err(e);
         }
     }
-    
+
     Ok(())
 }

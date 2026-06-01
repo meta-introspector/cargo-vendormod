@@ -8,9 +8,14 @@
       url = "path:/tmp/flake-local/crate2nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    cargo-vendormod-src = {
+      url = "git+file:///home/mdupont/git/solana.solfunmeme.com/cargo-vendormod";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
   };
 
-  outputs = { self, nixpkgs, flake-utils, crate2nix }:
+  outputs = { self, nixpkgs, flake-utils, crate2nix, cargo-vendormod-src }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
@@ -21,7 +26,7 @@
         cargo-vendormod = pkgs.rustPlatform.buildRustPackage {
           pname = "cargo-vendormod";
           version = "0.2.0";
-          src = ./.;
+          src = cargo-vendormod-src;
           cargoLock.lockFile = ./Cargo.lock;
           inherit nativeBuildInputs buildInputs;
           doCheck = false;
