@@ -35,3 +35,6 @@
 [submodule "global_graph"]
 	path = global_graph
 	url = /home/mdupont/git/solana.solfunmeme.com/global_graph
+[submodule "packages/agents/dotagents"]
+	path = packages/agents/dotagents
+	url = https://github.com/soorya-u/dotagents.git
