@@ -4,12 +4,10 @@
 
 use anyhow::{Context, Result};
 use cargo_vendormod::config::Config;
-use cargo_vendormod::args::Args;
 use clap::{Parser, Subcommand};
 use std::path::PathBuf;
 use std::process::Command;
 use rayon::prelude::*;
-use crossbeam::channel;
 
 #[derive(Parser, Debug)]
 #[command(name = "vendoring")]
@@ -121,7 +119,7 @@ fn cmd_init(args: &VendoringArgs, config: &Config, root_dir: &PathBuf) -> Result
     }
 
     // Discover submodules from source
-    use cargo_vendormod::submodule_discovery::{discover_submodules, clone_submodules_to_target};
+    
 
     println!("Discovering submodules from {}", args.source_repo.display());
     let submodules = cargo_vendormod::submodule_discovery::discover_submodules(&args.source_repo)?;

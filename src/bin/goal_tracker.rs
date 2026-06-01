@@ -2,8 +2,7 @@
 //!
 //! Provides ITIL/ISO9001/Six Sigma compliant goal tracking.
 
-use cargo_vendormod::goal_tracker::{Goal, GoalTracker, DmaicPhase, CrqStatus, SixSigmaMetrics};
-use std::path::PathBuf;
+use cargo_vendormod::goal_tracker::{Goal, GoalTracker, DmaicPhase, CrqStatus};
 
 fn main() -> anyhow::Result<()> {
     println!("🎯 Goal Tracker - ITIL/ISO9001/Six Sigma Compliant");

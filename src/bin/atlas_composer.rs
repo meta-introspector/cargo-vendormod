@@ -1,5 +1,4 @@
 use clap::{Parser, Subcommand};
-use std::collections::HashMap;
 use serde::{Serialize, Deserialize};
 use std::fs;
 use std::path::Path;
@@ -250,7 +249,7 @@ fn create_view(
     direct_products: bool,
     semidirect_products: bool,
     layout: String,
-    public: bool,
+    _public: bool,
     output_dir: &str,
 ) -> Result<(), Box<dyn std::error::Error>> {
     println!("🎨 Creating new view: {}", name);
@@ -367,7 +366,7 @@ fn modify_view(
     Ok(())
 }
 
-fn share_view(composer: &mut AtlasViewComposer, view_id: &str, public: bool) -> Result<(), Box<dyn std::error::Error>> {
+fn share_view(_composer: &mut AtlasViewComposer, view_id: &str, public: bool) -> Result<(), Box<dyn std::error::Error>> {
     println!("📤 Sharing view: {} (public: {})", view_id, public);
     println!("⚠️ Note: Pastbin integration requires compiling with 'pastbin' feature");
     println!("   Use: cargo run --features pastbin --bin atlas_composer share {} --public", view_id);
@@ -375,7 +374,7 @@ fn share_view(composer: &mut AtlasViewComposer, view_id: &str, public: bool) -> 
 }
 
 /// Import view from pastbin
-fn import_view(composer: &mut AtlasViewComposer, paste_id: &str) -> Result<(), Box<dyn std::error::Error>> {
+fn import_view(_composer: &mut AtlasViewComposer, paste_id: &str) -> Result<(), Box<dyn std::error::Error>> {
     println!("📥 Importing view from pastbin: {}", paste_id);
     println!("⚠️ Note: Pastbin integration requires compiling with 'pastbin' feature");
     println!("   Use: cargo run --features pastbin --bin atlas_composer import {}", paste_id);
@@ -411,7 +410,7 @@ fn generate_composition(composer: &AtlasViewComposer, view_id: &str, output_dir:
 }
 
 /// Browse public views
-fn browse_public_views(composer: &AtlasViewComposer, tag: Option<String>) -> Result<(), Box<dyn std::error::Error>> {
+fn browse_public_views(_composer: &AtlasViewComposer, tag: Option<String>) -> Result<(), Box<dyn std::error::Error>> {
     println!("🌐 Browsing public views");
     println!("⚠️ Note: Pastbin integration requires compiling with 'pastbin' feature");
     println!("   Use: cargo run --features pastbin --bin atlas_composer browse --tag {}", tag.as_deref().unwrap_or("all"));
@@ -589,13 +588,13 @@ fn save_composition_result(result: &cargo_vendormod::pastbin_atlas::CompositionR
 }
 
 /// Load existing views
-fn load_existing_views(composer: &mut AtlasViewComposer, output_dir: &str) {
+fn load_existing_views(_composer: &mut AtlasViewComposer, _output_dir: &str) {
     // This is now handled by the composer's built-in storage
     println!("📂 Views loaded from storage");
 }
 
 /// Save views
-fn save_views(composer: &AtlasViewComposer, output_dir: &str) {
+fn save_views(_composer: &AtlasViewComposer, output_dir: &str) {
     let views_dir = Path::new(output_dir).join("views");
     fs::create_dir_all(&views_dir).unwrap();
     

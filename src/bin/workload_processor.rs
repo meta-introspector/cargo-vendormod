@@ -20,7 +20,7 @@ fn main() -> Result<()> {
 
     let start = std::time::Instant::now();
     let metrics = process_workload_recursive(&root)?;
-    let total_time = start.elapsed();
+    let _total_time = start.elapsed();
 
     println!("\n========================================");
     println!("  Performance Report");

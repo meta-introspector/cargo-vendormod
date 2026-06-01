@@ -45,7 +45,7 @@ fn expand_tilde(path: &str) -> std::path::PathBuf {
     }
     std::path::PathBuf::from(path)
 }
-use std::collections::{BTreeSet, HashMap};
+use std::collections::BTreeSet;
 use std::io::{BufRead, BufReader};
 use std::path::{Path, PathBuf};
 use std::process::Command;
@@ -431,7 +431,7 @@ fn cargo_lock_exists(project: &Path) -> bool {
 }
 
 /// Generate a minimal flake.nix for a project.
-fn generate_flake(project: &Path, output_dir: &Path, verbose: bool) -> Result<bool> {
+fn generate_flake(project: &Path, _output_dir: &Path, verbose: bool) -> Result<bool> {
     let project_name = project
         .file_name()
         .and_then(|n| n.to_str())

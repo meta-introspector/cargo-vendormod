@@ -1,6 +1,5 @@
 use std::collections::HashMap;
 use std::fs;
-use std::path::Path;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 // Enhanced Repository structure with mathematical group theory concepts
@@ -168,7 +167,7 @@ impl Repository {
         // Simplified Lie type order calculation
         // |PSL(n,q)| = (q^(n(n-1)/2) * ∏(q^i - 1)) / gcd(n, q-1)
         let mut order = 1;
-        for i in 1..=rank {
+        for _i in 1..=rank {
             order *= field_size.pow((rank * (rank - 1) / 2) as u32);
         }
         order * 1000 // Simplified
@@ -674,7 +673,7 @@ fn main() {
     println!("🔍 Creating specialized mathematical views...");
     
     // Cyclic repositories view
-    let mut cyclic_view = composer.create_view(
+    let cyclic_view = composer.create_view(
         "Cyclic Repositories".to_string(),
         "Repositories classified as Cyclic group family".to_string()
     );
@@ -682,7 +681,7 @@ fn main() {
     cyclic_view.analyze_group_theory_properties();
     
     // High complexity view
-    let mut high_complexity_view = composer.create_view(
+    let high_complexity_view = composer.create_view(
         "High Complexity Repositories".to_string(),
         "Repositories with complexity score > 2.5".to_string()
     );
@@ -690,7 +689,7 @@ fn main() {
     high_complexity_view.analyze_group_theory_properties();
     
     // JavaScript repositories view
-    let mut js_view = composer.create_view(
+    let js_view = composer.create_view(
         "JavaScript Repositories".to_string(),
         "JavaScript language repositories".to_string()
     );
@@ -698,7 +697,7 @@ fn main() {
     js_view.analyze_group_theory_properties();
     
     // Star repositories view
-    let mut star_view = composer.create_view(
+    let star_view = composer.create_view(
         "Star Repositories".to_string(),
         "Repositories with > 100,000 stars".to_string()
     );
@@ -706,7 +705,7 @@ fn main() {
     star_view.analyze_group_theory_properties();
     
     // Lie Type repositories view
-    let mut lie_view = composer.create_view(
+    let lie_view = composer.create_view(
         "Lie Type Repositories".to_string(),
         "Repositories classified as Lie Type group family".to_string()
     );

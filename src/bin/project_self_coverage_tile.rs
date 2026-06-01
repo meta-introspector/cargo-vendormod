@@ -24,7 +24,7 @@ impl ProjectFileAnalysis {
     }
 
     fn analyze_project_structure(&mut self) -> io::Result<()> {
-        let project_root = ".";
+        let _project_root = ".";
         let test_dirs = vec!["tests", "src/tests"];
         let source_dirs = vec!["src", "src/bin"];
 

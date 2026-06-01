@@ -1,6 +1,5 @@
 use std::collections::HashMap;
 use std::fs;
-use std::path::Path;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 // Repository structure for mathematical classification
@@ -430,28 +429,28 @@ fn main() {
     println!("🔍 Creating specialized mathematical views...");
     
     // Cyclic repositories view
-    let mut cyclic_view = composer.create_view(
+    let cyclic_view = composer.create_view(
         "Cyclic Repositories".to_string(),
         "Repositories classified as Cyclic group family".to_string()
     );
     cyclic_view.filter_by_family("Cyclic".to_string());
     
     // High complexity view
-    let mut high_complexity_view = composer.create_view(
+    let high_complexity_view = composer.create_view(
         "High Complexity Repositories".to_string(),
         "Repositories with complexity score > 2.5".to_string()
     );
     high_complexity_view.filter_by_complexity(2.5, 5.0);
     
     // JavaScript repositories view
-    let mut js_view = composer.create_view(
+    let js_view = composer.create_view(
         "JavaScript Repositories".to_string(),
         "JavaScript language repositories".to_string()
     );
     js_view.filter_by_language("JavaScript".to_string());
     
     // Star repositories view
-    let mut star_view = composer.create_view(
+    let star_view = composer.create_view(
         "Star Repositories".to_string(),
         "Repositories with > 100,000 stars".to_string()
     );

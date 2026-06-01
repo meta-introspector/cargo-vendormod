@@ -1,6 +1,5 @@
 use std::collections::HashMap;
 use std::fs;
-use std::time::{SystemTime, UNIX_EPOCH};
 
 #[derive(Debug, Clone)]
 struct Repository {
@@ -161,7 +160,7 @@ fn main() {
     for view_name in views_to_export {
         match composer.generate_composition_json(view_name.to_string()) {
             Ok(json_content) => {
-                let output_path = format!("./repository_atall_output/repository_analysis_{}.json", view_name.replace(" ", "_").to_lowercase());
+                let _output_path = format!("./repository_atall_output/repository_analysis_{}.json", view_name.replace(" ", "_").to_lowercase());
                 // Fix directory name
                 let _ = fs::create_dir_all("./repository_atlas_output");
                 let output_path = format!("./repository_atlas_output/repository_analysis_{}.json", view_name.replace(" ", "_").to_lowercase());

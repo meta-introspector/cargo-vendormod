@@ -1,5 +1,4 @@
 use std::collections::HashMap;
-use std::fs;
 use std::io::{self, Write};
 use termion::{color, style, cursor};
 use termion::raw::IntoRawMode;
@@ -226,7 +225,7 @@ impl Repository {
         }
     }
 
-    fn render_tile<W: Write>(&self, mut writer: W, selected: bool) -> io::Result<()> {
+    fn render_tile<W: Write>(&self, mut writer: W, _selected: bool) -> io::Result<()> {
         let width = self.get_tile_width();
         let tile_color = self.get_tile_color();
         
@@ -396,7 +395,7 @@ impl RepositoryView {
         Ok(())
     }
 
-    fn render_tiles<W: Write>(&self, mut writer: W, selected_index: Option<usize>) -> io::Result<()> {
+    fn render_tiles<W: Write>(&self, _writer: W, selected_index: Option<usize>) -> io::Result<()> {
         let stdout = io::stdout().into_raw_mode()?;
         let mut handle = stdout;
         
@@ -451,7 +450,7 @@ impl RepositoryView {
         Ok(())
     }
 
-    fn render_detailed_view<W: Write>(&self, mut writer: W, index: usize) -> io::Result<()> {
+    fn render_detailed_view<W: Write>(&self, writer: W, index: usize) -> io::Result<()> {
         if index < self.repositories.len() {
             self.repositories[index].render_detailed(writer)?;
         }

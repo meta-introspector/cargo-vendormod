@@ -227,7 +227,7 @@ fn extract_git_deps(cargo_toml: &Path) -> Result<Vec<String>> {
 fn extract_urls_from_table(table: &toml::map::Map<String, toml::Value>, urls: &mut Vec<String>) {
     let git_url_re = regex::Regex::new(r#"https?://[a-zA-Z0-9._/-]+/([a-zA-Z0-9_-]+)/([a-zA-Z0-9._-]+)"#).unwrap();
 
-    for (name, value) in table {
+    for (_name, value) in table {
         // Check for git = "url" format
         if let Some(table) = value.as_table() {
             if let Some(git_url) = table.get("git").and_then(|v| v.as_str()) {
@@ -313,7 +313,7 @@ fn parse_url(url: &str) -> Result<(String, String, String)> {
 }
 
 fn add_submodule(url: &str, bare_path: &Path, newroot_dir: &Path) -> Result<()> {
-    let (_, owner, repo) = parse_url(url)?;
+    let (_, _owner, repo) = parse_url(url)?;
     
     let submodule_path = newroot_dir.join(&repo);
     

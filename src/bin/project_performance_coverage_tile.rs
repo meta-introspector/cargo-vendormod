@@ -1,4 +1,3 @@
-use std::collections::HashMap;
 use std::fs;
 use std::io;
 use std::path::Path;
@@ -31,7 +30,7 @@ impl ProjectMetrics {
     }
 
     fn analyze_project_structure(&mut self) -> io::Result<()> {
-        let project_root = ".";
+        let _project_root = ".";
         let test_dirs = vec!["tests", "src/tests"];
         let source_dirs = vec!["src", "src/bin"];
 

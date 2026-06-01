@@ -383,7 +383,7 @@ fn parse_github_url(url: &str) -> Option<(String, String, String)> {
 
 fn clone_bare_to_mirror(repo_url: &str, mirror_base: &Path, cache: &std::sync::Mutex<RepoCache>, cache_path: &Path) -> Result<PathBuf> {
     {
-        let mut cache = cache.lock().unwrap();
+        let cache = cache.lock().unwrap();
         if !cache.is_retryable(repo_url) {
             println!("  Skipping (cached as unavailable): {}", repo_url);
             return Err(anyhow::anyhow!("Repository not available"));

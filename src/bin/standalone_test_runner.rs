@@ -205,7 +205,7 @@ fn test_performance() -> TestResult {
     let mut total_duration = std::time::Duration::new(0, 0);
     let mut successful_runs = 0;
     
-    for i in 0..5 {
+    for _i in 0..5 {
         match Command::new("./simple_repository_mathematical_atlas")
             .output() {
             Ok(output) => {

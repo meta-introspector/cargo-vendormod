@@ -223,7 +223,7 @@ fn test_mathematical_calculations() -> IntegrationTestResult {
     let start = std::time::Instant::now();
     
     // Test mathematical consistency by running multiple iterations
-    let mut total_complexity = 0.0;
+    let _total_complexity = 0.0;
     let mut total_repos = 0;
     
     for _i in 0..3 {
@@ -283,7 +283,7 @@ fn test_error_handling() -> IntegrationTestResult {
     }
     
     // Test 2: Verify that the atlas doesn't crash with empty output directories
-    let output_backup = fs::read_dir("repository_atlas_output").unwrap().count();
+    let _output_backup = fs::read_dir("repository_atlas_output").unwrap().count();
     
     // The atlas should handle existing output files gracefully
     match Command::new("./simple_repository_mathematical_atlas")
