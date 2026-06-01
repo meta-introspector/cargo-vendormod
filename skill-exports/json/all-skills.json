@@ -1,0 +1,302 @@
+[
+  {
+    "description": "Transform CBOR libraries into DAG-CBOR-compliant implementations using perf-guided code path profiling, sheaf-theoretic restriction morphisms, and cross-implementation fuzzing campaigns. Covers C, Rust, Go, JS, Python, and Java CBOR implementations.",
+    "name": "dag-cbor-restriction-morphisms",
+    "source": "/home/mdupont/.agents/skills/dag-cbor-restriction-morphisms/SKILL.md"
+  },
+  {
+    "description": "Helps users discover and install agent skills when they ask questions like \"how do I do X\", \"find a skill for X\", \"is there a skill that can...\", or express interest in extending capabilities. This skill should be used when the user is looking for functionality that might exist as an installable skill.",
+    "name": "find-skills",
+    "source": "/home/mdupont/.agents/skills/find-skills/SKILL.md"
+  },
+  {
+    "description": "Use when the user needs to run GitNexus CLI commands like analyze/index a repo, check status, clean the index, generate a wiki, or list indexed repos. Examples: \\\"Index this repo\\\", \\\"Reanalyze the codebase\\\", \\\"Generate a wiki\\",
+    "name": "gitnexus-cli",
+    "source": "/home/mdupont/.agents/skills/gitnexus-cli/SKILL.md"
+  },
+  {
+    "description": "Use when the user is debugging a bug, tracing an error, or asking why something fails. Examples: \\\"Why is X failing?\\\", \\\"Where does this error come from?\\\", \\\"Trace this bug\\",
+    "name": "gitnexus-debugging",
+    "source": "/home/mdupont/.agents/skills/gitnexus-debugging/SKILL.md"
+  },
+  {
+    "description": "Use when the user asks how code works, wants to understand architecture, trace execution flows, or explore unfamiliar parts of the codebase. Examples: \\\"How does X work?\\\", \\\"What calls this function?\\\", \\\"Show me the auth flow\\",
+    "name": "gitnexus-exploring",
+    "source": "/home/mdupont/.agents/skills/gitnexus-exploring/SKILL.md"
+  },
+  {
+    "description": "Use when the user asks about GitNexus itself — available tools, how to query the knowledge graph, MCP resources, graph schema, or workflow reference. Examples: \\\"What GitNexus tools are available?\\\", \\\"How do I use GitNexus?\\",
+    "name": "gitnexus-guide",
+    "source": "/home/mdupont/.agents/skills/gitnexus-guide/SKILL.md"
+  },
+  {
+    "description": "Use when the user wants to know what will break if they change something, or needs safety analysis before editing code. Examples: \\\"Is it safe to change X?\\\", \\\"What depends on this?\\\", \\\"What will break?\\",
+    "name": "gitnexus-impact-analysis",
+    "source": "/home/mdupont/.agents/skills/gitnexus-impact-analysis/SKILL.md"
+  },
+  {
+    "description": "Use when the user wants to review a pull request, understand what a PR changes, assess risk of merging, or check for missing test coverage. Examples: \\\"Review this PR\\\", \\\"What does PR #42 change?\\\", \\\"Is this PR safe to merge?\\",
+    "name": "gitnexus-pr-review",
+    "source": "/home/mdupont/.agents/skills/gitnexus-pr-review/SKILL.md"
+  },
+  {
+    "description": "Use when the user wants to rename, extract, split, move, or restructure code safely. Examples: \\\"Rename this function\\\", \\\"Extract this into a module\\\", \\\"Refactor this class\\\", \\\"Move this to a separate file\\",
+    "name": "gitnexus-refactoring",
+    "source": "/home/mdupont/.agents/skills/gitnexus-refactoring/SKILL.md"
+  },
+  {
+    "description": "Master the libipld-upgrade harness for systematically upgrading Rust repositories from old libipld crates to a shim workspace. Use for patching dependencies, testing compatibility, and managing git mirror-based upgrade workflows.",
+    "name": "libipld-upgrade",
+    "source": "/home/mdupont/.agents/skills/libipld-upgrade/SKILL.md"
+  },
+  {
+    "description": "Master the end-to-end workflow for discovering libipld consumer repos in the DASL codebase, adding them as targets to the libipld-upgrade harness, and setting up fuzz checking. Covers auto-discovery, git mirror management, target registration, fuzzing integration, and Nix-based testing.",
+    "name": "libipld-upgrade-consumers",
+    "source": "/home/mdupont/.agents/skills/libipld-upgrade-consumers/SKILL.md"
+  },
+  {
+    "description": "Set up multi-engine fuzz checking for libipld consumer crates, modeled on the ipld-core fuzzing infrastructure. Covers Honggfuzz, AFL, libFuzzer, fuzzcheck-rs, Bolero, Ziggy, LibAFL, Siderophile, and TSFFS integration with Nix flakes.",
+    "name": "libipld-upgrade-fuzzing",
+    "source": "/home/mdupont/.agents/skills/libipld-upgrade-fuzzing/SKILL.md"
+  },
+  {
+    "description": "Comprehensive NixOS, Nix Flakes, Home Manager, and nix-darwin skill. Covers declarative system configuration, reproducible environments, package management, and cross-platform Nix workflows. Activate for any Nix/NixOS/Flakes/Home-Manager/nix-darwin tasks.",
+    "name": "nix",
+    "source": "/home/mdupont/.agents/skills/nix/SKILL.md"
+  },
+  {
+    "description": "Creates reproducible builds, manages flake inputs, defines devShells, and builds packages with flake.nix. Use when initializing Nix projects, locking dependencies, or running nix build/develop commands.",
+    "name": "nix-flakes",
+    "source": "/home/mdupont/.agents/skills/nix-flakes/SKILL.md"
+  },
+  {
+    "description": "Auto-detect, compose, render, and test interactive tiles in the Kant Pastebin. Covers tile detection from pasted content, plugin-based rendering, standalone testing, and perf measurement across 8 plugin types.",
+    "name": "pastebin-tile-system",
+    "source": "/home/mdupont/.agents/skills/pastebin-tile-system/SKILL.md"
+  },
+  {
+    "description": "Master Rust async programming with Tokio, async traits, error handling, and concurrent patterns. Use when building async Rust applications, implementing concurrent systems, or debugging async code.",
+    "name": "rust-async-patterns",
+    "source": "/home/mdupont/.agents/skills/rust-async-patterns/SKILL.md"
+  },
+  {
+    "description": "Orchestrate multiple worktree agents. Spawn, monitor, communicate, and merge.",
+    "name": "coordinator",
+    "source": "/home/mdupont/.claude/skills/coordinator/SKILL.md"
+  },
+  {
+    "description": "Use when the user needs to run GitNexus CLI commands like analyze/index a repo, check status, clean the index, generate a wiki, or list indexed repos. Examples: \\\"Index this repo\\\", \\\"Reanalyze the codebase\\\", \\\"Generate a wiki\\",
+    "name": "gitnexus-cli",
+    "source": "/home/mdupont/.claude/skills/gitnexus-cli/SKILL.md"
+  },
+  {
+    "description": "Use when the user is debugging a bug, tracing an error, or asking why something fails. Examples: \\\"Why is X failing?\\\", \\\"Where does this error come from?\\\", \\\"Trace this bug\\",
+    "name": "gitnexus-debugging",
+    "source": "/home/mdupont/.claude/skills/gitnexus-debugging/SKILL.md"
+  },
+  {
+    "description": "Use when the user asks how code works, wants to understand architecture, trace execution flows, or explore unfamiliar parts of the codebase. Examples: \\\"How does X work?\\\", \\\"What calls this function?\\\", \\\"Show me the auth flow\\",
+    "name": "gitnexus-exploring",
+    "source": "/home/mdupont/.claude/skills/gitnexus-exploring/SKILL.md"
+  },
+  {
+    "description": "Use when the user asks about GitNexus itself — available tools, how to query the knowledge graph, MCP resources, graph schema, or workflow reference. Examples: \\\"What GitNexus tools are available?\\\", \\\"How do I use GitNexus?\\",
+    "name": "gitnexus-guide",
+    "source": "/home/mdupont/.claude/skills/gitnexus-guide/SKILL.md"
+  },
+  {
+    "description": "Use when the user wants to know what will break if they change something, or needs safety analysis before editing code. Examples: \\\"Is it safe to change X?\\\", \\\"What depends on this?\\\", \\\"What will break?\\",
+    "name": "gitnexus-impact-analysis",
+    "source": "/home/mdupont/.claude/skills/gitnexus-impact-analysis/SKILL.md"
+  },
+  {
+    "description": "Use when the user wants to review a pull request, understand what a PR changes, assess risk of merging, or check for missing test coverage. Examples: \\\"Review this PR\\\", \\\"What does PR #42 change?\\\", \\\"Is this PR safe to merge?\\",
+    "name": "gitnexus-pr-review",
+    "source": "/home/mdupont/.claude/skills/gitnexus-pr-review/SKILL.md"
+  },
+  {
+    "description": "Use when the user wants to rename, extract, split, move, or restructure code safely. Examples: \\\"Rename this function\\\", \\\"Extract this into a module\\\", \\\"Refactor this class\\\", \\\"Move this to a separate file\\",
+    "name": "gitnexus-refactoring",
+    "source": "/home/mdupont/.claude/skills/gitnexus-refactoring/SKILL.md"
+  },
+  {
+    "description": "Commit, rebase, and merge the current branch.",
+    "name": "merge",
+    "source": "/home/mdupont/.claude/skills/merge/SKILL.md"
+  },
+  {
+    "description": "Write a PR description using conversation context and open PR creation in browser.",
+    "name": "open-pr",
+    "source": "/home/mdupont/.claude/skills/open-pr/SKILL.md"
+  },
+  {
+    "description": "Rebase the current branch with smart conflict resolution.",
+    "name": "rebase",
+    "source": "/home/mdupont/.claude/skills/rebase/SKILL.md"
+  },
+  {
+    "description": "Reference for the workmux CLI that manages git worktrees and",
+    "name": "workmux",
+    "source": "/home/mdupont/.claude/skills/workmux/SKILL.md"
+  },
+  {
+    "description": "Launch one or more tasks in new git worktrees using workmux.",
+    "name": "worktree",
+    "source": "/home/mdupont/.claude/skills/worktree/SKILL.md"
+  },
+  {
+    "description": "Converting cargo dependencies to git submodules for offline development. Use when initializing vendoring, creating submodules, or managing vendored crates.",
+    "name": "cargo-vendormod",
+    "source": "/home/mdupont/.kilocode/skills/cargo-vendormod/SKILL.md"
+  },
+  {
+    "description": "Finite simple group theory repository classification and ZKperf integration. Use for mathematical analysis of codebases.",
+    "name": "cargo-vendormod-atlas",
+    "source": "/home/mdupont/.kilocode/skills/cargo-vendormod-atlas/SKILL.md"
+  },
+  {
+    "description": "Building, analyzing, and partitioning Rust dependency graphs for Solana universe. Use with global-graph commands.",
+    "name": "cargo-vendormod-graph",
+    "source": "/home/mdupont/.kilocode/skills/cargo-vendormod-graph/SKILL.md"
+  },
+  {
+    "description": "Process Rust crates in topological order with Nix flake generation. Use for building workspaces.",
+    "name": "cargo-vendormod-processing",
+    "source": "/home/mdupont/.kilocode/skills/cargo-vendormod-processing/SKILL.md"
+  },
+  {
+    "description": "Run and extend the cargo-vendormod Rust test suite. Use when the user asks to run tests, add unit tests, check coverage, or debug test failures for cargo-vendormod.",
+    "name": "cargo-vendormod-tests",
+    "source": "/home/mdupont/.kilocode/skills/cargo-vendormod-tests/SKILL.md"
+  },
+  {
+    "description": "Git submodule vendoring workflow for cargo-vendormod. Use when initializing vendoring, fetching upstream, rebasing, managing releases, or patching .cargo/config.toml.",
+    "name": "cargo-vendormod-vendoring",
+    "source": "/home/mdupont/.kilocode/skills/cargo-vendormod-vendoring/SKILL.md"
+  },
+  {
+    "description": "Build, test, and verify CBOR, DAG-CBOR, DRISL, IPLD, libipld, serde_ipld_dagcbor, rust-ipld-core, rust-ipld-dagpb, fuzz, and test-suite crates with cargo-vendormod. Use for dag-cbor workload management, flake coverage, encoding/decoding tests, fuzzing, and compliance tooling.",
+    "name": "dag-cbor-restriction-morphisms",
+    "source": "/home/mdupont/.kilocode/skills/dag-cbor-restriction-morphisms/SKILL.md"
+  },
+  {
+    "description": "Working with git submodules in cargo projects - initializing, updating, handling untracked content. Use when user encounters submodule issues in cargo workspaces.",
+    "name": "git-submodule-cargo",
+    "source": "/home/mdupont/.kilocode/skills/git-submodule-cargo/SKILL.md"
+  },
+  {
+    "description": "Implement tasks from an OpenSpec change. Use when the user wants to start implementing, continue implementation, or work through tasks.",
+    "name": "openspec-apply-change",
+    "source": "./packages/agents/dotagents/.dotagents/skills/openspec-apply-change/SKILL.md"
+  },
+  {
+    "description": "Archive a completed change in the experimental workflow. Use when the user wants to finalize and archive a change after implementation is complete.",
+    "name": "openspec-archive-change",
+    "source": "./packages/agents/dotagents/.dotagents/skills/openspec-archive-change/SKILL.md"
+  },
+  {
+    "description": "Continue working on an OpenSpec change by creating the next artifact. Use when the user wants to progress their change, create the next artifact, or continue their workflow.",
+    "name": "openspec-continue-change",
+    "source": "./packages/agents/dotagents/.dotagents/skills/openspec-continue-change/SKILL.md"
+  },
+  {
+    "description": "Enter explore mode - a thinking partner for exploring ideas, investigating problems, and clarifying requirements. Use when the user wants to think through something before or during a change.",
+    "name": "openspec-explore",
+    "source": "./packages/agents/dotagents/.dotagents/skills/openspec-explore/SKILL.md"
+  },
+  {
+    "description": "Start a new OpenSpec change using the experimental artifact workflow. Use when the user wants to create a new feature, fix, or modification with a structured step-by-step approach.",
+    "name": "openspec-new-change",
+    "source": "./packages/agents/dotagents/.dotagents/skills/openspec-new-change/SKILL.md"
+  },
+  {
+    "description": "Propose a new change with all artifacts generated in one step. Use when the user wants to quickly describe what they want to build and get a complete proposal with design, specs, and tasks ready for implementation.",
+    "name": "openspec-propose",
+    "source": "./packages/agents/dotagents/.dotagents/skills/openspec-propose/SKILL.md"
+  },
+  {
+    "description": "Sync delta specs from a change to main specs. Use when the user wants to update main specs with changes from a delta spec, without archiving the change.",
+    "name": "openspec-sync-specs",
+    "source": "./packages/agents/dotagents/.dotagents/skills/openspec-sync-specs/SKILL.md"
+  },
+  {
+    "description": "Verify implementation matches change artifacts. Use when the user wants to validate that implementation is complete, correct, and coherent before archiving.",
+    "name": "openspec-verify-change",
+    "source": "./packages/agents/dotagents/.dotagents/skills/openspec-verify-change/SKILL.md"
+  },
+  {
+    "description": "A comprehensive tool for managing complex Rust workspaces, especially monorepos. It helps analyze dependency graphs, process crates in topological order, manage git submodules, and generate Nix flakes.",
+    "name": "cargo-vendormod",
+    "source": "./skills/cargo-vendormod/SKILL.md"
+  },
+  {
+    "description": "Classify repositories using finite simple group theory and generate mathematical atlases. Use with atlas binaries and ZKperf coverage runners.",
+    "name": "cargo-vendormod-atlas",
+    "source": "./skills/cargo-vendormod-atlas/SKILL.md"
+  },
+  {
+    "description": "Build, analyze, partition, and visualize Rust dependency graphs with cargo-vendormod. Use for global-graph commands.",
+    "name": "cargo-vendormod-graph",
+    "source": "./skills/cargo-vendormod-graph/SKILL.md"
+  },
+  {
+    "description": "Detect languages and generate per-language Nix flakes with cargo-vendormod. Use when processing Java, JavaScript, C, Lean4, Python, Go, Ruby, Nix, or mixed-language projects.",
+    "name": "cargo-vendormod-multi-lang",
+    "source": "./skills/cargo-vendormod-multi-lang/SKILL.md"
+  },
+  {
+    "description": "Process Rust crates in layered topological order and generate Nix flakes. Use with the `processing` binary and `workflow` runner.",
+    "name": "cargo-vendormod-processing",
+    "source": "./skills/cargo-vendormod-processing/SKILL.md"
+  },
+  {
+    "description": "Generate, process, and verify reports and manifests with cargo-vendormod. Use for report generation, goal tracking, coverage summaries, gitmodules metadata, rollup locks, Cargo.toml fixes, and DASL metadata processing.",
+    "name": "cargo-vendormod-reporting",
+    "source": "./skills/cargo-vendormod-reporting/SKILL.md"
+  },
+  {
+    "description": "Discover and classify repositories, crates, and sanitized references in cargo-vendormod workloads. Use when scanning directories for Cargo.toml files, collecting repo info, or cleaning git references.",
+    "name": "cargo-vendormod-scanner",
+    "source": "./skills/cargo-vendormod-scanner/SKILL.md"
+  },
+  {
+    "description": "Run and extend the cargo-vendormod Rust test suite. Use when the user asks to run tests, add unit tests, check coverage, or debug test failures for cargo-vendormod.",
+    "name": "cargo-vendormod-tests",
+    "source": "./skills/cargo-vendormod-tests/SKILL.md"
+  },
+  {
+    "description": "Diagnose and recover from cargo-vendormod failures. Use when tests fail, builds error, zkperf errors, git submodules break, flakes are invalid, or LLM error pipelines misfire.",
+    "name": "cargo-vendormod-troubleshooting",
+    "source": "./skills/cargo-vendormod-troubleshooting/SKILL.md"
+  },
+  {
+    "description": "Git submodule vendoring workflow for cargo-vendormod. Use when initializing vendoring, fetching upstream, rebasing, managing releases, or patching .cargo/config.toml.",
+    "name": "cargo-vendormod-vendoring",
+    "source": "./skills/cargo-vendormod-vendoring/SKILL.md"
+  },
+  {
+    "description": "Strip, normalize, and sanitize untrusted text, file contents, command output, filenames, user-supplied input, and logs before writing them to disk or passing them downstream.",
+    "name": "cargo-vendormod-whitespace-access",
+    "source": "./skills/cargo-vendormod-whitespace-access/SKILL.md"
+  },
+  {
+    "description": "Collect repo info, build actions plans, run recursive workload vendoring, and generate workload reports. Use for workload processing and DASL workloads.",
+    "name": "cargo-vendormod-workload",
+    "source": "./skills/cargo-vendormod-workload/SKILL.md"
+  },
+  {
+    "description": "Deploy dotfiles for Gemini using the Gemini provider in dotagents. Use when configuring Gemini agent commands, skills, or instructions.",
+    "name": "dotagents-providers-gemini",
+    "source": "./skills/dotagents-providers-gemini/SKILL.md"
+  },
+  {
+    "description": "Deploy dotfiles for Hermes using the Hermes provider in dotagents. Use when configuring Hermes agent commands, skills, or instructions.",
+    "name": "dotagents-providers-hermes",
+    "source": "./skills/dotagents-providers-hermes/SKILL.md"
+  },
+  {
+    "description": "Deploy dotfiles for Pi using the Pi provider in dotagents. Use when configuring Pi agent commands, skills, or instructions.",
+    "name": "dotagents-providers-pi",
+    "source": "./skills/dotagents-providers-pi/SKILL.md"
+  }
+]
