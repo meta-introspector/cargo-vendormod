@@ -362,8 +362,28 @@ pub enum Commands {
         #[arg(long, default_value = "./processed_all")]
         output_dir: PathBuf,
     },
-    /// Run parallel Nix builds with error collection and LLM analysis
-    NixBuildPipeline {
+    /// Split a Lean 4 mathlib-style project into per-declaration flakes via lean-split-tool
+    SplitLean4 {
+        /// Path to mathlib source (directory containing Mathlib/)
+        #[arg(long)]
+        mathlib_src: PathBuf,
+
+        /// Output directory for split flakes
+        #[arg(long, default_value = "./mathlib-split")]
+        output_dir: PathBuf,
+
+        /// Branch to push to in the target repo
+        #[arg(long, default_value = "feature/split")]
+        branch: String,
+
+        /// Path to the lean-split-tool split script
+        #[arg(long, default_value = "/home/mdupont/projects/lean-split-tool/split-mathlib.sh")]
+        split_tool: PathBuf,
+
+        /// Dry-run: only print what would be executed
+        #[arg(long)]
+        dry_run: bool,
+    },
         /// Path to directory containing Nix flakes
         flake_dir: PathBuf,
         /// Maximum number of parallel builds

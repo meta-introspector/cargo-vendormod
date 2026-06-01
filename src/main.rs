@@ -374,6 +374,29 @@ struct WorkloadWorktreeArgs {
     output_dir: PathBuf,
 }
 
+#[derive(Parser, Debug)]
+struct SplitLean4Args {
+    /// Path to mathlib source (directory containing Mathlib/)
+    #[arg(long)]
+    mathlib_src: PathBuf,
+
+    /// Output directory for split flakes
+    #[arg(long, default_value = "./mathlib-split")]
+    output_dir: PathBuf,
+
+    /// Branch to push to in the target repo
+    #[arg(long, default_value = "feature/split")]
+    branch: String,
+
+    /// Path to the lean-split-tool split script
+    #[arg(long, default_value = "/home/mdupont/projects/lean-split-tool/split-mathlib.sh")]
+    split_tool: PathBuf,
+
+    /// Dry-run: only print what would be executed
+    #[arg(long)]
+    dry_run: bool,
+}
+
 /// Defined workload configuration
 #[derive(Debug, serde::Serialize)]
 pub struct WorkloadDef {
@@ -414,6 +437,8 @@ fn get_defined_workloads() -> Vec<WorkloadDef> {
         },
     ]
 }
+
+fn main() -> Result<()> {
 
 fn main() -> Result<()> {
     let args = MainArgs::parse();
@@ -566,6 +591,10 @@ fn main() -> Result<()> {
             }
 
             Ok(())
+        }
+
+        Some(Commands::SplitLean4(args)) => {
+            handle_split_lean4(&args)
         }
 
         Some(Commands::FlakeCheck(args)) => {

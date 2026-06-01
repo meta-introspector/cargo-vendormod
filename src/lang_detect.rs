@@ -37,6 +37,8 @@ pub enum Language {
     Java,
     /// C / C++ (CMakeLists.txt, Makefile, or .c/.cpp/.h files)
     C,
+    /// Lean 4 (lakefile.lean / lean-toolchain / .lean sources)
+    Lean4,
     /// Unknown — fallback to generic
     Unknown,
 }
@@ -51,6 +53,7 @@ impl Language {
             Language::JavaScript => "JavaScript",
             Language::Java => "Java",
             Language::C => "C/C++",
+            Language::Lean4 => "Lean4",
             Language::Unknown => "Unknown",
         }
     }
@@ -112,7 +115,26 @@ pub fn detect_language(project_dir: &Path) -> Language {
         return Language::C;
     }
 
-    // 9. Heuristic: check for source file extensions
+    // 9. Lean 4: lean-toolchain or lakefile.lean or any .lean source
+    if project_dir.join("lean-toolchain").exists()
+        || project_dir.join("lakefile.toml").exists()
+        || project_dir.join("lakefile.lean").exists()
+    {
+        return Language::Lean4;
+    }
+    if let Ok(entries) = std::fs::read_dir(project_dir) {
+        for entry in entries.flatten() {
+            if entry.file_type().map(|t| t.is_file()).unwrap_or(false) {
+                if let Some(name) = entry.file_name().to_str() {
+                    if name.ends_with(".lean") {
+                        return Language::Lean4;
+                    }
+                }
+            }
+        }
+    }
+
+    // 10. Heuristic: check for source file extensions
     if let Ok(entries) = std::fs::read_dir(project_dir) {
         let mut has_go = false;
         let mut has_c = false;

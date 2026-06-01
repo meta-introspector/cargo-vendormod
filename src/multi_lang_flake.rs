@@ -11,6 +11,7 @@
 //! - **C/C++**: `stdenv.mkDerivation` with CMake or Make
 //! - **JavaScript**: `buildNpmPackage` with `npmDeps`
 //! - **Java**: `stdenv.mkDerivation` with Maven/Gradle caching
+//! - **Lean4**: `lean4-nix` dependency template with `lean --make`
 
 use anyhow::{Context, Result};
 use std::fs;
