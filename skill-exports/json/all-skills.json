@@ -298,5 +298,10 @@
     "description": "Deploy dotfiles for Pi using the Pi provider in dotagents. Use when configuring Pi agent commands, skills, or instructions.",
     "name": "dotagents-providers-pi",
     "source": "./skills/dotagents-providers-pi/SKILL.md"
+  },
+  {
+    "description": "Import skills from all agent formats and regenerate unified forms. Use when adding new skills, syncing cross-agent docs, or normalizing existing skill files.",
+    "name": "skill-importer",
+    "source": "./skills/skill-importer/SKILL.md"
   }
 ]
