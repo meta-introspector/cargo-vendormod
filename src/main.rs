@@ -18,24 +18,6 @@ use walkdir::WalkDir;
 use toml;
 use project_detect;
 use git_config;
-use git2;
-use serde_ipld_dagcbor;
-use cid::{Cid, codec::Codec};
-use multihash::{Code, Multihash};
-use std::io::{Read, Write};
-use std::collections::{HashMap, HashSet};
-use std::path::{Path, PathBuf};
-use cargo_vendormod::config::Config;
-use cargo_vendormod::nur_flake::NurFlakeGenerator;
-use cargo_vendormod::flake_check;
-use cargo_vendormod::workload_processor::process_workload_recursive;
-use cargo_vendormod::vendoring_cmds;
-use std::process::Command;
-use cargo_vendormod::global_dep_graph::{self, GlobalDependencyGraph};
-use walkdir::WalkDir;
-use toml;
-use project_detect;
-use git_config;
 
 #[derive(Parser, Debug)]
 #[command(name = "cargo-vendormod")]
@@ -583,6 +565,9 @@ struct ScanIndexArgs {
     /// Only scan, don't write results
     #[arg(long)]
     dry_run: bool,
+    /// Store results in IPLD shmem (1MB cap per file)
+    #[arg(long)]
+    shmem: bool,
     /// Verbose output
     #[arg(long, short)]
     verbose: bool,
@@ -591,9 +576,25 @@ struct ScanIndexArgs {
     format: String,
 }
 
+#[derive(Parser, Debug)]
+struct SplitArgs {
+    /// Path to the file to split
+    #[arg(long)]
+    input_file: PathBuf,
+}
 
 
 
+
+/// Defined workload configuration
+#[derive(Debug, serde::Serialize)]
+pub struct WorkloadDef {
+    pub name: String,
+    pub path: String,
+    pub layer1_count: usize,
+    pub layer2_count: usize,
+    pub description: String,
+}
 
 impl Default for WorkloadDef {
     fn default() -> Self {
@@ -1202,17 +1203,44 @@ fn compute_cid(input: &str) -> String {
 }
 
 /// Store a block in the IPLD CAR shmem
-fn shmem_put(socket: &str, path: &str, description: &str, data: &[u8]) -> Result<()> {
-    // Connect to the shmem server and send a put command
-    let mut cmd = std::process::Command::new("letta-ipld-memory");
-    cmd.arg("put")
-       .arg(path)
-       .arg("--description")
-       .arg(description)
-       .arg("--data")
-       .arg("-"); // read from stdin would be ideal, but for now just log
-    // For now, just log that we would store it
-    eprintln!("[shmem] Would store {} ({} bytes) at {}", path, data.len(), socket);
+/// Max file size to store in shmem (1MB)
+const SHMEM_MAX_SIZE: usize = 1_048_576;
+
+/// Full path to letta-ipld-memory binary
+const IPLD_MEMORY_BIN: &str = "/home/mdupont/dasl/ipld-car-ipc-shmem-linux/target/release/letta-ipld-memory";
+
+fn shmem_put(_socket: &str, path: &str, description: &str, data: &[u8]) -> Result<()> {
+    // Enforce 1MB cap
+    if data.len() > SHMEM_MAX_SIZE {
+        eprintln!("[shmem] Skipping {} ({} bytes > 1MB cap)", path, data.len());
+        return Ok(());
+    }
+
+    // Call letta-ipld-memory put via stdin pipe
+    let mut child = std::process::Command::new(IPLD_MEMORY_BIN)
+        .arg("put")
+        .arg(path)
+        .arg(description)
+        .stdin(std::process::Stdio::piped())
+        .stdout(std::process::Stdio::piped())
+        .stderr(std::process::Stdio::piped())
+        .spawn()
+        .context("Failed to spawn letta-ipld-memory put")?;
+
+    use std::io::Write;
+    if let Some(mut stdin) = child.stdin.take() {
+        stdin.write_all(data)?;
+    }
+
+    let output = child.wait_with_output()?;
+    if !output.status.success() {
+        eprintln!("[shmem] Failed to store {}: {}", path, String::from_utf8_lossy(&output.stderr));
+    } else {
+        let cid = String::from_utf8_lossy(&output.stdout).trim().to_string();
+        if !cid.is_empty() {
+            eprintln!("[shmem] Stored {} ({} bytes) -> CID {}", path, data.len(), cid);
+        }
+    }
     Ok(())
 }
 
@@ -1524,11 +1552,11 @@ fn handle_scan_index(args: &ScanIndexArgs) -> Result<()> {
                 let path = entry.path();
                 if path.is_file() {
                     let name = path.file_name().and_then(|n| n.to_str()).unwrap_or("");
-                    // Skip very large files (>100MB) and binary files
+                    // Skip files over 1MB (cap for shmem storage)
                     let size = path.metadata().map(|m| m.len()).unwrap_or(0);
-                    if size > 100_000_000 {
+                    if size > SHMEM_MAX_SIZE as u64 {
                         if args.verbose {
-                            println!("  Skipping large file: {} ({:.1} MB)", name, size as f64 / 1_048_576.0);
+                            println!("  Skipping large file: {} ({:.1} MB, over 1MB cap)", name, size as f64 / 1_048_576.0);
                         }
                         continue;
                     }
@@ -1664,6 +1692,32 @@ fn handle_scan_index(args: &ScanIndexArgs) -> Result<()> {
                 println!("Written summary to {}", summary_path.display());
             }
         }
+    }
+
+    // 9. Store in shmem if requested (1MB cap per block)
+    if args.shmem {
+        // Store summary
+        let summary = serde_json::json!({
+            "total_files": all_files.len(),
+            "total_gitmodules": all_gitmodules.len(),
+            "sources": source_stats,
+            "existing": existing,
+            "missing": missing,
+        });
+        let summary_bytes = serde_json::to_vec(&summary)?;
+        let _ = shmem_put("", "vendormod/scan-summary", "Scan index summary", &summary_bytes);
+
+        // Store gitmodules entries (batch as one if under 1MB)
+        let gm_bytes = serde_json::to_vec(&all_gitmodules)?;
+        let _ = shmem_put("", "vendormod/scan-gitmodules", &format!("{} gitmodules entries", all_gitmodules.len()), &gm_bytes);
+
+        // Store file entries in chunks of 1000 (to stay under 1MB)
+        for (chunk_idx, chunk) in all_files.chunks(1000).enumerate() {
+            let chunk_bytes = serde_json::to_vec(chunk)?;
+            let _ = shmem_put("", &format!("vendormod/scan-files-{}", chunk_idx), &format!("Files chunk {} ({} entries)", chunk_idx, chunk.len()), &chunk_bytes);
+        }
+
+        println!("Stored results in IPLD shmem (1MB cap per block)");
     }
 
     Ok(())
