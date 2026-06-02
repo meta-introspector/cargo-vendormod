@@ -4,8 +4,20 @@
 
 use anyhow::{Context, Result};
 use clap::{Parser, Subcommand};
-use std::collections::HashMap;
+use serde::{Serialize, Deserialize};
+use std::collections::{HashMap, HashSet};
 use std::path::{Path, PathBuf};
+use cargo_vendormod::config::Config;
+use cargo_vendormod::nur_flake::NurFlakeGenerator;
+use cargo_vendormod::flake_check;
+use cargo_vendormod::workload_processor::process_workload_recursive;
+use cargo_vendormod::vendoring_cmds;
+use std::process::Command;
+use cargo_vendormod::global_dep_graph::{self, GlobalDependencyGraph};
+use walkdir::WalkDir;
+use toml;
+use project_detect;
+use git_config;
 
 #[derive(Parser, Debug)]
 #[command(name = "cargo-vendormod")]
@@ -116,6 +128,8 @@ enum Commands {
     MemecacheUpgrade(MemecacheUpgradeArgs),
     /// Clean stale crate versions from the memecache
     MemecacheGc(MemecacheGcArgs),
+    /// Scan index files (text lists, .gitmodules, parquet, plocate)
+    ScanIndex(ScanIndexArgs),
     /// Split a monolithic crate into workspace sub-crates
     Split(SplitArgs),
 }
@@ -512,12 +526,51 @@ struct MemecacheGcArgs {
     verbose: bool,
 }
 
+
+
 #[derive(Parser, Debug)]
-struct SplitArgs {
-    /// Path to the file to split
+struct ScanIndexArgs {
+    /// Text file list(s) to scan (one path per line)
     #[arg(long)]
-    input_file: PathBuf,
+    file_list: Vec<PathBuf>,
+    /// Directory containing text file lists (e.g. ~/nix/index, ~/dasl/index)
+    #[arg(long)]
+    index_dir: Vec<PathBuf>,
+    /// .gitmodules file(s) to parse and ingest
+    #[arg(long)]
+    gitmodules: Vec<PathBuf>,
+    /// Find .gitmodules via plocate (pattern to search)
+    #[arg(long)]
+    plocate_pattern: Option<String>,
+    /// Parquet file(s) to read as index
+    #[arg(long)]
+    parquet: Vec<PathBuf>,
+    /// Base directory for resolving relative paths
+    #[arg(long, default_value = ".")]
+    base_dir: PathBuf,
+    /// Output directory for scanned results
+    #[arg(long, default_value = "./scan-results")]
+    output_dir: PathBuf,
+    /// Filter: only show files matching extension (e.g. .rs, .toml, .nix)
+    #[arg(long)]
+    ext: Vec<String>,
+    /// Filter: only show files matching glob pattern
+    #[arg(long)]
+    glob: Vec<String>,
+    /// Maximum number of lines to read per file list (0 = unlimited)
+    #[arg(long, default_value = "0")]
+    max_lines: usize,
+    /// Only scan, don't write results
+    #[arg(long)]
+    dry_run: bool,
+    /// Verbose output
+    #[arg(long, short)]
+    verbose: bool,
+    /// Output format (json, text, summary)
+    #[arg(long, default_value = "summary")]
+    format: String,
 }
+
 
 
 /// Defined workload configuration
@@ -762,6 +815,10 @@ fn main() -> Result<()> {
         Some(Commands::Split(args)) => {
             println!("Split not yet implemented: {}", args.input_file.display());
             Ok(())
+        }
+
+        Some(Commands::ScanIndex(args)) => {
+            handle_scan_index(&args)
         }
 
         None => {
@@ -1400,5 +1457,447 @@ fn dir_size(path: &Path) -> u64 {
         .filter(|m| m.is_file())
         .map(|m| m.len())
         .sum()
+}
+
+// ── Scan Index: read text file lists, .gitmodules, parquet, plocate ────
+
+/// A scanned file entry
+#[derive(Debug, Clone, Serialize, Deserialize)]
+struct ScannedFile {
+    path: String,
+    source: String,
+    exists: bool,
+    size: u64,
+    ext: String,
+}
+
+/// A scanned .gitmodules entry
+#[derive(Debug, Clone, serde::Serialize)]
+struct ScannedGitmodule {
+    gitmodules_path: String,
+    submodule_name: String,
+    submodule_path: String,
+    submodule_url: String,
+    submodule_branch: Option<String>,
+}
+
+fn handle_scan_index(args: &ScanIndexArgs) -> Result<()> {
+    println!("═══════════════════════════════════════════════════════════════════");
+    println!("  Cargo-Vendormod Scan Index");
+    println!("═══════════════════════════════════════════════════════════════════");
+    println!();
+
+    let mut all_files: Vec<ScannedFile> = Vec::new();
+    let mut all_gitmodules: Vec<ScannedGitmodule> = Vec::new();
+    let mut source_stats: HashMap<String, usize> = HashMap::new();
+
+    // 1. Read text file lists (--file-list)
+    for file_list_path in &args.file_list {
+        if args.verbose {
+            println!("Reading file list: {}", file_list_path.display());
+        }
+        let count = read_file_list(file_list_path, &args.base_dir, &args.ext, &mut all_files, &args.max_lines)?;
+        source_stats.insert(format!("file_list:{}", file_list_path.display()), count);
+    }
+
+    // 2. Read index directories (--index-dir)
+    for index_dir in &args.index_dir {
+        if args.verbose {
+            println!("Scanning index directory: {}", index_dir.display());
+        }
+        let mut dir_count = 0usize;
+        if index_dir.exists() {
+            for entry in std::fs::read_dir(index_dir)? {
+                let entry = entry?;
+                let path = entry.path();
+                if path.is_file() {
+                    let name = path.file_name().and_then(|n| n.to_str()).unwrap_or("");
+                    // Skip very large files (>100MB) and binary files
+                    let size = path.metadata().map(|m| m.len()).unwrap_or(0);
+                    if size > 100_000_000 {
+                        if args.verbose {
+                            println!("  Skipping large file: {} ({:.1} MB)", name, size as f64 / 1_048_576.0);
+                        }
+                        continue;
+                    }
+                    // Skip binary/non-text files
+                    if name.ends_with(".cbor") || name.ends_with(".car") || name.ends_with(".parquet") {
+                        continue;
+                    }
+                    // Skip backup/temp files
+                    if name.ends_with('~') || name.ends_with(".bak") || name.starts_with('#') || name.starts_with(".#") {
+                        continue;
+                    }
+                    let count = match read_file_list(&path, &args.base_dir, &args.ext, &mut all_files, &args.max_lines) {
+                        Ok(c) => c,
+                        Err(e) => {
+                            if args.verbose {
+                                eprintln!("  Warning: Failed to read {}: {}", name, e);
+                            }
+                            0
+                        }
+                    };
+                    dir_count += count;
+                }
+            }
+        }
+        source_stats.insert(format!("index_dir:{}", index_dir.display()), dir_count);
+    }
+
+    // 3. Read .gitmodules files (--gitmodules)
+    for gm_path in &args.gitmodules {
+        if args.verbose {
+            println!("Parsing .gitmodules: {}", gm_path.display());
+        }
+        let count = read_gitmodules_file(gm_path, &mut all_gitmodules)?;
+        source_stats.insert(format!("gitmodules:{}", gm_path.display()), count);
+    }
+
+    // 4. Find .gitmodules via plocate (--plocate-pattern)
+    if let Some(pattern) = &args.plocate_pattern {
+        if args.verbose {
+            println!("Searching plocate for: {}", pattern);
+        }
+        let count = plocate_gitmodules(pattern, &mut all_gitmodules)?;
+        source_stats.insert("plocate".to_string(), count);
+    }
+
+    // 5. Read parquet files (--parquet) - shell out to python3
+    for pq_path in &args.parquet {
+        if args.verbose {
+            println!("Reading parquet: {}", pq_path.display());
+        }
+        let count = read_parquet_index(pq_path, &args.base_dir, &args.ext, &mut all_files)?;
+        source_stats.insert(format!("parquet:{}", pq_path.display()), count);
+    }
+
+    // 6. Deduplicate files by path
+    let mut seen_paths: HashSet<String> = HashSet::new();
+    all_files.retain(|f| seen_paths.insert(f.path.clone()));
+
+    // 7. Report
+    println!();
+    println!("═══════════════════════════════════════════════════════════════════");
+    println!("  Scan Results");
+    println!("═══════════════════════════════════════════════════════════════════");
+    println!("Unique files found:     {}", all_files.len());
+    println!("Gitmodules entries:     {}", all_gitmodules.len());
+    println!();
+
+    // Source breakdown
+    println!("Sources:");
+    for (source, count) in &source_stats {
+        println!("  {}: {} entries", source, count);
+    }
+
+    // Extension breakdown
+    let mut ext_counts: HashMap<String, usize> = HashMap::new();
+    for f in &all_files {
+        *ext_counts.entry(f.ext.clone()).or_default() += 1;
+    }
+    let mut ext_sorted: Vec<_> = ext_counts.iter().collect();
+    ext_sorted.sort_by(|a, b| b.1.cmp(a.1));
+    println!();
+    println!("Top extensions:");
+    for (ext, count) in ext_sorted.iter().take(20) {
+        println!("  .{}: {} files", ext, count);
+    }
+
+    // Existence check
+    let existing = all_files.iter().filter(|f| f.exists).count();
+    let missing = all_files.len() - existing;
+    println!();
+    println!("Existing files: {}", existing);
+    println!("Missing files:  {}", missing);
+
+    // 8. Write output
+    if !args.dry_run {
+        std::fs::create_dir_all(&args.output_dir)?;
+
+        match args.format.as_str() {
+            "json" => {
+                let output = serde_json::json!({
+                    "total_files": all_files.len(),
+                    "total_gitmodules": all_gitmodules.len(),
+                    "sources": source_stats,
+                    "extension_counts": ext_counts,
+                    "files": all_files,
+                    "gitmodules": all_gitmodules,
+                });
+                let json_path = args.output_dir.join("scan-results.json");
+                std::fs::write(&json_path, serde_json::to_string_pretty(&output)?)?;
+                println!("Written JSON to {}", json_path.display());
+            }
+            "text" => {
+                let txt_path = args.output_dir.join("scan-results.txt");
+                let mut out = String::new();
+                for f in &all_files {
+                    out.push_str(&format!("{} {} {} {}\n", f.path, f.source, f.exists, f.size));
+                }
+                std::fs::write(&txt_path, &out)?;
+                println!("Written text to {}", txt_path.display());
+            }
+            _ => {
+                // summary only — already printed above
+                let summary_path = args.output_dir.join("scan-summary.json");
+                let summary = serde_json::json!({
+                    "total_files": all_files.len(),
+                    "total_gitmodules": all_gitmodules.len(),
+                    "sources": source_stats,
+                    "extension_counts": ext_counts,
+                    "existing": existing,
+                    "missing": missing,
+                });
+                std::fs::write(&summary_path, serde_json::to_string_pretty(&summary)?)?;
+                println!("Written summary to {}", summary_path.display());
+            }
+        }
+    }
+
+    Ok(())
+}
+
+/// Read a text file list (one path per line)
+fn read_file_list(
+    file_path: &Path,
+    base_dir: &Path,
+    ext_filter: &[String],
+    results: &mut Vec<ScannedFile>,
+    max_lines: &usize,
+) -> Result<usize> {
+    let content = match std::fs::read_to_string(file_path) {
+        Ok(c) => c,
+        Err(_) => {
+            // Try reading as bytes and lossy-converting for non-UTF8 files
+            let bytes = std::fs::read(file_path)
+                .with_context(|| format!("Failed to read {}", file_path.display()))?;
+            String::from_utf8_lossy(&bytes).to_string()
+        }
+    };
+    let source_name = file_path.file_name().and_then(|n| n.to_str()).unwrap_or("unknown").to_string();
+    let mut count = 0;
+
+    for line in content.lines() {
+        let line = line.trim();
+        if line.is_empty() || line.starts_with('#') {
+            continue;
+        }
+
+        // Apply max_lines limit
+        if *max_lines > 0 && count >= *max_lines {
+            break;
+        }
+
+        // Resolve path (absolute or relative to base_dir)
+        let resolved = if line.starts_with('/') {
+            PathBuf::from(line)
+        } else {
+            base_dir.join(line)
+        };
+
+        let ext = resolved.extension()
+            .and_then(|e| e.to_str())
+            .unwrap_or("")
+            .to_string();
+
+        // Apply extension filter
+        if !ext_filter.is_empty() && !ext_filter.iter().any(|e| e.trim_start_matches('.') == ext) {
+            continue;
+        }
+
+        let exists = resolved.exists();
+        let size = if exists {
+            resolved.metadata().map(|m| m.len()).unwrap_or(0)
+        } else {
+            0
+        };
+
+        results.push(ScannedFile {
+            path: resolved.to_string_lossy().to_string(),
+            source: source_name.clone(),
+            exists,
+            size,
+            ext,
+        });
+
+        count += 1;
+    }
+
+    Ok(count)
+}
+
+/// Read a .gitmodules file and extract submodule entries
+fn read_gitmodules_file(
+    gitmodules_path: &Path,
+    results: &mut Vec<ScannedGitmodule>,
+) -> Result<usize> {
+    let content = std::fs::read_to_string(gitmodules_path)
+        .with_context(|| format!("Failed to read {}", gitmodules_path.display()))?;
+
+    let git_config: git_config::File = content.as_str().try_into()
+        .context("Failed to parse .gitmodules")?;
+
+    let gm_path_str = gitmodules_path.to_string_lossy().to_string();
+    let mut count = 0;
+
+    for section in git_config.sections() {
+        let header = section.header();
+        if header.name() != "submodule" {
+            continue;
+        }
+        let sub_name = header.subsection_name()
+            .map(|s| s.to_string())
+            .unwrap_or_default();
+
+        let path_val = git_config.string("submodule", Some(sub_name.as_str()), "path")
+            .unwrap_or_default()
+            .to_string();
+        let url_val = git_config.string("submodule", Some(sub_name.as_str()), "url")
+            .unwrap_or_default()
+            .to_string();
+        let branch_val = git_config.string("submodule", Some(sub_name.as_str()), "branch")
+            .map(|s| s.to_string());
+
+        if !path_val.is_empty() {
+            results.push(ScannedGitmodule {
+                gitmodules_path: gm_path_str.clone(),
+                submodule_name: sub_name,
+                submodule_path: path_val,
+                submodule_url: url_val,
+                submodule_branch: branch_val,
+            });
+            count += 1;
+        }
+    }
+
+    Ok(count)
+}
+
+/// Find .gitmodules via plocate and parse them
+fn plocate_gitmodules(
+    pattern: &str,
+    results: &mut Vec<ScannedGitmodule>,
+) -> Result<usize> {
+    let output = std::process::Command::new("plocate")
+        .args(["-l", "500", pattern])
+        .output()
+        .context("Failed to run plocate (is it installed?)")?;
+
+    if !output.status.success() {
+        eprintln!("plocate failed: {}", String::from_utf8_lossy(&output.stderr));
+        return Ok(0);
+    }
+
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    let mut total = 0;
+
+    for line in stdout.lines() {
+        let line = line.trim();
+        if line.is_empty() || !line.ends_with(".gitmodules") {
+            continue;
+        }
+        let gm_path = PathBuf::from(line);
+        if !gm_path.exists() {
+            continue;
+        }
+        match read_gitmodules_file(&gm_path, results) {
+            Ok(count) => total += count,
+            Err(e) => {
+                eprintln!("  Warning: Failed to parse {}: {}", gm_path.display(), e);
+            }
+        }
+    }
+
+    Ok(total)
+}
+
+/// Read a parquet file as a file index (shell out to python3 + pyarrow)
+fn read_parquet_index(
+    parquet_path: &Path,
+    base_dir: &Path,
+    ext_filter: &[String],
+    results: &mut Vec<ScannedFile>,
+) -> Result<usize> {
+    let pq_str = parquet_path.to_string_lossy().to_string();
+    let base_str = base_dir.to_string_lossy().to_string();
+    let ext_filter_json = serde_json::to_string(ext_filter)?;
+
+    // Python script to read parquet and output paths as JSON
+    let python_script = r#"
+import pyarrow.parquet as pq
+import json
+import sys
+import os
+
+pq_path = sys.argv[1]
+base_dir = sys.argv[2]
+ext_filter = json.loads(sys.argv[3])
+
+t = pq.read_table(pq_path)
+df = t.to_pandas()
+
+# Find path columns
+path_col = None
+for col in df.columns:
+    if col.lower() in ('path', 'file_path', 'filepath', 'filename'):
+        path_col = col
+        break
+
+if path_col is None:
+    # Try first string column
+    for col in df.columns:
+        if df[col].dtype == object:
+            path_col = col
+            break
+
+if path_col is None:
+    print(json.dumps([]))
+    sys.exit(0)
+
+paths = df[path_col].dropna().tolist()
+if ext_filter:
+    exts = set(e.lstrip('.') for e in ext_filter)
+    paths = [p for p in paths if isinstance(p, str) and os.path.splitext(p)[1].lstrip('.') in exts]
+
+output = []
+for p in paths:
+    if not isinstance(p, str):
+        continue
+    resolved = p if p.startswith('/') else os.path.join(base_dir, p)
+    exists = os.path.exists(resolved)
+    size = os.path.getsize(resolved) if exists else 0
+    ext = os.path.splitext(resolved)[1].lstrip('.')
+    output.append({
+        "path": resolved,
+        "source": os.path.basename(pq_path),
+        "exists": exists,
+        "size": size,
+        "ext": ext
+    })
+
+print(json.dumps(output))
+"#;
+
+    let output = std::process::Command::new("python3")
+        .arg("-c")
+        .arg(python_script)
+        .arg(&pq_str)
+        .arg(&base_str)
+        .arg(&ext_filter_json)
+        .output()
+        .context("Failed to run python3 for parquet reading")?;
+
+    if !output.status.success() {
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        eprintln!("Warning: python3 parquet reader failed: {}", stderr);
+        return Ok(0);
+    }
+
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    let files: Vec<ScannedFile> = serde_json::from_str(&stdout).unwrap_or_default();
+    let count = files.len();
+    results.extend(files);
+
+    Ok(count)
 }
 
