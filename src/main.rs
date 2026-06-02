@@ -18,6 +18,24 @@ use walkdir::WalkDir;
 use toml;
 use project_detect;
 use git_config;
+use git2;
+use serde_ipld_dagcbor;
+use cid::{Cid, codec::Codec};
+use multihash::{Code, Multihash};
+use std::io::{Read, Write};
+use std::collections::{HashMap, HashSet};
+use std::path::{Path, PathBuf};
+use cargo_vendormod::config::Config;
+use cargo_vendormod::nur_flake::NurFlakeGenerator;
+use cargo_vendormod::flake_check;
+use cargo_vendormod::workload_processor::process_workload_recursive;
+use cargo_vendormod::vendoring_cmds;
+use std::process::Command;
+use cargo_vendormod::global_dep_graph::{self, GlobalDependencyGraph};
+use walkdir::WalkDir;
+use toml;
+use project_detect;
+use git_config;
 
 #[derive(Parser, Debug)]
 #[command(name = "cargo-vendormod")]
@@ -528,6 +546,8 @@ struct MemecacheGcArgs {
 
 
 
+
+
 #[derive(Parser, Debug)]
 struct ScanIndexArgs {
     /// Text file list(s) to scan (one path per line)
@@ -573,15 +593,7 @@ struct ScanIndexArgs {
 
 
 
-/// Defined workload configuration
-#[derive(Debug, serde::Serialize)]
-pub struct WorkloadDef {
-    pub name: String,
-    pub path: String,
-    pub layer1_count: usize,
-    pub layer2_count: usize,
-    pub description: String,
-}
+
 
 impl Default for WorkloadDef {
     fn default() -> Self {
@@ -1688,11 +1700,38 @@ fn read_file_list(
             break;
         }
 
-        // Resolve path (absolute or relative to base_dir)
-        let resolved = if line.starts_with('/') {
-            PathBuf::from(line)
+        // Skip URLs (https://, http://, git@, ssh://)
+        if line.starts_with("https://") || line.starts_with("http://")
+            || line.starts_with("git@") || line.starts_with("ssh://")
+        {
+            // Record as URL reference, not a file path
+            results.push(ScannedFile {
+                path: line.to_string(),
+                source: source_name.clone(),
+                exists: false,
+                size: 0,
+                ext: "url".to_string(),
+            });
+            count += 1;
+            continue;
+        }
+
+        // Strip trailing colons (directory indicators from org-mode/git)
+        let cleaned = line.trim_end_matches(':');
+
+        // Expand ~ to home directory
+        let expanded = if cleaned.starts_with("~/") {
+            let home = std::env::var("HOME").unwrap_or_else(|_| "/home/mdupont".to_string());
+            cleaned.replacen("~", &home, 1)
         } else {
-            base_dir.join(line)
+            cleaned.to_string()
+        };
+
+        // Resolve path (absolute or relative to base_dir)
+        let resolved = if expanded.starts_with('/') {
+            PathBuf::from(&expanded)
+        } else {
+            base_dir.join(&expanded)
         };
 
         let ext = resolved.extension()
