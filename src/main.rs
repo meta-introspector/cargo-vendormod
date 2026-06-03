@@ -480,6 +480,12 @@ struct IngestArgs {
     /// Verbose output
     #[arg(long, short)]
     verbose: bool,
+    /// Skip per-submodule git status/commit checks (much faster for large repos)
+    #[arg(long)]
+    no_git_status: bool,
+    /// Max parallel submodules to process (0 = sequential)
+    #[arg(long, default_value = "0")]
+    max_parallel: usize,
 }
 
 #[derive(Parser, Debug)]
@@ -1037,7 +1043,16 @@ fn handle_ingest(args: &IngestArgs) -> Result<()> {
         let sub_path = args.source_dir.join(path_val);
         let exists = sub_path.exists() && sub_path.is_dir();
 
-        let git_status = if exists {
+        let git_status = if args.no_git_status {
+            // Fast path: skip git status check, just check if dir exists
+            if exists {
+                clean_count += 1;
+                "unknown (skipped)".to_string()
+            } else {
+                missing_count += 1;
+                "missing".to_string()
+            }
+        } else if exists {
             let output = std::process::Command::new("git")
                 .args(["-C", sub_path.to_str().unwrap_or(""), "status", "--porcelain"])
                 .output()
@@ -1084,15 +1099,15 @@ fn handle_ingest(args: &IngestArgs) -> Result<()> {
         if has_cargo { has_cargo_toml += 1; }
         if has_flake { has_flake_nix += 1; }
 
-        let current_commit = if exists {
+        let current_commit = if args.no_git_status || !exists {
+            "N/A".to_string()
+        } else {
             std::process::Command::new("git")
                 .args(["-C", sub_path.to_str().unwrap_or(""), "rev-parse", "HEAD"])
                 .output()
                 .ok()
                 .map(|o| String::from_utf8_lossy(&o.stdout).trim().to_string())
                 .unwrap_or_else(|| "N/A".to_string())
-        } else {
-            "N/A".to_string()
         };
 
         let ingested = IngestedSubmodule {
