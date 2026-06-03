@@ -18,6 +18,7 @@ use walkdir::WalkDir;
 use toml;
 use project_detect;
 use git_config;
+use std::io::{Read, Write};
 
 #[derive(Parser, Debug)]
 #[command(name = "cargo-vendormod")]
@@ -574,6 +575,9 @@ struct ScanIndexArgs {
     /// Store results in IPLD shmem (1MB cap per file)
     #[arg(long)]
     shmem: bool,
+    /// Sample large files (>1MB) instead of skipping: head/tail/middle/conformal
+    #[arg(long)]
+    sample: bool,
     /// Verbose output
     #[arg(long, short)]
     verbose: bool,
@@ -592,27 +596,9 @@ struct SplitArgs {
 
 
 
-/// Defined workload configuration
-#[derive(Debug, serde::Serialize)]
-pub struct WorkloadDef {
-    pub name: String,
-    pub path: String,
-    pub layer1_count: usize,
-    pub layer2_count: usize,
-    pub description: String,
-}
 
-impl Default for WorkloadDef {
-    fn default() -> Self {
-        Self {
-            name: String::new(),
-            path: String::new(),
-            layer1_count: 0,
-            layer2_count: 0,
-            description: String::new(),
-        }
-    }
-}
+
+
 
 fn get_defined_workloads() -> Vec<WorkloadDef> {
     vec![
@@ -1259,6 +1245,235 @@ fn shmem_put(_socket: &str, path: &str, description: &str, data: &[u8]) -> Resul
     Ok(())
 }
 
+// ============================================================
+// File Sampler — head, tail, middle, conformal field
+// ============================================================
+
+/// Sample lines from a large file for storage under the 1MB cap.
+/// Strategy: head + tail + middle + conformal (evenly-spaced intervals)
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+struct FileSample {
+    /// Original file path
+    path: String,
+    /// Original file size in bytes
+    original_size: u64,
+    /// Original line count
+    original_lines: usize,
+    /// Number of head lines sampled
+    head_lines: usize,
+    /// Number of tail lines sampled
+    tail_lines: usize,
+    /// Number of middle lines sampled
+    middle_lines: usize,
+    /// Number of conformal lines sampled (evenly-spaced)
+    conformal_lines: usize,
+    /// Total lines in this sample
+    sample_lines: usize,
+    /// Sample size in bytes
+    sample_size: usize,
+    /// Byte-level entropy of the sample
+    entropy: f64,
+    /// Hecke spectral score (simplified)
+    hecke_score: f64,
+    /// Detected CIDs in sample (count)
+    detected_cids: usize,
+    /// The sampled content
+    content: String,
+}
+
+/// Default sample sizes
+const SAMPLE_HEAD_LINES: usize = 100;
+const SAMPLE_TAIL_LINES: usize = 100;
+const SAMPLE_MIDDLE_LINES: usize = 100;
+const SAMPLE_CONFORMAL_LINES: usize = 200;
+
+/// Sample a large file: head, tail, middle, conformal field
+fn sample_file(path: &Path, max_sample_bytes: usize) -> Result<FileSample> {
+    let metadata = std::fs::metadata(path)?;
+    let original_size = metadata.len();
+
+    // Read the file with lossy UTF-8
+    let raw = std::fs::read(path)?;
+    let content = String::from_utf8_lossy(&raw);
+    let all_lines: Vec<&str> = content.lines().collect();
+    let original_lines = all_lines.len();
+
+    if original_lines == 0 {
+        return Ok(FileSample {
+            path: path.to_string_lossy().to_string(),
+            original_size,
+            original_lines: 0,
+            head_lines: 0,
+            tail_lines: 0,
+            middle_lines: 0,
+            conformal_lines: 0,
+            sample_lines: 0,
+            sample_size: 0,
+            entropy: 0.0,
+            hecke_score: 0.0,
+            detected_cids: 0,
+            content: String::new(),
+        });
+    }
+
+    let mut sampled: Vec<(usize, &str)> = Vec::new(); // (line_number, line_text)
+    let mut seen_lines: HashSet<usize> = HashSet::new();
+
+    // 1. Head
+    let head_n = SAMPLE_HEAD_LINES.min(original_lines);
+    for i in 0..head_n {
+        if !seen_lines.contains(&i) {
+            sampled.push((i, all_lines[i]));
+            seen_lines.insert(i);
+        }
+    }
+
+    // 2. Tail
+    let tail_n = SAMPLE_TAIL_LINES.min(original_lines);
+    let tail_start = original_lines.saturating_sub(tail_n);
+    for i in tail_start..original_lines {
+        if !seen_lines.contains(&i) {
+            sampled.push((i, all_lines[i]));
+            seen_lines.insert(i);
+        }
+    }
+
+    // 3. Middle (lines around the midpoint)
+    let mid = original_lines / 2;
+    let middle_n = SAMPLE_MIDDLE_LINES.min(original_lines);
+    let middle_start = mid.saturating_sub(middle_n / 2);
+    let middle_end = (mid + middle_n / 2).min(original_lines);
+    for i in middle_start..middle_end {
+        if !seen_lines.contains(&i) {
+            sampled.push((i, all_lines[i]));
+            seen_lines.insert(i);
+        }
+    }
+
+    // 4. Conformal field — evenly-spaced lines across the entire file
+    //    This is the "deep_scanner conformal" sampling: uniform intervals
+    //    that preserve the file's spectral structure
+    let conformal_n = SAMPLE_CONFORMAL_LINES.min(original_lines);
+    if original_lines > 1 && conformal_n > 0 {
+        let step = original_lines as f64 / conformal_n as f64;
+        for k in 0..conformal_n {
+            let i = (k as f64 * step) as usize;
+            let i = i.min(original_lines - 1);
+            if !seen_lines.contains(&i) {
+                sampled.push((i, all_lines[i]));
+                seen_lines.insert(i);
+            }
+        }
+    }
+
+    // Sort by line number for readability
+    sampled.sort_by_key(|(i, _)| *i);
+
+    // Build the sample content with line number markers
+    let mut sample_content = String::new();
+    sample_content.push_str(&format!("# FileSample: {} ({} bytes, {} lines)\n",
+        path.to_string_lossy(), original_size, original_lines));
+    sample_content.push_str(&format!("# head={} tail={} middle={} conformal={}\n",
+        head_n, tail_n, middle_n, conformal_n));
+    sample_content.push_str("# ---\n");
+
+    for (line_num, line) in &sampled {
+        // Truncate lines > 500 chars to keep sample small
+        let truncated = if line.len() > 500 {
+            format!("{}...[truncated, {} chars]", &line[..500], line.len())
+        } else {
+            line.to_string()
+        };
+        sample_content.push_str(&format!("{}:{}\n", line_num + 1, truncated));
+    }
+
+    // Trim to max_sample_bytes
+    if sample_content.len() > max_sample_bytes {
+        sample_content.truncate(max_sample_bytes);
+        // Find last complete line
+        if let Some(pos) = sample_content.rfind('\n') {
+            sample_content.truncate(pos + 1);
+        }
+        sample_content.push_str("# [SAMPLE TRUNCATED TO FIT CAP]\n");
+    }
+
+    let sample_size = sample_content.len();
+    let sample_lines_actual = sampled.len();
+
+    // Compute entropy of the sample
+    let entropy = compute_entropy(sample_content.as_bytes());
+
+    // Simplified Hecke score: spectral density of line lengths
+    let hecke_score = compute_hecke_score(&sampled);
+
+    // Count potential CIDs (bafyrei, bafkrei, Qm prefixes)
+    let detected_cids = count_cids(&sample_content);
+
+    Ok(FileSample {
+        path: path.to_string_lossy().to_string(),
+        original_size,
+        original_lines,
+        head_lines: head_n,
+        tail_lines: tail_n,
+        middle_lines: middle_n,
+        conformal_lines: conformal_n,
+        sample_lines: sample_lines_actual,
+        sample_size,
+        entropy,
+        hecke_score,
+        detected_cids,
+        content: sample_content,
+    })
+}
+
+/// Compute Shannon entropy of a byte slice
+fn compute_entropy(data: &[u8]) -> f64 {
+    if data.is_empty() {
+        return 0.0;
+    }
+    let mut freq = [0usize; 256];
+    for &b in data {
+        freq[b as usize] += 1;
+    }
+    let total = data.len() as f64;
+    let mut entropy = 0.0;
+    for &count in &freq {
+        if count > 0 {
+            let p = count as f64 / total;
+            entropy -= p * p.log2();
+        }
+    }
+    entropy
+}
+
+/// Simplified Hecke spectral score: variance of line length differences
+/// (captures structural rhythm of the file)
+fn compute_hecke_score(lines: &[(usize, &str)]) -> f64 {
+    if lines.len() < 3 {
+        return 0.0;
+    }
+    let lengths: Vec<usize> = lines.iter().map(|(_, l)| l.len()).collect();
+    let diffs: Vec<f64> = lengths.windows(2).map(|w| (w[1] as f64 - w[0] as f64).abs()).collect();
+    if diffs.is_empty() {
+        return 0.0;
+    }
+    let mean = diffs.iter().sum::<f64>() / diffs.len() as f64;
+    let variance = diffs.iter().map(|d| (d - mean).powi(2)).sum::<f64>() / diffs.len() as f64;
+    // Hecke-like spectral score: sqrt(variance) * ln(lines)
+    variance.sqrt() * (lines.len() as f64).ln().max(1.0)
+}
+
+/// Count potential CIDs in text (bafyrei, bafkrei, Qm prefixes)
+fn count_cids(text: &str) -> usize {
+    let mut count = 0;
+    for line in text.lines() {
+        if line.contains("bafyrei") || line.contains("bafkrei") || line.contains("Qm") {
+            count += 1;
+        }
+    }
+    count
+}
+
 /// Ingested submodule record
 #[derive(Debug, Clone, serde::Serialize)]
 struct IngestedSubmodule {
@@ -1567,13 +1782,50 @@ fn handle_scan_index(args: &ScanIndexArgs) -> Result<()> {
                 let path = entry.path();
                 if path.is_file() {
                     let name = path.file_name().and_then(|n| n.to_str()).unwrap_or("");
-                    // Skip files over 1MB (cap for shmem storage)
+                    // Sample large files instead of skipping (when --sample is set)
                     let size = path.metadata().map(|m| m.len()).unwrap_or(0);
                     if size > SHMEM_MAX_SIZE as u64 {
-                        if args.verbose {
-                            println!("  Skipping large file: {} ({:.1} MB, over 1MB cap)", name, size as f64 / 1_048_576.0);
+                        if args.sample {
+                            if args.verbose {
+                                println!("  Sampling large file: {} ({:.1} MB)", name, size as f64 / 1_048_576.0);
+                            }
+                            // Create a sample and store it in shmem
+                            match sample_file(&path, SHMEM_MAX_SIZE) {
+                                Ok(sample) => {
+                                    if args.verbose {
+                                        println!("    Sampled: {}/{} lines, {} bytes, entropy={:.2}, hecke={:.2}, cids={}",
+                                            sample.sample_lines, sample.original_lines,
+                                            sample.sample_size, sample.entropy, sample.hecke_score, sample.detected_cids);
+                                    }
+                                    // Store the sample in shmem
+                                    if args.shmem {
+                                        let sample_json = serde_json::to_vec(&sample)?;
+                                        let shmem_path = format!("vendormod/samples/{}", name);
+                                        let _ = shmem_put("", &shmem_path, &format!("Sample of {} ({} bytes)", name, sample.original_size), &sample_json);
+                                    }
+                                    // Record the sample as a scanned file entry
+                                    all_files.push(ScannedFile {
+                                        path: path.to_string_lossy().to_string(),
+                                        source: format!("index_dir:{}", index_dir.display()),
+                                        exists: true,
+                                        size: sample.original_size,
+                                        ext: path.extension().and_then(|e| e.to_str()).unwrap_or("").to_string(),
+                                    });
+                                }
+                                Err(e) => {
+                                    if args.verbose {
+                                        eprintln!("  Warning: Failed to sample {}: {}", name, e);
+                                    }
+                                }
+                            }
+                            dir_count += 1;
+                            continue;
+                        } else {
+                            if args.verbose {
+                                println!("  Skipping large file: {} ({:.1} MB, use --sample to sample)", name, size as f64 / 1_048_576.0);
+                            }
+                            continue;
                         }
-                        continue;
                     }
                     // Skip binary/non-text files
                     if name.ends_with(".cbor") || name.ends_with(".car") || name.ends_with(".parquet") {
