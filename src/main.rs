@@ -18,6 +18,11 @@ use walkdir::WalkDir;
 use toml;
 use project_detect;
 use git_config;
+use git2;
+use serde_ipld_dagcbor;
+use cid::{Cid, codec::Codec};
+use multihash::{Code, Multihash};
+use std::io::{Read, Write};
 use std::io::{Read, Write};
 
 #[derive(Parser, Debug)]
@@ -77,9 +82,9 @@ enum Commands {
     Init(InitArgs),
     /// Workload performance analysis
     Workload(WorkloadArgs),
-    /// List available workloads
+    /// List defined workloads
     WorkloadList,
-    /// Create git worktree for workload
+    /// Create worktree for a workload
     WorkloadWorktree(WorkloadWorktreeArgs),
     /// Fetch from upstream
     FetchUpstream,
@@ -123,6 +128,16 @@ enum Commands {
     Lean4(Lean4Args),
     /// Split a Lean 4 mathlib-style project into per-declaration flakes
     SplitLean4(SplitLean4Args),
+    /// Create a virtual workspace from a directory of crates
+    CreateVirtualWorkspace(CreateVirtualWorkspaceArgs),
+    /// Detect projects in a directory
+    DetectProjects(DetectProjectsArgs),
+    /// Analyze submodules
+    AnalyzeSubmodules,
+    /// Index crates for Nora with extended IPLD metadata
+    NoraIndex(NoraIndexArgs),
+    /// Split a file
+    Split(SplitArgs),
     /// Ingest old submodules directory into the new vendormod registry
     Ingest(IngestArgs),
     /// Force-upgrade all crate dependencies to latest versions
@@ -131,6 +146,8 @@ enum Commands {
     MemecacheGc(MemecacheGcArgs),
     /// Scan index files (text lists, .gitmodules, parquet, plocate)
     ScanIndex(ScanIndexArgs),
+    /// Fast change detection: snapshot and diff to find new/changed/deleted files
+    ScanDelta(ScanDeltaArgs),
     /// Split a monolithic crate into workspace sub-crates
     Split(SplitArgs),
 }
@@ -222,6 +239,15 @@ struct AnalyzeArgs {
     /// Output directory
     #[arg(long, default_value = "./analysis")]
     output_dir: PathBuf,
+}
+
+#[derive(Debug, Clone)]
+struct WorkloadDef {
+    name: String,
+    path: String,
+    layer1_count: usize,
+    layer2_count: usize,
+    description: String,
 }
 
 #[derive(Parser, Debug)]
@@ -435,6 +461,49 @@ struct SplitLean4Args {
 }
 
 #[derive(Parser, Debug)]
+struct CreateVirtualWorkspaceArgs {
+    /// Path to the directory containing the crates
+    #[arg(long)]
+    input_dir: PathBuf,
+    /// Path to the output directory for the virtual workspace
+    #[arg(long)]
+    output_dir: PathBuf,
+}
+
+#[derive(Parser, Debug)]
+struct DetectProjectsArgs {
+    /// Path to the directory to scan for projects
+    #[arg(long)]
+    input_dir: PathBuf,
+}
+
+#[derive(Parser, Debug)]
+struct NoraIndexArgs {
+    /// Path to workspace root directory
+    #[arg(long)]
+    workspace_path: PathBuf,
+
+    /// Shmem server socket path (default: @ipld_car_shmem)
+    #[arg(long, default_value = "@ipld_car_shmem")]
+    shmem_socket: String,
+
+    /// Cache directory for CAR pages (default: /mnt/data1/dasl-cache)
+    #[arg(long, default_value = "/mnt/data1/dasl-cache")]
+    cache_dir: PathBuf,
+
+    /// Verbose output
+    #[arg(long, short)]
+    verbose: bool,
+}
+
+#[derive(Parser, Debug)]
+struct SplitArgs {
+    /// Path to the file to split
+    #[arg(long)]
+    input_file: PathBuf,
+}
+
+#[derive(Parser, Debug)]
 struct NixBuildArgs {
     /// Path to directory containing Nix flakes
     flake_dir: PathBuf,
@@ -600,23 +669,374 @@ struct SplitArgs {
 
 
 
-fn get_defined_workloads() -> Vec<WorkloadDef> {
-    vec![
-        WorkloadDef {
-            name: "solana-sdk".to_string(),
-            path: "/mnt/data1/nix/vendor/rust/cargo2nix/submodules/solana-sdk".to_string(),
-            layer1_count: 93,
-            layer2_count: 186,
-            description: "Solana SDK - Core on-chain program library".to_string(),
-        },
-        WorkloadDef {
-            name: "solana-main".to_string(),
-            path: "/mnt/data1/nix/vendor/rust/cargo2nix/submodules/solana-main".to_string(),
-            layer1_count: 218,
-            layer2_count: 189,
-            description: "Solana Validator - Full validator implementation".to_string(),
-        },
-    ]
+
+
+// ============================================================
+// scan-delta: Fast change detection via snapshot diffing
+// ============================================================
+
+#[derive(Parser, Debug)]
+struct ScanDeltaArgs {
+    /// Directory to scan for changes
+    #[arg(long, default_value = ".")]
+    dir: PathBuf,
+    /// Snapshot name (stored in IPLD shmem)
+    #[arg(long, default_value = "default")]
+    snapshot: String,
+    /// Max depth to walk (0 = unlimited)
+    #[arg(long, default_value = "0")]
+    max_depth: usize,
+    /// Skip directories matching these patterns (comma-separated)
+    #[arg(long, default_value = ".git,target,node_modules,.cargo,build,dist,__pycache__")]
+    skip_dirs: String,
+    /// Only show new files (don't report changed/deleted)
+    #[arg(long)]
+    new_only: bool,
+    /// Store new snapshot in IPLD shmem
+    #[arg(long)]
+    shmem: bool,
+    /// Verbose output
+    #[arg(long, short)]
+    verbose: bool,
+}
+
+/// Lightweight file fingerprint: path + size + mtime_secs + mtime_nanos
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize, PartialEq, Eq)]
+struct FileFingerprint {
+    path: String,
+    size: u64,
+    mtime_secs: i64,
+    mtime_nanos: i32,
+    ext: String,
+}
+
+/// A snapshot of all file fingerprints at a point in time
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+struct Snapshot {
+    name: String,
+    dir: String,
+    timestamp: String,
+    total_files: usize,
+    total_size: u64,
+    fingerprints: Vec<FileFingerprint>,
+}
+
+/// Delta between two snapshots
+#[derive(Debug, serde::Serialize)]
+struct Delta {
+    snapshot_name: String,
+    dir: String,
+    new_files: Vec<FileFingerprint>,
+    changed_files: Vec<(FileFingerprint, FileFingerprint)>,  // (old, new)
+    deleted_files: Vec<FileFingerprint>,
+    new_count: usize,
+    changed_count: usize,
+    deleted_count: usize,
+    unchanged_count: usize,
+    scan_duration_ms: u64,
+}
+
+fn handle_scan_delta(args: &ScanDeltaArgs) -> Result<()> {
+    let start = std::time::Instant::now();
+    let skip_dirs: Vec<&str> = args.skip_dirs.split(',').map(|s| s.trim()).collect();
+    let max_depth = if args.max_depth == 0 { usize::MAX } else { args.max_depth };
+
+    // 1. Load previous snapshot from IPLD shmem
+    let snapshot_path = format!("vendormod/snapshots/{}", args.snapshot);
+    let prev_snapshot = load_snapshot(&snapshot_path);
+
+    if args.verbose {
+        match &prev_snapshot {
+            Some(s) => println!("Loaded previous snapshot: {} ({} files, {})",
+                s.name, s.total_files, s.timestamp),
+            None => println!("No previous snapshot found — creating baseline"),
+        }
+    }
+
+    // 2. Walk the directory and build new fingerprints
+    let mut new_fingerprints: Vec<FileFingerprint> = Vec::new();
+    let mut total_size: u64 = 0;
+
+    for entry in walkdir::WalkDir::new(&args.dir)
+        .max_depth(max_depth)
+        .follow_links(false)
+        .into_iter()
+        .filter_entry(|e| {
+            // Skip hidden and excluded directories
+            if let Some(name) = e.file_name().to_str() {
+                if name.starts_with('.') { return false; }
+                if skip_dirs.iter().any(|&skip| name == skip) { return false; }
+            }
+            true
+        })
+    {
+        let entry = match entry {
+            Ok(e) => e,
+            Err(_) => continue,
+        };
+
+        if !entry.file_type().is_file() { continue; }
+
+        let path = entry.path();
+        let metadata = match std::fs::metadata(path) {
+            Ok(m) => m,
+            Err(_) => continue,
+        };
+
+        let mtime = metadata.modified().ok()
+            .and_then(|t| t.duration_since(std::time::UNIX_EPOCH).ok())
+            .unwrap_or_default();
+
+        let ext = path.extension()
+            .and_then(|e| e.to_str())
+            .unwrap_or("")
+            .to_string();
+
+        let fp = FileFingerprint {
+            path: path.to_string_lossy().to_string(),
+            size: metadata.len(),
+            mtime_secs: mtime.as_secs() as i64,
+            mtime_nanos: mtime.subsec_nanos() as i32,
+            ext,
+        };
+
+        total_size += metadata.len();
+        new_fingerprints.push(fp);
+    }
+
+    let scan_duration = start.elapsed();
+
+    // 3. Compute delta
+    let mut new_files = Vec::new();
+    let mut changed_files = Vec::new();
+    let mut deleted_files = Vec::new();
+    let mut unchanged_count = 0usize;
+
+    if let Some(prev) = &prev_snapshot {
+        // Build a map from the previous snapshot
+        let prev_map: HashMap<String, &FileFingerprint> = prev.fingerprints.iter()
+            .map(|fp| (fp.path.clone(), fp))
+            .collect();
+
+        let new_map: HashMap<String, &FileFingerprint> = new_fingerprints.iter()
+            .map(|fp| (fp.path.clone(), fp))
+            .collect();
+
+        // Find new and changed files
+        for fp in &new_fingerprints {
+            match prev_map.get(&fp.path) {
+                None => new_files.push(fp.clone()),
+                Some(old) if *old != *fp => changed_files.push(((*old).clone(), fp.clone())),
+                Some(_) => unchanged_count += 1,
+            }
+        }
+
+        // Find deleted files
+        for fp in &prev.fingerprints {
+            if !new_map.contains_key(&fp.path) {
+                deleted_files.push(fp.clone());
+            }
+        }
+    } else {
+        // No previous snapshot — everything is "new"
+        new_files = new_fingerprints.clone();
+    }
+
+    // 4. Print results
+    println!();
+    println!("═══════════════════════════════════════════════════════════════════");
+    println!("  Scan Delta: {}", args.dir.display());
+    println!("═══════════════════════════════════════════════════════════════════");
+    println!("Snapshot:     {}", args.snapshot);
+    println!("Scan time:    {:.1}s", scan_duration.as_secs_f64());
+    println!("Total files:  {} ({:.1} MB)", new_fingerprints.len(), total_size as f64 / 1_048_576.0);
+    println!();
+
+    if !new_files.is_empty() {
+        println!("NEW FILES ({}):", new_files.len());
+        for fp in new_files.iter().take(50) {
+            println!("  + {} ({:.1} KB, .{})", fp.path, fp.size as f64 / 1024.0, fp.ext);
+        }
+        if new_files.len() > 50 {
+            println!("  ... and {} more", new_files.len() - 50);
+        }
+        println!();
+    }
+
+    if !args.new_only {
+        if !changed_files.is_empty() {
+            println!("CHANGED FILES ({}):", changed_files.len());
+            for (old, new) in changed_files.iter().take(30) {
+                let size_diff = new.size as i64 - old.size as i64;
+                let size_sign = if size_diff >= 0 { "+" } else { "" };
+                println!("  M {} ({}{} bytes, .{})", new.path, size_sign, size_diff, new.ext);
+            }
+            if changed_files.len() > 30 {
+                println!("  ... and {} more", changed_files.len() - 30);
+            }
+            println!();
+        }
+
+        if !deleted_files.is_empty() {
+            println!("DELETED FILES ({}):", deleted_files.len());
+            for fp in deleted_files.iter().take(30) {
+                println!("  - {} ({:.1} KB, .{})", fp.path, fp.size as f64 / 1024.0, fp.ext);
+            }
+            if deleted_files.len() > 30 {
+                println!("  ... and {} more", deleted_files.len() - 30);
+            }
+            println!();
+        }
+    }
+
+    println!("Summary: {} new, {} changed, {} deleted, {} unchanged",
+        new_files.len(), changed_files.len(), deleted_files.len(), unchanged_count);
+
+    // 5. Store new snapshot in shmem
+    if args.shmem {
+        let snapshot = Snapshot {
+            name: args.snapshot.clone(),
+            dir: args.dir.to_string_lossy().to_string(),
+            timestamp: chrono_now(),
+            total_files: new_fingerprints.len(),
+            total_size,
+            fingerprints: new_fingerprints,
+        };
+
+        // Store in chunks if needed (1MB cap)
+        let snapshot_json = serde_json::to_vec(&snapshot)?;
+        if snapshot_json.len() <= SHMEM_MAX_SIZE {
+            let _ = shmem_put("", &snapshot_path, &format!("Snapshot {} ({} files)", args.snapshot, snapshot.total_files), &snapshot_json);
+        } else {
+            // Store fingerprints in chunks, metadata separately
+            let meta = serde_json::json!({
+                "name": snapshot.name,
+                "dir": snapshot.dir,
+                "timestamp": snapshot.timestamp,
+                "total_files": snapshot.total_files,
+                "total_size": snapshot.total_size,
+            });
+            let meta_bytes = serde_json::to_vec(&meta)?;
+            let _ = shmem_put("", &format!("{}.meta", snapshot_path), &format!("Snapshot {} meta", args.snapshot), &meta_bytes);
+
+            for (chunk_idx, chunk) in snapshot.fingerprints.chunks(5000).enumerate() {
+                let chunk_bytes = serde_json::to_vec(chunk)?;
+                let _ = shmem_put("", &format!("{}.fps-{}", snapshot_path, chunk_idx),
+                    &format!("Snapshot {} fingerprints chunk {}", args.snapshot, chunk_idx), &chunk_bytes);
+            }
+        }
+
+        println!("Snapshot stored in IPLD shmem: {}", snapshot_path);
+    }
+
+    // 6. Store delta in shmem too
+    if args.shmem && prev_snapshot.is_some() {
+        let delta = Delta {
+            snapshot_name: args.snapshot.clone(),
+            dir: args.dir.to_string_lossy().to_string(),
+            new_files,
+            changed_files,
+            deleted_files,
+            new_count: 0,
+            changed_count: 0,
+            deleted_count: 0,
+            unchanged_count,
+            scan_duration_ms: scan_duration.as_millis() as u64,
+        };
+        let delta_json = serde_json::to_vec(&delta)?;
+        let delta_path = format!("vendormod/deltas/{}", args.snapshot);
+        let _ = shmem_put("", &delta_path, &format!("Delta for {}", args.snapshot), &delta_json);
+    }
+
+    Ok(())
+}
+
+/// Load a snapshot from IPLD shmem
+fn load_snapshot(path: &str) -> Option<Snapshot> {
+    let output = std::process::Command::new(IPLD_MEMORY_BIN)
+        .args(["get", path])
+        .output()
+        .ok()?;
+
+    if !output.status.success() {
+        return None;
+    }
+
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    if stdout == "not_found" {
+        return None;
+    }
+
+    // Try to parse as full snapshot first
+    if let Ok(snap) = serde_json::from_str::<Snapshot>(&stdout) {
+        return Some(snap);
+    }
+
+    // Otherwise, try to reconstruct from meta + fingerprint chunks
+    let meta_output = std::process::Command::new(IPLD_MEMORY_BIN)
+        .args(["get", &format!("{}.meta", path)])
+        .output()
+        .ok()?;
+
+    if !meta_output.status.success() {
+        return None;
+    }
+
+    let meta_stdout = String::from_utf8_lossy(&meta_output.stdout);
+    if meta_stdout == "not_found" {
+        return None;
+    }
+
+    let meta: serde_json::Value = serde_json::from_str(&meta_stdout).ok()?;
+
+    let mut fingerprints = Vec::new();
+    for chunk_idx in 0..100 {
+        let chunk_output = std::process::Command::new(IPLD_MEMORY_BIN)
+            .args(["get", &format!("{}.fps-{}", path, chunk_idx)])
+            .output()
+            .ok()?;
+
+        if !chunk_output.status.success() {
+            break;
+        }
+
+        let chunk_stdout = String::from_utf8_lossy(&chunk_output.stdout);
+        if chunk_stdout == "not_found" {
+            break;
+        }
+
+        let chunk_fps: Vec<FileFingerprint> = match serde_json::from_str(&chunk_stdout) {
+            Ok(fps) => fps,
+            Err(_) => break,
+        };
+
+        if chunk_fps.is_empty() {
+            break;
+        }
+
+        fingerprints.extend(chunk_fps);
+    }
+
+    Some(Snapshot {
+        name: meta.get("name").and_then(|v| v.as_str()).unwrap_or("").to_string(),
+        dir: meta.get("dir").and_then(|v| v.as_str()).unwrap_or("").to_string(),
+        timestamp: meta.get("timestamp").and_then(|v| v.as_str()).unwrap_or("").to_string(),
+        total_files: meta.get("total_files").and_then(|v| v.as_u64()).unwrap_or(0) as usize,
+        total_size: meta.get("total_size").and_then(|v| v.as_u64()).unwrap_or(0),
+        fingerprints,
+    })
+}
+
+/// Simple timestamp
+fn chrono_now() -> String {
+    let output = std::process::Command::new("date")
+        .args(["+%Y-%m-%dT%H:%M:%S"])
+        .output()
+        .ok();
+    match output {
+        Some(o) if o.status.success() => String::from_utf8_lossy(&o.stdout).trim().to_string(),
+        _ => format!("{}", std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap_or_default().as_secs()),
+    }
 }
 
 fn main() -> Result<()> {
@@ -825,6 +1245,9 @@ fn main() -> Result<()> {
         Some(Commands::ScanIndex(args)) => {
             handle_scan_index(&args)
         }
+        Some(Commands::ScanDelta(args)) => {
+            handle_scan_delta(&args)
+        }
 
         None => {
             // Show help
@@ -841,6 +1264,32 @@ fn main() -> Result<()> {
             Ok(())
         }
     }
+}
+
+fn get_defined_workloads() -> Vec<WorkloadDef> {
+    vec![
+        WorkloadDef {
+            name: "cargo2nix".to_string(),
+            path: "/home/mdupont/nix/vendor/rust/cargo2nix".to_string(),
+            layer1_count: 597,
+            layer2_count: 0,
+            description: "Cargo2nix 597-submodule workspace".to_string(),
+        },
+        WorkloadDef {
+            name: "dasl".to_string(),
+            path: "/home/mdupont/dasl".to_string(),
+            layer1_count: 2993,
+            layer2_count: 0,
+            description: "DASL 2993-submodule IPLD ecosystem".to_string(),
+        },
+        WorkloadDef {
+            name: "erdfa".to_string(),
+            path: "/home/mdupont/git/erdfa-plugins".to_string(),
+            layer1_count: 25,
+            layer2_count: 170,
+            description: "Escaped-RDFa plugin workspace (~170 Cargo.toml)".to_string(),
+        },
+    ]
 }
 
 fn run_workload_worktree(name: &str, _branch: Option<&str>, output_dir: &PathBuf) -> Result<()> {

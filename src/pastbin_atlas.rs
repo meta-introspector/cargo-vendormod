@@ -1,7 +1,5 @@
 use std::collections::HashMap;
 use serde::{Serialize, Deserialize};
-use std::fs;
-use std::path::Path;
 
 #[cfg(feature = "pastbin")]
 use std::sync::Arc;

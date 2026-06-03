@@ -2,7 +2,7 @@ use anyhow::{Context, Result};
 use std::path::{Path, PathBuf};
 use std::process::Command;
 use std::fs;
-use toml_edit::{Document, DocumentMut};
+use toml_edit::DocumentMut;
 
 /// Zkperf integration module that can use either the built-in annotation
 /// or call the external cargo-zkperf tool

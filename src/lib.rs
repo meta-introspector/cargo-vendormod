@@ -59,10 +59,13 @@ pub mod flake_check;
 pub mod lang_detect;
 pub mod multi_lang_flake;
 pub mod dasl_pipeline;
-pub mod lattice;
+ pub mod lattice;
+ pub mod graph;
+ pub mod nora_index;
+pub mod monolith_split;
 
-// Re-export commonly used types
-pub use config::{Config, generate_sample_config};
+ // Re-export commonly used types
+ pub use config::{Config, generate_sample_config};
 pub use args::Args;
 
 // Re-export types that are used via crate:: paths

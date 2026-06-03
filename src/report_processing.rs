@@ -1,7 +1,7 @@
 use anyhow::{Context, Result};
 use std::fs;
 use std::path::{Path, PathBuf};
-use std::io::{BufRead, BufReader};
+use std::io::BufRead;
 use log::info;
 
 /// Generate a comprehensive processing report

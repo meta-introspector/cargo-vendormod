@@ -1,13 +1,8 @@
 use anyhow::{Context, Result};
-use clap::{Parser, ArgAction};
-use std::collections::HashMap;
+use clap::Parser;
 use std::fs;
-use std::path::{Path, PathBuf};
-use std::process::Command;
-use toml_edit::{Document, DocumentMut, Value};
-use glob::glob;
-use lazy_static::lazy_static;
-use regex::Regex;
+use std::path::PathBuf;
+use toml_edit::DocumentMut;
 
 #[derive(Clone)]
 pub struct AppContext {
@@ -141,7 +136,7 @@ impl AppContext {
         };
 
         // Helper to extract PathBuf from metadata table
-        let get_path = |table: Option<&toml_edit::Table>, key: &str| -> Option<PathBuf> {
+        let _get_path = |table: Option<&toml_edit::Table>, key: &str| -> Option<PathBuf> {
             get_str(table, key).map(PathBuf::from)
         };
 

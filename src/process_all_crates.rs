@@ -2,12 +2,11 @@ use anyhow::{Context, Result};
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::io::{BufRead, BufReader};
-use std::sync::Arc;
 use rayon::prelude::*;
-use log::{info, error, warn};
+use log::{info, error};
 
 use crate::layer_processor::LayerProcessor;
-use crate::global_dep_graph::{GlobalDependencyGraphBuilder, GlobalDependencyGraph};
+use crate::global_dep_graph::GlobalDependencyGraphBuilder;
 
 /// Process all crates from a list of Cargo.toml files
 pub fn process_all_crates_from_file(

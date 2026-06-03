@@ -79,7 +79,7 @@ pub fn fix_rust_toolchain_workspaces(config: Option<WorkspaceConfig>) -> Result<
 
         // Read the original Cargo.toml
         let content = fs::read_to_string(&input_path)?;
-        let mut doc = content.parse::<DocumentMut>()?;
+        let doc = content.parse::<DocumentMut>()?;
 
         // Create a new minimal document with just package info
         let mut new_doc = DocumentMut::new();

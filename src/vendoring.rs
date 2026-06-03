@@ -355,7 +355,7 @@ fn update_cargo_config(actions_plan: &[RepoAction], root_dir: &std::path::Path) 
 }
 
 /// Apply zkperf annotations to a vendored repository
-fn apply_zkperf_annotations(repo_path: &std::path::Path, ctx: &AppContext) -> Result<()> {
+fn apply_zkperf_annotations(repo_path: &std::path::Path, _ctx: &AppContext) -> Result<()> {
     // Check if zkperf integration is enabled via environment variable or config
     let zkperf_enabled = std::env::var("CARGO_VENDORMOD_ZKPERF")
         .unwrap_or_else(|_| "false".to_string()) 

@@ -346,30 +346,26 @@ impl GlobalDependencyGraphBuilder {
     /// Discover workspace members using cargo metadata (pure Rust, no shell commands).
     fn discover_workspace_members(&mut self) -> Result<()> {
         println!("Discovering workspace members via cargo metadata...");
-        
+
         // Use cargo metadata to find workspace packages (source == None means local/workspace)
-        match self.get_workspace_metadata() {
-            Ok(metadata) => {
-                for package in &metadata.packages {
-                    if package.source.is_none() {
-                        // Local/workspace package
-                        let cargo_toml_path = package.manifest_path.as_std_path();
-                        self.add_workspace_member(
-                            &package.name,
-                            &package.version.to_string(),
-                            false,
-                            cargo_toml_path,
-                        )?;
-                    }
-                }
-            }
-            Err(e) => {
-                eprintln!("Warning: cargo metadata failed ({}), falling back to filesystem discovery", e);
-                self.discover_workspace_members_fallback()?;
+        let metadata = self.get_workspace_metadata()?;
+        for package in &metadata.packages {
+            if package.source.is_none() {
+                // Local/workspace package
+                let cargo_toml_path = package.manifest_path.as_std_path();
+                self.add_workspace_member(
+                    &package.name,
+                    &package.version.to_string(),
+                    false,
+                    cargo_toml_path,
+                )?;
             }
         }
-        
-        println!("Added {} workspace members via cargo metadata", self.workspace_members.len());
+
+        println!(
+            "Added {} workspace members via cargo metadata",
+            self.workspace_members.len()
+        );
         Ok(())
     }
     
@@ -381,7 +377,7 @@ impl GlobalDependencyGraphBuilder {
         }
         let content = fs::read_to_string(&cargo_toml)
             .context("Failed to read Cargo.toml")?;
-        let doc = content.parse::<toml_edit::Document>()
+        let doc = content.parse::<toml_edit::DocumentMut>()
             .context("Failed to parse Cargo.toml")?;
         
         // Add root package
@@ -421,7 +417,7 @@ impl GlobalDependencyGraphBuilder {
         
         if candidate.exists() {
             let content = fs::read_to_string(&candidate)?;
-            let doc = content.parse::<toml_edit::Document>()?;
+            let doc = content.parse::<toml_edit::DocumentMut>()?;
             if let Some(package) = doc.get("package") {
                 let name = package["name"].as_str().unwrap_or("unknown").to_string();
                 let version = package["version"].as_str().unwrap_or("0.0.0").to_string();
@@ -437,7 +433,7 @@ impl GlobalDependencyGraphBuilder {
         let content = fs::read_to_string(cargo_toml)
             .context("Failed to read Cargo.toml")?;
         
-        let doc = content.parse::<toml_edit::Document>()
+        let doc = content.parse::<toml_edit::DocumentMut>()
             .context("Failed to parse Cargo.toml")?;
         
         // Extract package information
@@ -545,136 +541,141 @@ impl GlobalDependencyGraphBuilder {
     /// Analyze direct dependencies using cargo-metadata (more reliable than cargo-tree)
     fn analyze_direct_dependencies(&mut self) -> Result<()> {
         println!("Analyzing dependencies using cargo-metadata resolve.nodes...");
-        
-        match self.get_workspace_metadata() {
-            Ok(metadata) => {
-                // Build a lookup from PackageId to Package
-                // cargo_metadata::PackageId implements Hash + Eq + Display
-                let resolve = match &metadata.resolve {
-                    Some(r) => r,
-                    None => {
-                        eprintln!("Warning: cargo metadata has no resolve graph (use --no-deps?)");
-                        return Ok(());
-                    }
-                };
-                
-                let pkg_by_id: HashMap<&cargo_metadata::PackageId, &Package> = metadata.packages
-                    .iter()
-                    .map(|p| (&p.id, p))
-                    .collect();
-                
-                // Phase 1: Add ALL resolved packages as nodes, using PackageId as unique key
-                for node in &resolve.nodes {
-                    let package = match pkg_by_id.get(&node.id) {
-                        Some(p) => p,
-                        None => {
-                            eprintln!("Warning: resolve node {} not found in packages", node.id);
-                            continue;
-                        }
-                    };
-                    
-                    let is_ws = package.source.is_none();
-                    let node_id = format!("pkg:{}", node.id);
-                    
-                    // Normalize source string
-                    let source_str = if let Some(src) = &package.source {
-                        let s = src.to_string();
-                        if s.starts_with("git+") { s[4..].to_string() }
-                        else if s.starts_with("registry+") { "crates.io".to_string() }
-                        else { s }
-                    } else {
-                        "workspace".to_string()
-                    };
-                    
-                    // Only add if not already present (from discover_workspace_members)
-                    if !self.node_map.contains_key(&node_id) {
+
+        let metadata = self.get_workspace_metadata()?;
+        // Build a lookup from PackageId to Package
+        // cargo_metadata::PackageId implements Hash + Eq + Display
+        let resolve = match &metadata.resolve {
+            Some(r) => r,
+            None => {
+                eprintln!("Warning: cargo metadata has no resolve graph (use --no-deps?)");
+                return Ok(());
+            }
+        };
+
+        let pkg_by_id: HashMap<&cargo_metadata::PackageId, &Package> = metadata
+            .packages
+            .iter()
+            .map(|p| (&p.id, p))
+            .collect();
+
+        // Phase 1: Add ALL resolved packages as nodes, using PackageId as unique key
+        for node in &resolve.nodes {
+            let package = match pkg_by_id.get(&node.id) {
+                Some(p) => p,
+                None => {
+                    eprintln!("Warning: resolve node {} not found in packages", node.id);
+                    continue;
+                }
+            };
+
+            let is_ws = package.source.is_none();
+            let node_id = format!("pkg:{}", node.id);
+
+            // Normalize source string
+            let source_str = if let Some(src) = &package.source {
+                let s = src.to_string();
+                if s.starts_with("git+") {
+                    s[4..].to_string()
+                } else if s.starts_with("registry+") {
+                    "crates.io".to_string()
+                } else {
+                    s
+                }
+            } else {
+                "workspace".to_string()
+            };
+
+            // Only add if not already present (from discover_workspace_members)
+            if !self.node_map.contains_key(&node_id) {
+                let idx = self.graph.add_node(DependencyNode {
+                    id: node_id.clone(),
+                    crate_name: package.name.clone(),
+                    version: package.version.to_string(),
+                    source: source_str,
+                    is_workspace_member: is_ws,
+                    is_direct_dependency: false,
+                    features: node.features.iter().cloned().collect(),
+                    categories: vec!["dependency".to_string()],
+                    properties: HashMap::new(),
+                });
+                self.node_map.insert(node_id.clone(), idx);
+            }
+        }
+
+        // Phase 2: Add edges from resolve.nodes[*].dependencies
+        for node in &resolve.nodes {
+            let parent_id = format!("pkg:{}", node.id);
+            let parent_idx = match self.node_map.get(&parent_id) {
+                Some(idx) => *idx,
+                None => continue,
+            };
+
+            for dep_pkg_id in &node.dependencies {
+                let dep_id = format!("pkg:{}", dep_pkg_id);
+
+                // Ensure dep node exists
+                if !self.node_map.contains_key(&dep_id) {
+                    // Try to find the package info
+                    if let Some(package) = pkg_by_id.get(dep_pkg_id) {
+                        let is_ws = package.source.is_none();
+                        let source_str = if let Some(src) = &package.source {
+                            let s = src.to_string();
+                            if s.starts_with("git+") {
+                                s[4..].to_string()
+                            } else if s.starts_with("registry+") {
+                                "crates.io".to_string()
+                            } else {
+                                s
+                            }
+                        } else {
+                            "workspace".to_string()
+                        };
+
                         let idx = self.graph.add_node(DependencyNode {
-                            id: node_id.clone(),
+                            id: dep_id.clone(),
                             crate_name: package.name.clone(),
                             version: package.version.to_string(),
                             source: source_str,
                             is_workspace_member: is_ws,
                             is_direct_dependency: false,
-                            features: node.features.iter().cloned().collect(),
+                            features: package.features.keys().cloned().collect(),
                             categories: vec!["dependency".to_string()],
                             properties: HashMap::new(),
                         });
-                        self.node_map.insert(node_id.clone(), idx);
+                        self.node_map.insert(dep_id.clone(), idx);
+                    } else {
+                        continue; // Skip unknown deps
                     }
                 }
-                
-                // Phase 2: Add edges from resolve.nodes[*].dependencies
-                for node in &resolve.nodes {
-                    let parent_id = format!("pkg:{}", node.id);
-                    let parent_idx = match self.node_map.get(&parent_id) {
-                        Some(idx) => *idx,
-                        None => continue,
-                    };
-                    
-                    for dep_pkg_id in &node.dependencies {
-                        let dep_id = format!("pkg:{}", dep_pkg_id);
-                        
-                        // Ensure dep node exists
-                        if !self.node_map.contains_key(&dep_id) {
-                            // Try to find the package info
-                            if let Some(package) = pkg_by_id.get(dep_pkg_id) {
-                                let is_ws = package.source.is_none();
-                                let source_str = if let Some(src) = &package.source {
-                                    let s = src.to_string();
-                                    if s.starts_with("git+") { s[4..].to_string() }
-                                    else if s.starts_with("registry+") { "crates.io".to_string() }
-                                    else { s }
-                                } else {
-                                    "workspace".to_string()
-                                };
-                                
-                                let idx = self.graph.add_node(DependencyNode {
-                                    id: dep_id.clone(),
-                                    crate_name: package.name.clone(),
-                                    version: package.version.to_string(),
-                                    source: source_str,
-                                    is_workspace_member: is_ws,
-                                    is_direct_dependency: false,
-                                    features: package.features.keys().cloned().collect(),
-                                    categories: vec!["dependency".to_string()],
-                                    properties: HashMap::new(),
-                                });
-                                self.node_map.insert(dep_id.clone(), idx);
-                            } else {
-                                continue; // Skip unknown deps
-                            }
-                        }
-                        
-                        let dep_idx = self.node_map[&dep_id];
-                        
-                        // Avoid duplicating edges
-                        let has_edge = self.graph.edges(parent_idx)
-                            .any(|e| e.target() == dep_idx);
-                        
-                        if !has_edge {
-                            self.graph.add_edge(parent_idx, dep_idx, DependencyEdge {
-                                from: parent_id.clone(),
-                                to: dep_id,
-                                edge_type: DependencyEdgeType::Direct,
-                                required_features: HashSet::new(),
-                                optional_features: HashSet::new(),
-                                is_dev_dependency: false,
-                                is_build_dependency: false,
-                                properties: HashMap::new(),
-                            });
-                        }
-                    }
+
+                let dep_idx = self.node_map[&dep_id];
+
+                // Avoid duplicating edges
+                let has_edge = self.graph.edges(parent_idx).any(|e| e.target() == dep_idx);
+
+                if !has_edge {
+                    self.graph.add_edge(
+                        parent_idx,
+                        dep_idx,
+                        DependencyEdge {
+                            from: parent_id.clone(),
+                            to: dep_id,
+                            edge_type: DependencyEdgeType::Direct,
+                            required_features: HashSet::new(),
+                            optional_features: HashSet::new(),
+                            is_dev_dependency: false,
+                            is_build_dependency: false,
+                            properties: HashMap::new(),
+                        },
+                    );
                 }
-                
-                println!("  Total nodes: {}", self.graph.node_count());
-                println!("  Total edges: {}", self.graph.edge_count());
-            }
-            Err(e) => {
-                eprintln!("Warning: Failed to get workspace metadata: {}, falling back to Cargo.lock parser", e);
-                self.analyze_from_lockfile()?;
             }
         }
-        
+
+        println!("  Total nodes: {}", self.graph.node_count());
+        println!("  Total edges: {}", self.graph.edge_count());
+
         Ok(())
     }
     
@@ -1949,6 +1950,23 @@ impl GlobalDependencyGraphBuilder {
             .filter(|n| !n.is_workspace_member)
             .map(|n| n.id.clone())
             .collect()
+    }
+
+    #[cfg(test)]
+    pub fn add_node(&mut self, node: DependencyNode) -> NodeIndex {
+        let idx = self.graph.add_node(node.clone());
+        self.node_map.insert(node.id, idx);
+        idx
+    }
+
+    #[cfg(test)]
+    pub fn add_edge(&mut self, from: NodeIndex, to: NodeIndex, edge: DependencyEdge) {
+        self.graph.add_edge(from, to, edge);
+    }
+
+    #[cfg(test)]
+    pub fn graph(&self) -> &Graph<DependencyNode, DependencyEdge> {
+        &self.graph
     }
 }
 

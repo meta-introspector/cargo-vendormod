@@ -2,7 +2,7 @@
 //! No sub-process delegation; all logic runs in-process for WASM/blockchain compatibility.
 
 use anyhow::{Context, Result};
-use std::path::{Path, PathBuf};
+use std::path::Path;
 
 /// Info about a discovered submodule.
 #[derive(Debug, Clone)]

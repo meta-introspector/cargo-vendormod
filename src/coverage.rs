@@ -10,7 +10,6 @@
 //! - Coverage threshold checking
 //! - Integration with CI/CD workflows
 
-use std::collections::HashMap;
 use std::path::PathBuf;
 
 /// Coverage statistics for a module

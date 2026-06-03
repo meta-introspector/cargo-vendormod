@@ -1,11 +1,11 @@
 use anyhow::{Context, Result};
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 use std::fs;
 use glob::glob;
-use toml_edit::{Document, DocumentMut, Value};
+use toml_edit::DocumentMut;
 use std::collections::HashMap;
 
-use crate::repo_collection::{collect_repo_info, RepoIdentifier};
+use crate::repo_collection::collect_repo_info;
 use crate::actions::create_actions_plan;
 use crate::context::AppContext;
 
@@ -108,7 +108,7 @@ pub fn cmd_workspace(ctx: &AppContext, workspace_path: &PathBuf, recursive: bool
 }
 
 /// Find ALL Cargo.toml files in a project (including workspace members and all submodules)
-pub fn find_workspace_cargo_files(workspace_path: &PathBuf, recursive: bool) -> Result<Vec<PathBuf>> {
+pub fn find_workspace_cargo_files(workspace_path: &PathBuf, _recursive: bool) -> Result<Vec<PathBuf>> {
     let mut cargo_files = Vec::new();
     
     // First, check if this is a workspace by looking for workspace members

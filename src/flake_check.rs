@@ -4,7 +4,7 @@
 //! fuzz tools, and test suites. Used by `cargo-vendormod flake-check` to
 //! show which projects have flakes and which are still missing them.
 
-use anyhow::{Context, Result};
+use anyhow::Result;
 use serde::Serialize;
 use std::path::Path;
 

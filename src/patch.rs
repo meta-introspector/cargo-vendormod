@@ -1,7 +1,6 @@
 use anyhow::{Context, Result};
 use std::fs;
-use std::path::Path;
-use toml_edit::{Document, DocumentMut, Value};
+use toml_edit::DocumentMut;
 use pathdiff::diff_paths;
 
 use crate::context::AppContext;

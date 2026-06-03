@@ -11,7 +11,7 @@ use anyhow::{Context, Result};
 use serde::Deserialize;
 use std::collections::BTreeMap;
 use std::fs;
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 
 // ── Data structures matching repos.json / repos.json.lock ──────────────
 

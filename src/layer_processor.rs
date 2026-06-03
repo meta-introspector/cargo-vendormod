@@ -2,7 +2,6 @@ use anyhow::Result;
 use std::path::{Path, PathBuf};
 use std::fs;
 use std::process::Command;
-use log::{info, error, warn};
 
 use crate::global_dep_graph::{GlobalDependencyGraph, DependencyNode};
 
@@ -567,7 +566,7 @@ impl LayerProcessor {
     }
     
     /// Compile crate standalone
-    fn compile_standalone(&self, repo_path: &Path, is_external: bool) -> Result<()> {
+    fn compile_standalone(&self, repo_path: &Path, _is_external: bool) -> Result<()> {
         println!("  Compiling crate...");
         
         // Try nix build first if flake.nix or default.nix exists

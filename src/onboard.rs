@@ -7,7 +7,6 @@ use anyhow::{Context, Result};
 use std::path::{Path, PathBuf};
 use std::fs;
 use std::process::Command;
-use std::collections::HashSet;
 
 /// Onboard a new repository, crate, or workspace
 pub fn cmd_onboard(

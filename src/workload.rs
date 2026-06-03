@@ -1,9 +1,9 @@
 use anyhow::{Context, Result};
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 use std::fs;
 use std::process::Command;
 use std::collections::HashMap;
-use toml_edit::{Document, DocumentMut};
+use toml_edit::DocumentMut;
 
 use crate::context::AppContext;
 use crate::repo_collection::{RepoIdentifier, collect_repo_info};
@@ -332,7 +332,7 @@ fn setup_workload_remotes(
 }
 
 /// Apply cargo zkperf annotations to all forked repositories using the integrator
-fn apply_zkperf_annotations_with_integrator(fork_dir: &PathBuf, git_exe: &PathBuf) -> Result<()> {
+fn apply_zkperf_annotations_with_integrator(fork_dir: &PathBuf, _git_exe: &PathBuf) -> Result<()> {
     println!("Applying cargo zkperf annotations to all forks...");
     
     // Try to use external zkperf tool first, fall back to built-in

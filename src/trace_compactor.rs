@@ -139,7 +139,7 @@ pub fn encode_trace(trace: SourceTrace) -> CompactTrace {
                 events.len() - 1
             });
 
-        let ts_gap = annotation.timestamp
+        let _ts_gap = annotation.timestamp
             - rows.last().map(|r: &TraceRow| r.timestamp).unwrap_or(0);
 
         let pid = annotation.next_state.get(3).copied().unwrap_or(0);
@@ -183,7 +183,7 @@ pub fn decode_trace(compact: CompactTrace) -> Result<SourceTrace> {
         let ts_gap = row.timestamp - prev_timestamp;
         prev_timestamp = row.timestamp;
 
-        let matrix = matrix_row(row.step, period, ts_gap, row.pid, row.tid, &row.cpu_mode);
+        let _matrix = matrix_row(row.step, period, ts_gap, row.pid, row.tid, &row.cpu_mode);
 
         step_annotations.push(Annotation {
             transition: compact.events.get(row.event_idx).cloned().unwrap_or_default(),
