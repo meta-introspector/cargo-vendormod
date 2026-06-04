@@ -38,3 +38,6 @@
 [submodule "packages/agents/dotagents"]
 	path = packages/agents/dotagents
 	url = https://github.com/soorya-u/dotagents.git
+[submodule "aya-nix"]
+	path = aya-nix
+	url = ./aya-nix
