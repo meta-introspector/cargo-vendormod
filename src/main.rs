@@ -20,10 +20,11 @@ use project_detect;
 use git_config;
 use git2;
 use serde_ipld_dagcbor;
-use cid::{Cid, codec::Codec};
+use cid::{Cid};
 use multihash::{Code, Multihash};
 use std::io::{Read, Write};
-use std::io::{Read, Write};
+
+
 
 #[derive(Parser, Debug)]
 #[command(name = "cargo-vendormod")]
@@ -241,7 +242,7 @@ struct AnalyzeArgs {
     output_dir: PathBuf,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 struct WorkloadDef {
     name: String,
     path: String,
@@ -249,6 +250,8 @@ struct WorkloadDef {
     layer2_count: usize,
     description: String,
 }
+
+
 
 #[derive(Parser, Debug)]
 struct Lean4Args {
@@ -1039,6 +1042,27 @@ fn chrono_now() -> String {
     }
 }
 
+fn get_defined_workloads() -> Result<Vec<WorkloadDef>> {
+    let mut workloads = Vec::new();
+    let workload_dir = PathBuf::from("workloads");
+
+    if !workload_dir.exists() {
+        return Ok(workloads);
+    }
+
+    for entry in std::fs::read_dir(workload_dir)? {
+        let entry = entry?;
+        let path = entry.path();
+        if path.is_file() && path.extension().and_then(|s| s.to_str()) == Some("toml") {
+            let content = std::fs::read_to_string(&path)?;
+            let workload: WorkloadDef = toml::from_str(&content)?;
+            workloads.push(workload);
+        }
+    }
+
+    Ok(workloads)
+}
+
 fn main() -> Result<()> {
     let args = MainArgs::parse();
 
@@ -1140,7 +1164,7 @@ fn main() -> Result<()> {
         }
 
         Some(Commands::WorkloadList) => {
-            let workloads = get_defined_workloads();
+            let workloads = get_defined_workloads()?;
             println!("═══════════════════════════════════════════════════════════════════");
             println!("  Available Workloads");
             println!("═══════════════════════════════════════════════════════════════════\n");
@@ -1155,7 +1179,8 @@ fn main() -> Result<()> {
         }
 
         Some(Commands::WorkloadWorktree(args)) => {
-            run_workload_worktree(&args.name, args.branch.as_deref(), &args.output_dir)
+            let workloads = get_defined_workloads()?;
+            run_workload_worktree(&args.name, args.branch.as_deref(), &args.output_dir, &workloads)
         }
 
         Some(Commands::NurFlake(args)) => {
@@ -1266,37 +1291,12 @@ fn main() -> Result<()> {
     }
 }
 
-fn get_defined_workloads() -> Vec<WorkloadDef> {
-    vec![
-        WorkloadDef {
-            name: "cargo2nix".to_string(),
-            path: "/home/mdupont/nix/vendor/rust/cargo2nix".to_string(),
-            layer1_count: 597,
-            layer2_count: 0,
-            description: "Cargo2nix 597-submodule workspace".to_string(),
-        },
-        WorkloadDef {
-            name: "dasl".to_string(),
-            path: "/home/mdupont/dasl".to_string(),
-            layer1_count: 2993,
-            layer2_count: 0,
-            description: "DASL 2993-submodule IPLD ecosystem".to_string(),
-        },
-        WorkloadDef {
-            name: "erdfa".to_string(),
-            path: "/home/mdupont/git/erdfa-plugins".to_string(),
-            layer1_count: 25,
-            layer2_count: 170,
-            description: "Escaped-RDFa plugin workspace (~170 Cargo.toml)".to_string(),
-        },
-    ]
-}
 
-fn run_workload_worktree(name: &str, _branch: Option<&str>, output_dir: &PathBuf) -> Result<()> {
+
+fn run_workload_worktree(name: &str, _branch: Option<&str>, output_dir: &PathBuf, workloads: &[WorkloadDef]) -> Result<()> {
     println!("🎯 Creating worktree for workload: {}", name);
     
     // Find the workload by name
-    let workloads = get_defined_workloads();
     if let Some(workload) = workloads.iter().find(|w| w.name == name) {
         let worktree_path = output_dir.join(&workload.name);
         

@@ -78,6 +78,10 @@ path = "src/bin/generate-flake.rs"
 name = "nora-index"
 path = "src/bin/nora-index.rs"
 
+[[bin]]
+name = "deep-scanner"
+path = "src/bin/deep-scanner.rs"
+
 [lib]
 name = "cargo_vendormod"
 path = "src/lib.rs"

@@ -4,10 +4,15 @@
   inputs = {
     nixpkgs.url = "git+file:///mnt/data1/git/github.com/NixOS/nixpkgs.git?ref=master";
     flake-utils.url = "git+file:///mnt/data1/git/github.com/numtide/flake-utils.git?ref=main";
-    crate2nix = {
-      url = "path:/tmp/flake-local/crate2nix";
+            # Shared inputs overlay — all git repos declared centrally
+    common-inputs = {
+      url = "path:/home/mdupont/nix-common";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    #crate2nix = {
+    #  url = "path:/tmp/flake-local/crate2nix";
+    #  inputs.nixpkgs.follows = "nixpkgs";
+    #};
     cargo-vendormod-src = {
       url = "git+file:///home/mdupont/git/solana.solfunmeme.com/cargo-vendormod";
       inputs.nixpkgs.follows = "nixpkgs";
