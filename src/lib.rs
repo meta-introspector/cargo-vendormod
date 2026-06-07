@@ -16,6 +16,7 @@
 //! - `visualization` - Atlas visualization and rendering
 //! - `pastbin_atlas` - Pastbin integration for atlas views
 
+pub mod utils;
 pub mod config;
 pub mod args;
 pub mod context;
@@ -69,7 +70,7 @@ pub mod warm_args;
 
  // Re-export commonly used types
  pub use config::{Config, generate_sample_config};
-pub use args::Args;
+pub use args::MainArgs as Args;
 pub use nora_indexer::{NoraIndexArgs, run_nora_index};
 pub use warm_manager::handle_warm_command;
 

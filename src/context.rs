@@ -1,5 +1,4 @@
 use anyhow::{Context, Result};
-use clap::Parser;
 use std::fs;
 use std::path::PathBuf;
 use toml_edit::DocumentMut;
@@ -41,7 +40,7 @@ struct VendormodConfig {
 }
 
 impl AppContext {
-    pub fn from_args(args: &crate::args::Args) -> Result<Self> {
+    pub fn from_args(args: &crate::Args) -> Result<Self> {
         // Locate vendormod's own Cargo.toml for metadata (git_path, etc).
         // In development, CARGO_MANIFEST_DIR points to source. In Nix installations,
         // the source may not be available, so fall back to safe defaults.
@@ -235,7 +234,7 @@ mod tests {
     #[test]
     fn test_app_context_default_paths() {
         let dir = tempdir().unwrap();
-        let args = crate::args::Args::parse_from(&["test", "--root-dir", dir.path().to_str().unwrap()]);
+        let args = crate::Args::parse_from(&["test", "--root-dir", dir.path().to_str().unwrap()]);
         let ctx = AppContext::from_args(&args).unwrap();
         assert!(ctx.root_dir.ends_with(dir.path().file_name().unwrap()));
     }
@@ -243,7 +242,7 @@ mod tests {
     #[test]
     fn test_app_context_absolute_paths() {
         let dir = tempdir().unwrap();
-        let args = crate::args::Args::parse_from(&["test", 
+        let args = crate::Args::parse_from(&["test", 
             "--root-dir", dir.path().to_str().unwrap(),
             "--submodules-path", "/absolute/path",
             "--mirrors-path", "/absolute/mirrors",
@@ -256,7 +255,7 @@ mod tests {
     #[test]
     fn test_app_context_relative_paths() {
         let dir = tempdir().unwrap();
-        let args = crate::args::Args::parse_from(&["test",
+        let args = crate::Args::parse_from(&["test",
             "--root-dir", dir.path().to_str().unwrap(),
             "--submodules-path", "relative/submodules",
         ]);
@@ -267,7 +266,7 @@ mod tests {
     #[test]
     fn test_app_context_dry_run() {
         let dir = tempdir().unwrap();
-        let args = crate::args::Args::parse_from(&["test", "--root-dir", dir.path().to_str().unwrap(), "--dry-run"]);
+        let args = crate::Args::parse_from(&["test", "--root-dir", dir.path().to_str().unwrap(), "--dry-run"]);
         let ctx = AppContext::from_args(&args).unwrap();
         assert!(ctx.dry_run);
     }

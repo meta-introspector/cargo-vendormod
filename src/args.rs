@@ -1,613 +1,655 @@
-//! # Command-Line Arguments
-//!
-//! Defines the CLI interface for cargo-vendormod using Clap's derive API.
-//!
-//! ## Overview
-//!
-//! The `Args` struct represents all configurable options available through
-//! the command line. Options are organized into global flags and subcommands
-//! that implement specific vendoring workflows.
-//!
-//! ## Global Options
-//!
-//! These apply to all commands:
-//!
-//! - `--verbose, -v`: Enable debug logging
-//! - `--root-dir`: Workspace root directory
-//! - `--manifest-path`: Cargo.toml file path
-//! - `--submodules-path`: Vendored sources directory
-//! - `--mirrors-path`: Bare repository mirrors directory
-//! - `--vendor-dir`: Registry crate vendor directory
-//! - `--target-branch`: Default branch for operations
-//! - `--create-version-branches`: Auto-create version branches
-//! - `--version-branch-format`: Format string for version branches
-//! - `--dry-run`: Preview mode without changes
-//! - `--output-file`: Write JSON plan to file
-//!
-//! ## Subcommands
-//!
-//! ### Vendoring
-//! - `vendoring` - Convert vendored crates to git submodules
-//!
-//! ### Git Operations
-//! - `fetch-upstream` - Fetch latest upstream changes
-//! - `rebase` - Rebase submodules onto latest upstream
-//! - `releases` - Fetch tags and create version branches
-//! - `status` - Show submodule status
-//! - `sync` - Full sync (fetch, rebase, patches)
-//!
-//! ### Workspace Management
-//! - `edit` - Edit workspace Cargo.toml
-//! - `workspace` - Process workspace members
-//!
-//! ### Processing
-//! - `process-crates` - Process crates from file list
-//! - `run-workflow` - Execute complete workflow
-//!
-//! ### Graph Analysis
-//! - `global-graph build` - Build dependency graph
-//! - `global-graph analyze` - Analyze graph structure
-//! - `global-graph visualize` - Generate DOT file
-//! - `global-graph toml-structure` - Export TOML schema
-//! - `global-graph partition` - Partition graph
-//!
-//! ### Utility
-//! - `patch` - Update .cargo/config.toml patches
-//!
-//! ## Usage Example
-//!
-//! ```text
-//! # Process all crates from a list
-//! cargo-vendormod process-crates /path/to/crates.txt \
-//!     --output-dir ./output \
-//!     --layered-processing \
-//!     --max-parallel 8
-//!
-//! # Run full workflow
-//! cargo-vendormod run-workflow \
-//!     --workspace-path ./my-workspace \
-//!     --output-dir ./output
-//!
-//! # Generate dependency graph
-//! cargo-vendormod global-graph build \
-//!     --workspace-path ./workspace \
-//!     --output-format json
-//! ```
 
-use clap::{ArgAction, Parser, Subcommand};
+use clap::{Parser, Subcommand};
 use std::path::PathBuf;
+use crate::warm_args::WarmCmd;
+use crate::nora_indexer::NoraIndexArgs;
 
 #[derive(Parser, Debug)]
-#[command(author, version, about, long_about = None)]
-pub struct Args {
-    /// Enable verbose output for debugging.
+#[command(name = "cargo-vendormod")]
+#[command(version = "0.2.0")]
+#[command(about = "Vendor git dependencies as submodules with local mirrors", long_about = None)]
+pub struct MainArgs {
+    /// Path to vendormod config file
     #[arg(long)]
-    pub verbose: bool,
-
-    /// The root directory of the cargo project.
-    #[arg(long, default_value = ".")]
-    pub root_dir: PathBuf,
+    pub config: Option<PathBuf>,
 
     /// Path to Cargo.toml manifest file. If not provided, auto-detects (Cargo.toml or *Cargo.toml).
     #[arg(long)]
     pub manifest_path: Option<PathBuf>,
 
-    /// Path to central submodules directory (vendored sources).
+    /// Enable verbose output
+    #[arg(long, short)]
+    pub verbose: bool,
+
+    /// Root directory of the cargo project
+    #[arg(long, default_value = ".")]
+    pub root_dir: PathBuf,
+
+    /// Submodules directory
     #[arg(long)]
     pub submodules_path: Option<PathBuf>,
 
-    /// Path to local git mirrors directory (bare repositories).
+    /// Mirrors directory
     #[arg(long)]
     pub mirrors_path: Option<PathBuf>,
 
-    /// Path to the vendor directory containing vendored crate sources (for registry crates).
+    /// Vendor directory
     #[arg(long)]
     pub vendor_dir: Option<PathBuf>,
 
-    /// The branch to checkout and use for dependencies.
+    /// Target branch
     #[arg(long)]
     pub target_branch: Option<String>,
 
-    /// Create a branch in the bare mirror for each version used (format: e.g., v{version} or {version}).
-    #[arg(long, action = ArgAction::SetTrue)]
+    /// Create version branches
+    #[arg(long)]
     pub create_version_branches: Option<bool>,
 
     /// Format string for version branches in bare mirrors. Use {} as placeholder for version.
     #[arg(long)]
     pub version_branch_format: Option<String>,
 
-    /// Perform a dry run without making actual changes.
+    /// Dry run mode
     #[arg(long)]
     pub dry_run: bool,
 
-    /// Optional: Write the JSON plan to this file instead of stdout.
-    #[arg(long)]
-    pub output_file: Option<PathBuf>,
-
-    /// Source repository to discover submodules from (for bootstrapping).
-    #[arg(long, default_value = ".")]
-    pub source_repo: PathBuf,
-
-    /// Include dev dependencies when discovering from source.
-    #[arg(long, default_value = "true")]
-    pub include_dev: bool,
-
-    /// Include build dependencies when discovering from source.
-    #[arg(long, default_value = "true")]
-    pub include_build: bool,
-
-    /// Include optional dependencies when discovering from source.
-    #[arg(long, default_value = "true")]
-    pub include_optional: bool,
-
-    /// Fetch repository URLs from crates.io API for registry crates.
-    #[arg(long, default_value = "false")]
-    pub fetch_crates_io_repos: bool,
-
-    /// Subcommand to execute.
     #[command(subcommand)]
     pub command: Option<Commands>,
 }
 
-#[derive(clap::Args, Debug, Clone)]
+#[derive(Subcommand, Debug)]
+pub enum Commands {
+    /// Git submodule vendoring operations
+    Vendoring(VendoringSubCmd),
+    /// Dependency graph operations
+    Graph(GraphSubCmd),
+    /// Crate processing operations
+    Process(ProcessSubCmd),
+    /// Initialize vendoring from source
+    Init(InitArgs),
+    /// Workload performance analysis
+    Workload(WorkloadArgs),
+    /// List defined workloads
+    WorkloadList,
+    /// Create worktree for a workload
+    WorkloadWorktree(WorkloadWorktreeArgs),
+    /// Fetch from upstream
+    FetchUpstream,
+    /// Rebase onto upstream
+    Rebase,
+    /// Create version branches
+    Releases,
+    /// Show status
+    Status,
+    /// Full sync
+    Sync,
+    /// Generate patches
+    Patch,
+    /// Build dependency graph
+    BuildGraph(BuildArgs),
+    /// Analyze graph
+    AnalyzeGraph(AnalyzeArgs),
+    /// Visualize graph
+    VisualizeGraph(VisualizeArgs),
+    /// Partition graph
+    PartitionGraph(PartitionArgs),
+    /// Process crates
+    ProcessCrates(ProcessCratesArgs),
+    /// Process all crates from file
+    ProcessAll(ProcessAllArgs),
+    /// Run workflow
+    RunWorkflow(WorkflowArgs),
+    /// Generate report
+    Report(ReportArgs),
+    /// Create config file
+    InitConfig,
+    /// Onboard new repository
+    Onboard(OnboardArgs),
+    /// Edit workspace manifest
+    Edit(EditArgs),
+    /// Generate NUR flake from repos.json
+    NurFlake(NurFlakeArgs),
+    /// Check flake coverage for all target CBOR libs, fuzz tools, and test suites
+    FlakeCheck(FlakeCheckArgs),
+    /// Generate Lean4 formal verification model
+    Lean4(Lean4Args),
+    /// Split a Lean 4 mathlib-style project into per-declaration flakes
+    SplitLean4(SplitLean4Args),
+    /// Create a virtual workspace from a directory of crates
+    CreateVirtualWorkspace(CreateVirtualWorkspaceArgs),
+    /// Detect projects in a directory
+    DetectProjects(DetectProjectsArgs),
+    /// Analyze submodules
+    AnalyzeSubmodules,
+    /// Index crates for Nora with extended IPLD metadata
+    NoraIndex(NoraIndexArgs),
+    /// Split a file
+    Split(SplitArgs),
+    /// Ingest old submodules directory into the new vendormod registry
+    Ingest(IngestArgs),
+    /// Force-upgrade all crate dependencies to latest versions
+    MemecacheUpgrade(MemecacheUpgradeArgs),
+    /// Clean stale crate versions from the memecache
+    MemecacheGc(MemecacheGcArgs),
+    /// Scan index files (text lists, .gitmodules, parquet, plocate)
+    ScanIndex(ScanIndexArgs),
+    /// Fast change detection: snapshot and diff to find new/changed/deleted files
+    ScanDelta(ScanDeltaArgs),
+    /// Manage directories for cache warming
+    Warm(WarmCmd),
+}
+
+#[derive(Parser, Debug)]
+pub struct VendoringSubCmd {
+    #[command(subcommand)]
+    pub cmd: Option<VendoringCmd>,
+}
+
+#[derive(Subcommand, Debug)]
+pub enum VendoringCmd {
+    Init,
+    FetchUpstream,
+    Rebase,
+    Releases,
+    Status,
+    Sync,
+    Patch,
+}
+
+#[derive(Parser, Debug)]
+pub struct GraphSubCmd {
+    #[command(subcommand)]
+    pub cmd: Option<GraphCmd>,
+}
+
+#[derive(Subcommand, Debug)]
+pub enum GraphCmd {
+    Build(BuildArgs),
+    Analyze(AnalyzeArgs),
+    Visualize(VisualizeArgs),
+    Partition(PartitionArgs),
+}
+
+#[derive(Parser, Debug)]
+pub struct ProcessSubCmd {
+    #[command(subcommand)]
+    pub cmd: Option<ProcessCmd>,
+}
+
+#[derive(Subcommand, Debug)]
+pub enum ProcessCmd {
+    Crates(ProcessCratesArgs),
+    All(ProcessAllArgs),
+    Workflow(WorkflowArgs),
+}
+
+#[derive(Parser, Debug)]
+pub struct InitArgs {
+    /// Source repository
+    #[arg(long, default_value = ".")]
+    pub source: PathBuf,
+    /// Include dev deps
+    #[arg(long)]
+    pub include_dev: bool,
+    /// Include build deps
+    #[arg(long)]
+    pub include_build: bool,
+    /// Include optional deps
+    #[arg(long)]
+    pub include_optional: bool,
+}
+
+#[derive(Parser, Debug)]
+pub struct BuildArgs {
+    /// Workspace path
+    #[arg(long)]
+    pub workspace_path: Option<PathBuf>,
+    /// Output directory
+    #[arg(long, default_value = "./analysis")]
+    pub output_dir: PathBuf,
+    /// Include dev deps
+    #[arg(long)]
+    pub include_dev: bool,
+    /// Include build deps
+    #[arg(long)]
+    pub include_build: bool,
+    /// Expand features
+    #[arg(long)]
+    pub expand_features: bool,
+}
+
+#[derive(Parser, Debug)]
+pub struct AnalyzeArgs {
+    /// Input graph file
+    #[arg(long)]
+    pub input_path: PathBuf,
+    /// Output directory
+    #[arg(long, default_value = "./analysis")]
+    pub output_dir: PathBuf,
+}
+
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct WorkloadDef {
+    pub name: String,
+    pub path: String,
+    pub layer1_count: usize,
+    pub layer2_count: usize,
+    pub description: String,
+}
+
+
+
+#[derive(Parser, Debug)]
+pub struct Lean4Args {
+    /// Input .service file(s) or directory
+    pub inputs: Vec<PathBuf>,
+    /// Output Lean4 model file
+    #[arg(long, default_value = "./lean4_output/model.lean")]
+    pub output: PathBuf,
+}
+
+#[derive(Parser, Debug)]
+pub struct VisualizeArgs {
+    /// Input graph file
+    #[arg(long)]
+    pub input_path: PathBuf,
+    /// Output file
+    #[arg(long)]
+    pub output_path: PathBuf,
+}
+
+#[derive(Parser, Debug)]
+pub struct PartitionArgs {
+    /// Input graph file
+    #[arg(long)]
+    pub input_path: PathBuf,
+    /// Partition count
+    #[arg(long, default_value = "8")]
+    pub partition_count: usize,
+    /// Output directory
+    #[arg(long, default_value = "./analysis/partitions")]
+    pub output_dir: PathBuf,
+    /// Algorithm
+    #[arg(long, default_value = "kaminpar")]
+    pub algorithm: String,
+}
+
+#[derive(Parser, Debug)]
+pub struct ProcessCratesArgs {
+    /// Workspace path
+    #[arg(long)]
+    pub workspace_path: Option<PathBuf>,
+    /// Output directory
+    #[arg(long, default_value = "./processed")]
+    pub output_dir: PathBuf,
+    /// Generate flakes
+    #[arg(long)]
+    pub generate_flakes: bool,
+    /// Standalone compile
+    #[arg(long)]
+    pub compile_standalone: bool,
+    /// Layered processing
+    #[arg(long)]
+    pub layered_processing: bool,
+    /// Max parallel
+    #[arg(long, default_value = "4")]
+    pub max_parallel: usize,
+}
+
+#[derive(Parser, Debug)]
+pub struct ProcessAllArgs {
+    /// Input file with crate paths
+    #[arg(long)]
+    pub input_file: PathBuf,
+    /// Output directory
+    #[arg(long, default_value = "./processed_all")]
+    pub output_dir: PathBuf,
+    /// Max parallel
+    #[arg(long, default_value = "4")]
+    pub max_parallel: usize,
+}
+
+#[derive(Parser, Debug)]
+pub struct WorkflowArgs {
+    /// Workspace path
+    #[arg(long)]
+    pub workspace_path: Option<PathBuf>,
+    /// Output directory
+    #[arg(long, default_value = "./output")]
+    pub output_dir: PathBuf,
+    /// Workflow type
+    #[arg(long, default_value = "standard")]
+    pub workflow_type: String,
+}
+
+#[derive(Parser, Debug)]
+pub struct ReportArgs {
+    /// Workspace path
+    #[arg(long)]
+    pub workspace_path: PathBuf,
+    /// Output directory
+    #[arg(long, default_value = "./crate_report")]
+    pub output_dir: PathBuf,
+}
+
+#[derive(Parser, Debug)]
+pub struct OnboardArgs {
+    /// Git repo URL
+    #[arg(long)]
+    pub git_repo: Option<String>,
+    /// Crate name
+    #[arg(long)]
+    pub crate_name: Option<String>,
+    /// Local workspace
+    #[arg(long)]
+    pub workdir: Option<PathBuf>,
+    /// Branch
+    #[arg(long, default_value = "main")]
+    pub branch: String,
+    /// Workflow
+    #[arg(long, default_value = "full_onboarding")]
+    pub workflow: String,
+    /// Output directory
+    #[arg(long, default_value = "./workload/workspaces")]
+    pub output_dir: PathBuf,
+}
+
+#[derive(Parser, Debug)]
 pub struct EditArgs {
-    /// Sort dependencies alphabetically by name
+    /// Sort dependencies
     #[arg(long)]
     pub sort: bool,
-    /// Add missing dependencies that are present in submodules but not listed
+    /// Add missing
     #[arg(long)]
     pub add_missing: bool,
-    /// Remove dependencies whose path no longer exists on disk
+    /// Remove unused
     #[arg(long)]
     pub remove_unused: bool,
-    /// Update version fields to match package versions from Cargo.toml files
+    /// Update versions
     #[arg(long)]
     pub update_versions: bool,
 }
 
-/******************************************************************************/
-/* SELinux Commands */
-/******************************************************************************/
+#[derive(Parser, Debug)]
+pub struct NurFlakeArgs {
+    /// Path to repos.json
+    #[arg(long, default_value = "repos.json")]
+    pub repos_json: PathBuf,
 
-#[derive(Subcommand, Debug)]
-pub enum SelinuxCommands {
-    /// Parse .service files and generate access reports
-    Analyze {
-        /// Input .service file(s) or directory
-        inputs: Vec<PathBuf>,
-        /// Output directory for results
-        #[arg(long, default_value = "./selinux_output")]
-        output_dir: PathBuf,
-    },
-    /// Generate SELinux .te policy file
-    Policy {
-        /// Input .service file(s) or directory
-        inputs: Vec<PathBuf>,
-        /// Output .te policy file
-        #[arg(long, default_value = "./selinux_output/zkperf_services.te")]
-        output: PathBuf,
-    },
+    /// Path to repos.json.lock
+    #[arg(long, default_value = "repos.json.lock")]
+    pub lock_json: PathBuf,
+
+    /// Output path for generated flake.nix
+    #[arg(long, default_value = "flake.nix")]
+    pub output: PathBuf,
+
+    /// Check existing flake.nix without overwriting
+    #[arg(long)]
+    pub check: bool,
+
+    /// Verbose output
+    #[arg(long, short)]
+    pub verbose: bool,
 }
 
-/******************************************************************************/
-
-#[derive(Subcommand, Debug)]
-pub enum Commands {
-    /// Convert vendored crates to git submodules (original functionality)
-    Vendoring,
-    /// Fetch latest upstream changes into all bare mirrors in parallel (24 CPUs)
-    FetchUpstream,
-    /// Rebase all submodule changes onto latest upstream head
-    Rebase,
-    /// Fetch all release tags and create version branches in bare mirrors
-    Releases,
-    /// Generate/update .cargo/config.toml patches for vendored crates
-    Patch,
-    /// Show status of all submodules vs upstream/bare
-    Status,
-    /// Show workspace status (git state, build health, dependency status)
-    WorkspaceStatus {
-        /// Path to workspace root directory
-        #[arg(long)]
-        workspace_path: PathBuf,
-        /// Include dependency health check
-        #[arg(long, action = ArgAction::SetTrue)]
-        check_deps: bool,
-        /// Include build status
-        #[arg(long, action = ArgAction::SetTrue)]
-        check_build: bool,
-    },
-    /// Analyze workspace: count vendored crates, submodules, branches, Nix build status
-    WorkspaceAnalyze {
-        /// Path to cargo2nix workspace root
-        #[arg(long)]
-        workspace_path: PathBuf,
-    },
-    /// Full sync: fetch upstream, rebase, update patches (all in parallel)
-    Sync,
-    /// Edit the workspace Cargo.toml: sort, add missing, remove unused, update versions
-    Edit(EditArgs),
-    /// Process workspace members recursively and extract git dependencies
-    Workspace {
-        /// Path to workspace root directory
-        workspace_path: PathBuf,
-        /// Process all workspace members recursively
-        #[arg(long, action = ArgAction::SetTrue)]
-        recursive: bool,
-    },
-    /// Generic workload vendoring with local forking and optional zkperf annotations
-    Workload {
-        /// Path to workspace root directory
-        workspace_path: PathBuf,
-        /// Directory to store local forks of repositories
-        #[arg(long, default_value = "./forks")]
-        fork_dir: PathBuf,
-        /// Apply cargo zkperf annotations to all dependencies
-        #[arg(long, action = ArgAction::SetTrue)]
-        zkperf: bool,
-    },
-    /// Global dependency graph operations for Solana universe analysis
-    GlobalGraph {
-        #[command(subcommand)]
-        command: GlobalGraphCommands,
-    },
-    /// Process crates with layered topological processing
-    ProcessCrates {
-        /// Path to workspace root directory
-        workspace_path: PathBuf,
-
-        /// Output directory for processed crates
-        #[arg(long, default_value = "./processed")]
-        output_dir: PathBuf,
-
-        /// Generate Nix flakes for each crate
-        #[arg(long, action = ArgAction::SetTrue)]
-        generate_flakes: bool,
-
-        /// Compile crates standalone
-        #[arg(long, action = ArgAction::SetTrue)]
-        compile_standalone: bool,
-
-        /// Use layered processing (external deps first, then workspace)
-        #[arg(long, action = ArgAction::SetTrue, default_value = "true")]
-        layered_processing: bool,
-
-        /// Process only specific layer (1 for external deps, 2 for workspace members)
-        #[arg(long)]
-        layer: Option<u32>,
-    },
-
-    /// Onboard a new repository, crate, or workspace
-    Onboard {
-        /// Git repository URL to onboard
-        #[arg(long)]
-        git_repo: Option<String>,
-
-        /// Crate name to onboard from crates.io
-        #[arg(long)]
-        crate_name: Option<String>,
-
-        /// Local workspace directory to onboard
-        #[arg(long)]
-        workdir: Option<PathBuf>,
-
-        /// Git branch to use (default: main)
-        #[arg(long, default_value = "main")]
-        branch: String,
-
-        /// Workflow name (default: full_onboarding)
-        #[arg(long, default_value = "full_onboarding")]
-        workflow: String,
-
-        /// Output directory for onboarded workspace
-        #[arg(long, default_value = "./workload/workspaces")]
-        output_dir: PathBuf,
-    },
-
-    /// Fix Cargo.toml files for Rust toolchain components
-    FixCargoToml,
-
-    /// Fix edition configuration in existing workspaces
-    FixEdition {
-        /// Base directory containing workspaces to fix
-        base_dir: PathBuf,
-
-        /// Rust edition to set (e.g., "2021")
-        #[arg(long, default_value = "2021")]
-        edition: String,
-    },
-
-    /// Run a complete workflow (dependency analysis + crate processing + scripts)
-    RunWorkflow {
-        /// Path to the workspace directory
-        workspace_path: PathBuf,
-
-        /// Output directory for processed crates
-        #[arg(long, default_value = "./processed")]
-        output_dir: PathBuf,
-
-        /// Workflow type: standard, minimal, or ci
-        #[arg(long, value_enum, default_value = "standard")]
-        workflow_type: Option<String>,
-    },
-
-    /// Process all crates from a list of Cargo.toml files
-    ProcessAllCrates {
-        /// Path to file containing list of Cargo.toml paths
-        input_file: PathBuf,
-
-        /// Output directory for processed crates
-        #[arg(long, default_value = "./processed_all")]
-        output_dir: PathBuf,
-
-        /// Maximum number of parallel processes
-        #[arg(long, default_value = "4")]
-        max_parallel: usize,
-    },
-
-    /// Generate a comprehensive processing report
-    GenerateReport {
-        /// Path to file containing list of Cargo.toml paths (for input stats)
-        input_file: PathBuf,
-
-        /// Output directory to analyze
-        #[arg(long, default_value = "./processed_all")]
-        output_dir: PathBuf,
-    },
-    /// Generate Lean4 formal verification model
-    Lean4 {
-        /// Input .service file(s) or directory
-        inputs: Vec<PathBuf>,
-        /// Output Lean4 model file
-        #[arg(long, default_value = "./lean4_output/model.lean")]
-        output: PathBuf,
-    },
-    /// Split a Lean 4 mathlib-style project into per-declaration flakes via lean-split-tool
-    SplitLean4 {
-        /// Path to mathlib source (directory containing Mathlib/)
-        #[arg(long)]
-        mathlib_src: PathBuf,
-
-        /// Output directory for split flakes
-        #[arg(long, default_value = "./mathlib-split")]
-        output_dir: PathBuf,
-
-        /// Branch to push to in the target repo
-        #[arg(long, default_value = "feature/split")]
-        branch: String,
-
-        /// Path to the lean-split-tool split script
-        #[arg(long, default_value = "/home/mdupont/projects/lean-split-tool/split-mathlib.sh")]
-        split_tool: PathBuf,
-
-        /// Dry-run: only print what would be executed
-        #[arg(long)]
-        dry_run: bool,
-    },
-    NixBuild {
-        /// Path to directory containing Nix flakes
-        flake_dir: PathBuf,
-        /// Maximum number of parallel builds
-        #[arg(long, default_value = "8")]
-        max_parallel: usize,
-        /// Maximum number of retries for failed builds
-        #[arg(long, default_value = "2")]
-        max_retries: usize,
-        /// Timeout for individual builds in seconds
-        #[arg(long, default_value = "3600")]
-        timeout_seconds: u64,
-        /// Output directory for build artifacts
-        #[arg(long, default_value = "./nix_builds")]
-        output_dir: PathBuf,
-        /// Directory for build logs
-        #[arg(long, default_value = "./build_logs")]
-        log_dir: PathBuf,
-        /// Path to workspace for dependency analysis
-        #[arg(long)]
-        workspace_path: Option<PathBuf>,
-    },
-    /// Analyze build errors and generate LLM-friendly report
-    GenerateErrorReport {
-        /// Path to build results JSON file
-        results_file: PathBuf,
-        /// Output path for LLM error report
-        #[arg(long, default_value = "./llm_error_report.md")]
-        output_path: PathBuf,
-    },
-    /// Generate comprehensive workload status report
-    Report {
-        /// Path to workspace root directory
-        #[arg(long)]
-        workspace_path: PathBuf,
-        /// Output directory for report
-        #[arg(long, default_value = "./crate_report")]
-        output_dir: PathBuf,
-    },
-    /// SELinux-related commands
-    Selinux {
-        #[command(subcommand)]
-        command: SelinuxCommands,
-    },
-    /// Workload discovery, creation, and management
-    Workloads {
-        /// Path to workspace root directory
-        #[arg(long)]
-        workspace_path: PathBuf,
-        /// Workload name (for specific workload operations)
-        #[arg(long)]
-        workload: Option<String>,
-        /// Output path for matrix/discover results
-        #[arg(long)]
-        output: Option<PathBuf>,
-        /// Create all workloads (for create-all command)
-        #[arg(long, action = ArgAction::SetTrue)]
-        create_all: bool,
-        /// Aggressive optimization mode
-        #[arg(long, action = ArgAction::SetTrue)]
-        aggressive: bool,
-        /// Run analysis on workload
-        #[arg(long, action = ArgAction::SetTrue)]
-        analyze: bool,
-        /// Correlate multiple analysis tools
-        #[arg(long, action = ArgAction::SetTrue)]
-        correlate: bool,
-    },
-    /// Extract ALL dependencies (git + crates.io) as submodules in newroot/host/owner/repo
-    ExtractAll {
-        /// Path to workspace root directory
-        #[arg(long)]
-        workspace_path: PathBuf,
-        /// Output directory for extracted submodules
-        #[arg(long, default_value = "./newroot")]
-        newroot: PathBuf,
-        /// Mirrors path for bare git repos
-        #[arg(long, default_value = "/home/mdupont/git/host")]
-        mirrors_path: PathBuf,
-        /// Process registry (crates.io) dependencies
-        #[arg(long, action = ArgAction::SetTrue, default_value = "true")]
-        include_registry: bool,
-        /// Process git dependencies
-        #[arg(long, action = ArgAction::SetTrue, default_value = "true")]
-        include_git: bool,
-    },
+#[derive(Parser, Debug)]
+pub struct FlakeCheckArgs {
+    /// Directory containing flake subdirectories
+    #[arg(long, default_value = "flakes")]
+    pub flakes_dir: PathBuf,
+    /// Output as JSON
+    #[arg(long)]
+    pub json: bool,
 }
 
-/// Subcommands for global dependency graph operations
-#[derive(Subcommand, Debug)]
-pub enum GlobalGraphCommands {
-    /// Build the global dependency graph from workspace
-    Build {
-        /// Path to workspace root directory
-        workspace_path: PathBuf,
-        /// Include dev dependencies in the graph
-        #[arg(long, action = ArgAction::SetTrue)]
-        include_dev: bool,
-        /// Include build dependencies in the graph
-        #[arg(long, action = ArgAction::SetTrue)]
-        include_build: bool,
-        /// Expand all feature dependencies
-        #[arg(long, action = ArgAction::SetTrue)]
-        expand_features: bool,
-        /// Output directory for graph files
-        #[arg(long, default_value = "./analysis/global_graph")]
-        output_dir: PathBuf,
-    },
-    /// Analyze the global dependency graph for Solana patterns
-    Analyze {
-        /// Path to the JSON graph file
-        input_path: PathBuf,
-        /// Output directory for analysis results
-        #[arg(long, default_value = "./analysis/global_graph")]
-        output_dir: PathBuf,
-    },
-    /// Generate visualization of the dependency graph
-    Visualize {
-        /// Path to the JSON graph file
-        input_path: PathBuf,
-        /// Output path for visualization file
-        #[arg(long, default_value = "./analysis/global_graph/graph.dot")]
-        output_path: PathBuf,
-    },
-    /// Generate TOML structure analysis and visualization
-    TomlStructure {
-        /// Path to the JSON graph file
-        input_path: PathBuf,
-        /// Output directory for TOML structure analysis
-        #[arg(long, default_value = "./analysis/toml_structure")]
-        output_dir: PathBuf,
-    },
-    /// Perform graph partitioning using KaMinPar
-    Partition {
-        /// Path to the JSON graph file
-        input_path: PathBuf,
-        /// Number of partitions to create
-        #[arg(long, default_value = "8")]
-        partition_count: usize,
-        /// Balance factor for partitioning (0.0-1.0)
-        #[arg(long, default_value = "0.03")]
-        balance_factor: f64,
-        /// Partitioning algorithm to use
-        #[arg(long, default_value = "kaminpar")]
-        algorithm: String,
-        /// Output directory for partition results
-        #[arg(long, default_value = "./analysis/partitions")]
-        output_dir: PathBuf,
-    },
+#[derive(Parser, Debug)]
+pub struct WorkloadArgs {
+    /// Workspace path to analyze
+    #[arg(long, default_value = ".")]
+    pub workspace_path: PathBuf,
+    /// Output format (json, text)
+    #[arg(long, default_value = "text")]
+    pub format: String,
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use crate::global_dep_graph::PartitioningAlgorithm;
+/// Workload worktree creation arguments
+#[derive(Parser, Debug)]
+pub struct WorkloadWorktreeArgs {
+    /// Workload name from list
+    pub name: String,
+    /// Branch name for worktree
+    #[arg(long)]
+    pub branch: Option<String>,
+    /// Worktree output directory
+    #[arg(long, default_value = "./worktrees")]
+    pub output_dir: PathBuf,
+}
 
-    #[test]
-    fn test_args_default_values() -> Result<(), clap::Error> {
-        let args = Args::try_parse_from(["cargo-vendormod"])?;
-        assert!(!args.verbose);
-        assert_eq!(args.root_dir, PathBuf::from("."));
-        assert!(args.manifest_path.is_none());
-        assert!(args.submodules_path.is_none());
-        assert!(args.mirrors_path.is_none());
-        assert!(args.vendor_dir.is_none());
-        assert!(args.target_branch.is_none());
-        assert!(!args.dry_run);
-        assert!(args.output_file.is_none());
-        Ok(())
-    }
+#[derive(Parser, Debug)]
+pub struct SplitLean4Args {
+    /// Path to mathlib source (directory containing Mathlib/)
+    #[arg(long)]
+    pub mathlib_src: PathBuf,
 
-    #[test]
-    fn test_args_with_verbose_flag() -> Result<(), clap::Error> {
-        let args = Args::try_parse_from(["cargo-vendormod", "--verbose"])?;
-        assert!(args.verbose);
-        Ok(())
-    }
+    /// Output directory for split flakes
+    #[arg(long, default_value = "./mathlib-split")]
+    pub output_dir: PathBuf,
 
-    #[test]
-    fn test_args_with_custom_root_dir() -> Result<(), clap::Error> {
-        let args = Args::try_parse_from(["cargo-vendormod", "--root-dir", "/tmp/test"])?;
-        assert_eq!(args.root_dir, PathBuf::from("/tmp/test"));
-        Ok(())
-    }
+    /// Branch to push to in the target repo
+    #[arg(long, default_value = "feature/split")]
+    pub branch: String,
 
-    #[test]
-    fn test_args_with_dry_run() -> Result<(), clap::Error> {
-        let args = Args::try_parse_from(["cargo-vendormod", "--dry-run"])?;
-        assert!(args.dry_run);
-        Ok(())
-    }
+    /// Path to the lean-split-tool split script
+    #[arg(long, default_value = "/home/mdupont/projects/lean-split-tool/split-mathlib.sh")]
+    pub split_tool: PathBuf,
 
-    #[test]
-    fn test_args_with_output_file() -> Result<(), clap::Error> {
-        let args = Args::try_parse_from(["cargo-vendormod", "--output-file", "/tmp/output.json"])?;
-        assert_eq!(args.output_file, Some(PathBuf::from("/tmp/output.json")));
-        Ok(())
-    }
+    /// Dry-run: only print what would be executed
+    #[arg(long)]
+    pub dry_run: bool,
+}
 
-    #[test]
-    fn test_edit_args_defaults() {
-        // EditArgs is a subcommand args struct, test default values
-        let args = EditArgs {
-            sort: false,
-            add_missing: false,
-            remove_unused: false,
-            update_versions: false,
-        };
-        assert!(!args.sort);
-        assert!(!args.add_missing);
-        assert!(!args.remove_unused);
-        assert!(!args.update_versions);
-    }
+#[derive(Parser, Debug)]
+pub struct CreateVirtualWorkspaceArgs {
+    /// Path to the directory containing the crates
+    #[arg(long)]
+    pub input_dir: PathBuf,
+    /// Path to the output directory for the virtual workspace
+    #[arg(long)]
+    pub output_dir: PathBuf,
+}
 
-    #[test]
-    fn test_partitioning_algorithm_from_str() {
-        use std::str::FromStr;
-        assert_eq!(PartitioningAlgorithm::from_str("kaminpar").unwrap(), PartitioningAlgorithm::KaMinPar);
-        assert_eq!(PartitioningAlgorithm::from_str("KAMINPAR").unwrap(), PartitioningAlgorithm::KaMinPar);
-        assert_eq!(PartitioningAlgorithm::from_str("metis").unwrap(), PartitioningAlgorithm::Metis);
-        assert_eq!(PartitioningAlgorithm::from_str("louvain").unwrap(), PartitioningAlgorithm::Louvain);
-        assert_eq!(PartitioningAlgorithm::from_str("kernighanlin").unwrap(), PartitioningAlgorithm::KernighanLin);
-        assert_eq!(PartitioningAlgorithm::from_str("spectral").unwrap(), PartitioningAlgorithm::Spectral);
-        assert_eq!(PartitioningAlgorithm::from_str("greedy").unwrap(), PartitioningAlgorithm::Greedy);
-        assert!(PartitioningAlgorithm::from_str("unknown").is_err());
-    }
+#[derive(Parser, Debug)]
+pub struct DetectProjectsArgs {
+    /// Path to the directory to scan for projects
+    #[arg(long)]
+    pub input_dir: PathBuf,
+}
+
+#[derive(Parser, Debug)]
+pub struct SplitArgs {
+    /// Path to the file to split
+    #[arg(long)]
+    pub input_file: PathBuf,
+}
+
+#[derive(Parser, Debug)]
+pub struct NixBuildArgs {
+    /// Path to directory containing Nix flakes
+    pub flake_dir: PathBuf,
+    /// Maximum number of parallel builds
+    #[arg(long, default_value = "8")]
+    pub max_parallel: usize,
+    /// Maximum number of retries for failed builds
+    #[arg(long, default_value = "2")]
+    pub max_retries: usize,
+    /// Timeout for individual builds in seconds
+    #[arg(long, default_value = "3600")]
+    pub timeout_seconds: u64,
+    /// Output directory for build artifacts
+    #[arg(long, default_value = "./nix_builds")]
+    pub output_dir: PathBuf,
+    /// Directory for build logs
+    #[arg(long, default_value = "./build_logs")]
+    pub log_dir: PathBuf,
+    /// Path to workspace for dependency analysis
+    #[arg(long)]
+    pub workspace_path: Option<PathBuf>,
+}
+
+#[derive(Parser, Debug)]
+pub struct IngestArgs {
+    /// Path to old submodules directory to ingest
+    #[arg(long)]
+    pub source_dir: PathBuf,
+    /// Path to .gitmodules file (default: source_dir/.gitmodules)
+    #[arg(long)]
+    pub gitmodules_path: Option<PathBuf>,
+    /// Output directory for the new vendormod registry
+    #[arg(long, default_value = "./vendormod-registry")]
+    pub output_dir: PathBuf,
+    /// Store crate metadata in shmem by CID
+    #[arg(long)]
+    pub shmem: bool,
+    /// Shmem socket path
+    #[arg(long, default_value = "@ipld_car_shmem")]
+    pub shmem_socket: String,
+    /// Only scan, don't write anything
+    #[arg(long)]
+    pub dry_run: bool,
+    /// Verbose output
+    #[arg(long, short)]
+    pub verbose: bool,
+    /// Skip per-submodule git status/commit checks (much faster for large repos)
+    #[arg(long)]
+    pub no_git_status: bool,
+    /// Max parallel submodules to process (0 = sequential)
+    #[arg(long, default_value = "0")]
+    pub max_parallel: usize,
+}
+
+#[derive(Parser, Debug)]
+pub struct MemecacheUpgradeArgs {
+    /// Path to workspace or submodules directory
+    #[arg(long, default_value = ".")]
+    pub workspace_path: PathBuf,
+    /// Upgrade strategy: conservative (semver), aggressive (latest compatible), force (latest unconditional)
+    #[arg(long, default_value = "conservative")]
+    pub strategy: String,
+    /// Upgrade specific crate only
+    #[arg(long)]
+    pub crate_name: Option<String>,
+    /// Only show what would change
+    #[arg(long)]
+    pub dry_run: bool,
+    /// Verbose output
+    #[arg(long, short)]
+    pub verbose: bool,
+    /// Upgrade all workspaces found recursively
+    #[arg(long)]
+    pub all: bool,
+    /// Maximum parallel upgrades
+    #[arg(long, default_value = "8")]
+    pub max_parallel: usize,
+}
+
+#[derive(Parser, Debug)]
+pub struct MemecacheGcArgs {
+    /// Path to cargo registry cache
+    #[arg(long, default_value = "~/.cargo/registry")]
+    pub registry_path: PathBuf,
+    /// Only show what would be deleted
+    #[arg(long)]
+    pub dry_run: bool,
+    /// Also clean git checkouts
+    #[arg(long)]
+    pub clean_git: bool,
+    /// Also clean target directories
+    #[arg(long)]
+    pub clean_targets: bool,
+    /// Verbose output
+    #[arg(long, short)]
+    pub verbose: bool,
+}
+
+
+
+
+
+#[derive(Parser, Debug)]
+pub struct ScanIndexArgs {
+    /// Text file list(s) to scan (one path per line)
+    #[arg(long)]
+    pub file_list: Vec<PathBuf>,
+    /// Directory containing text file lists (e.g. ~/nix/index, ~/dasl/index)
+    #[arg(long)]
+    pub index_dir: Vec<PathBuf>,
+    /// .gitmodules file(s) to parse and ingest
+    #[arg(long)]
+    pub gitmodules: Vec<PathBuf>,
+    /// Find .gitmodules via plocate (pattern to search)
+    #[arg(long)]
+    pub plocate_pattern: Option<String>,
+    /// Parquet file(s) to read as index
+    #[arg(long)]
+    pub parquet: Vec<PathBuf>,
+    /// Base directory for resolving relative paths
+    #[arg(long, default_value = ".")]
+    pub base_dir: PathBuf,
+    /// Output directory for scanned results
+    #[arg(long, default_value = "./scan-results")]
+    pub output_dir: PathBuf,
+    /// Filter: only show files matching extension (e.g. .rs, .toml, .nix)
+    #[arg(long)]
+    pub ext: Vec<String>,
+    /// Filter: only show files matching glob pattern
+    #[arg(long)]
+    pub glob: Vec<String>,
+    /// Maximum number of lines to read per file list (0 = unlimited)
+    #[arg(long, default_value = "0")]
+    pub max_lines: usize,
+    /// Only scan, don't write results
+    #[arg(long)]
+    pub dry_run: bool,
+    /// Store results in IPLD shmem (1MB cap per file)
+    #[arg(long)]
+    pub shmem: bool,
+    /// Sample large files (>1MB) instead of skipping: head/tail/middle/conformal
+    #[arg(long)]
+    pub sample: bool,
+    /// Verbose output
+    #[arg(long, short)]
+    pub verbose: bool,
+    /// Output format (json, text, summary)
+    #[arg(long, default_value = "summary")]
+    pub format: String,
+}
+
+// ============================================================
+// scan-delta: Fast change detection via snapshot diffing
+// ============================================================
+
+#[derive(Parser, Debug)]
+pub struct ScanDeltaArgs {
+    /// Directory to scan for changes
+    #[arg(long, default_value = ".")]
+    pub dir: PathBuf,
+    /// Snapshot name (stored in IPLD shmem)
+    #[arg(long, default_value = "default")]
+    pub snapshot: String,
+    /// Max depth to walk (0 = unlimited)
+    #[arg(long, default_value = "0")]
+    pub max_depth: usize,
+    /// Skip directories matching these patterns (comma-separated)
+    #[arg(long, default_value = ".git,target,node_modules,.cargo,build,dist,__pycache__")]
+    pub skip_dirs: String,
+    /// Only show new files (don't report changed/deleted)
+    #[arg(long)]
+    pub new_only: bool,
+    /// Store new snapshot in IPLD shmem
+    #[arg(long)]
+    pub shmem: bool,
+    /// Verbose output
+    #[arg(long, short)]
+    pub verbose: bool,
 }

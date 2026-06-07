@@ -41,3 +41,9 @@
 [submodule "aya-nix"]
 	path = aya-nix
 	url = ./aya-nix
+[submodule "skills/refactor-main-rs"]
+	path = skills/refactor-main-rs
+	url = ./skills/refactor-main-rs/
+[submodule "tasks/refactor-main-rs"]
+	path = tasks/refactor-main-rs
+	url = ./tasks/refactor-main-rs
