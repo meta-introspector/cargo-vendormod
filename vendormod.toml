@@ -6,4 +6,9 @@ target_branch = "main"
 version_branch_format = "v{}"
 create_version_branches = false
 default_threads = 24
-warm_dirs = []
+
+[[warm_dirs]]
+path = "."
+prefix = "local"
+exts = []
+max_size = 1048576
