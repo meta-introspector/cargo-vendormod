@@ -1,0 +1,32 @@
+TASK 8: UPDATE THE MAKEFILE IN CARGO-VENDORMOD
+
+Goal:
+  Expose convenient targets for building, viewing, preparing GPU copy, cleaning, and managing the systemd service.
+
+Steps:
+  1. Edit the existing Makefile (or create a Makefile.dashlm and include it).
+  2. Add variables at the top:
+        DASL_ROOT      := $(HOME)/dasl
+        GIT_HASH       := $(shell cd $(DASL_ROOT) && git rev-parse HEAD)
+        INDEX_NAME     := dashlm_index_$(GIT_HASH)
+        INDEX_SIZE     := 1073741824   # 1GiB
+        PROJECT_ROOT   := $(DASL_ROOT)
+        VERBOSE_FLAG   :=
+        (Allow overriding via environment: export VERBOSE_FLAG=verbose.)
+  3. Add the targets described in the plan:
+        - index-build (runs the builder binary).
+        - index-show (depends on index-build, runs the viewer).
+        - index-gpu-prep (depends on index-show, runs the GPU preparer).
+        - index-clean (removes the SysV shared segment).
+        - index-service-start/stop/enable/disable/status (wraps systemctl commands).
+  4. Ensure each target prints a short header (@echo "🔨 ...").
+  5. Add a phony target `help` that lists all dashlm-related targets.
+  6. Test: run `make index-build`, then `make index-show` (should be near-instant), then `make index-gpu-prep`.
+
+Skills needed:
+  - hermes-agent (to run hermes config if needed)
+  - nix-flakes / nix (to ensure the build environment is correct)
+  - No additional coding skills; this is pure Makefile authoring.
+
+Repos needed:
+  - cargo-vendormod (where the Makefile lives)

@@ -1,0 +1,15 @@
+[workspace]
+members = [
+    "../../../../../../../../../../../home/mdupont/dasl/rust/fractran_loader",
+    "../../../../../../../../../../../home/mdupont/dasl/rust/buyer_history",
+    "../../../../../../../../../../../home/mdupont/dasl/rust/serde_ipld_dagcbor",
+    "../../../../../../../../../../../home/mdupont/dasl/rust/complexity_lattice_macro",
+    "../../../../../../../../../../../home/mdupont/dasl/rust/fractran_solana_vm",
+    "../../../../../../../../../../../home/mdupont/dasl/rust/serde_ipld_dagcbor-escaped",
+    "../../../../../../../../../../../home/mdupont/dasl/rust/social_ingest",
+    "../../../../../../../../../../../home/mdupont/dasl/rust/n0_dasl",
+    "../../../../../../../../../../../home/mdupont/dasl/rust/holder_graph",
+    "../../../../../../../../../../../home/mdupont/dasl/rust/hologram_recovery",
+    "../../../../../../../../../../../home/mdupont/dasl/rust/ipld-core",
+    "../../../../../../../../../../../home/mdupont/dasl/rust/honggfuzz-rs",
+]

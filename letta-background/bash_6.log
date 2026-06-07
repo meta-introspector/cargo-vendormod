@@ -1,0 +1,11 @@
+Error: [31mworklow::is::error[0m
+
+  [31m×[0m You are not allowed to trigger the pipeline in this environment
+[36m  help: [0mCheckout to an authorized git branch or use an authorized action.
+        Authorized triggers are:
+        
+        [37m[branch: main, action: manual ][39m
+        
+
+
+[exit code: 1]

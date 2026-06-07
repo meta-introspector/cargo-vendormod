@@ -1,0 +1,253 @@
+@prefix : <https://example.org/dashlm#> .
+@prefix dash: <https://example.org/dashlm#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix schema: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+_:TaskMetadata a schema:CreativeWork ;
+    dct:title "DashLM Task Metadata" ;
+    dct:modified "2026-06-02T05:52:25-04:00"^^xsd:dateTime ;
+    dct:description "Structured, human, LLM, and machine-readable metadata for the 9 DashLM plan tasks" .
+
+dash:task1 a dash:Task ;
+    dct:title "dashlm-shared-index" ;
+    dct:description "Create the low-level shared-memory library crate dashlm_shared_index wrapping LibAFL shmem with fixed-size hash table and zone-based hashing." ;
+    dash:goal "Provide a safe, reusable Rust wrapper around LibAFL UnixShMem (or MmapShMem) that implements a fixed-size hash table + bump-allocated value heap, zone-based hashing, and optional CPU/GPU access logs." ;
+    dash:outputBlob "src/lib.rs provides SharedIndex struct with open_or_create, store, get, access, cpu_accesses, gpu_accesses, check_conflicts, zone_distribution" ;
+    dash:hasInput [
+        dct:title "Cargo.toml" ;
+        dash:path "dashlm_shared_index/Cargo.toml" ;
+        dash:dependsOn "libafl_shmem" ;
+        dash:dependsOn "siphash" ;
+        dash:dependsOn "bincode" ;
+        dash:dependsOn "once_cell" ;
+        dash:dependsOn "libafl_shmem path = ../../../dasl/rust/ipld-core/LibAFL/crates/shmem_providers"
+    ] ;
+    dash:hasInput [
+        dct:title "Memory Layout" ;
+        dash:headerSize "64 bytes" ;
+        dash:headerFields "magic, version, zone_count, slot_count, value_heap_offset, value_heap_size, value_heap_used, reserved" ;
+        dash:slotSize "16 bytes" ;
+        dash:slotFields "key_hash u64, value_len u32, value_offset u32, mem_type u8, zone u8, padding u16" ;
+        dash:valueHeap "growable region after slot array with bump allocator" ;
+        dash:accessLogs "optional two circular buffers for CPU/GPU accesses"
+    ] ;
+    dash:hasSkill "hermes-agent" ;
+    dash:hasSkill "nix-flakes" ;
+    dash:hasSkill "cargo-vendormod-testing" ;
+    dash:recipe "nix develop -c cargo build --release" ;
+    dash:hasArtifact "dashlm_shared_index/src/lib.rs" ;
+    dash:hasArtifact "dashlm_shared_index/tests/*.rs" .
+
+dash:task2 a dash:Task ;
+    dct:title "dashlm-index-builder" ;
+    dct:description "Build binary dashlm_index_builder that walks project tree, hashes files, and inserts into shared index, skipping unchanged files." ;
+    dash:goal "Walk the project tree, extract file metadata (SHA-256, structs/enums/functions via the existing cross-beam analyzer), and insert entries into the shared index, skipping files that have not changed." ;
+    dash:outputBlob "Binary at src/bin/dashlm_index_builder.rs that populates the index and prints progress every 5000 files" ;
+    dash:hasInput [
+        dct:title "Source Binary" ;
+        dash:path "src/bin/dashlm_index_builder.rs" ;
+        dash:dependsOn "dashlm_shared_index" ;
+        dash:dependsOn "walkdir" ;
+        dash:dependsOn "blake3" ;
+        dash:dependsOn "rayon" ;
+        dash:dependsOn "clap"
+    ] ;
+    dash:hasInput [
+        dct:title "Analysis Logic" ;
+        dash:source "existing cross-beam analyzer: FileAnalysis + ContentVisitor" ;
+        dash:usage "copy into this binary or create a small static lib"
+    ] ;
+    dash:cli "--project-root <PATH> (default ~/dasl)" ;
+    dash:cli "--index-name <STRING> (default computed from git hash)" ;
+    dash:cli "--index-size <SIZE> (default 1GiB)" ;
+    dash:cli "--verbose" ;
+    dash:algorithm "open_or_create index; iterate *.rs; for each file compute SHA-256 and SipHash-2-4; get(key) to check existing; skip if hash matches; otherwise analyze, bincode serialize, store(key, value, MemType::CPU), access(key, MemType::CPU)" ;
+    dash:reporting "print progress every 5000 files; print total indexed, skipped, errors" ;
+    dash:hasSkill "hermes-agent" ;
+    dash:hasSkill "nix-flakes" ;
+    dash:hasSkill "rust-clap-command-verification" ;
+    dash:hasSkill "cargo-vendormod-testing" ;
+    dash:hasArtifact "src/bin/dashlm_index_builder.rs" ;
+    dash:hasArtifact "unit tests with mock directory tree" .
+
+dash:task3 a dash:Task ;
+    dct:title "dashlm-index-viewer" ;
+    dct:description "Read-only tool dashlm_index_show that prints shared index statistics including zone distribution, access logs, and conflicts." ;
+    dash:goal "Read-only tool that prints statistics about the shared index: total entries, zone distribution, access-log counts, conflicts, and optionally sample entries." ;
+    dash:outputBlob "Binary at src/bin/dashlm_index_show.rs with human-readable and JSON output" ;
+    dash:hasInput [
+        dct:title "Source Binary" ;
+        dash:path "src/bin/dashlm_index_show.rs" ;
+        dash:dependsOn "dashlm_shared_index" ;
+        dash:dependsOn "clap" ;
+        dash:dependsOn "serde_json"
+    ] ;
+    dash:cli "--index-name <STRING> (required)" ;
+    dash:cli "--json" ;
+    dash:algorithm "Open segment read-only; iterate slots and count non-zero key_hash; build histograms of CPU/GPU/Shared zone usage; read access logs and detect conflicts (same key in CPU and GPU logs)" ;
+    dash:outputJSON "total_files, cpu_entries, gpu_entries, shared_entries, zone_histograms (three arrays), conflict_keys, access_log_len_cpu, access_log_len_gpu" ;
+    dash:hasSkill "hermes-agent" ;
+    dash:hasSkill "nix-flakes" ;
+    dash:hasSkill "rust-clap-command-verification" ;
+    dash:hasSkill "cargo-vendormod-testing" ;
+    dash:hasArtifact "src/bin/dashlm_index_show.rs" ;
+    dash:hasArtifact "tests/index_show_test.rs" .
+
+dash:task4 a dash:Task ;
+    dct:title "dashlm-gpu-preparer" ;
+    dct:description "Convert CPU hash-table into GPU-friendly Structure-of-Arrays layout and write to pinned memfd with JSON metadata sidecar." ;
+    dash:goal "Convert the CPU-optimized hash-table layout into a GPU-friendly Structure-of-Arrays (SoA) layout and place it in a pinned, GPU-accessible buffer (or a file that can be mmap-ed and registered with CUDA)." ;
+    dash:outputBlob "Binary at src/bin/dashlm_index_gpu_prep.rs writing $OUTPUT_DIR/gpu_index_<hash>.bin and gpu_index_<hash>.meta" ;
+    dash:hasInput [
+        dct:title "Source Binary" ;
+        dash:path "src/bin/dashlm_index_gpu_prep.rs" ;
+        dash:dependsOn "dashlm_shared_index" ;
+        dash:dependsOn "cuda-sys" ;
+        dash:dependsOn "memfd" ;
+        dash:dependsOn "byteorder" ;
+        dash:dependsOn "clap"
+    ] ;
+    dash:cli "--index-name <STRING>" ;
+    dash:cli "--output-dir <PATH> (default /dev/shm)" ;
+    dash:cli "--verbose" ;
+    dash:layout "Iterate slots; deserialize value; extract structs/enums/functions; push counts into metadata vectors; append strings to blob buffer with offsets" ;
+    dash:layout "Allocate pinned buffer via cudaHostAlloc or memfd + cudaHostRegister; copy metadata and blob with header describing offsets/lengths" ;
+    dash:outputFile "$OUTPUT_DIR/gpu_index_<hash>.bin" ;
+    dash:metaFile "$OUTPUT_DIR/gpu_index_<hash>.meta containing metadata_offset, metadata_stride, num_entries, blob_offset, blob_length, value_encoding" ;
+    dash:launchHint "nvcc -o gpu_query gpu_query.cu && ./gpu_query /dev/shm/gpu_index_<hash>.bin" ;
+    dash:hasSkill "hermes-agent" ;
+    dash:hasSkill "nix-flakes" ;
+    dash:hasSkill "cargo-vendormod-testing" ;
+    dash:hasArtifact "src/bin/dashlm_index_gpu_prep.rs" ;
+    dash:hasArtifact "tests/gpu_prep_test.rs" .
+
+dash:task5 a dash:Task ;
+    dct:title "dashlm-zos-server-plugin" ;
+    dct:description "Create zos-server plugin dashlm-index exposing HTTP/Unix-socket API for querying the shared index." ;
+    dash:goal "Expose a lightweight HTTP/Unix-socket API (GET /file/<path>, GET /stats, POST /reload) so any rustc-plugin or external tool can query the index without directly touching the shared segment." ;
+    dash:outputBlob "Plugin crate under ~/zos-server/plugins/dashlm-index with src/lib.rs exporting execute(command, args) -> Result<serde_json::Value, String>" ;
+    dash:hasInput [
+        dct:title "Plugin Crate" ;
+        dash:path "~/zos-server/plugins/dashlm-index/Cargo.toml and src/lib.rs" ;
+        dash:dependsOn "dashlm_shared_index" ;
+        dash:dependsOn "serde" ;
+        dash:dependsOn "serde_json" ;
+        dash:dependsOn "tokio = 1.38 full" ;
+        dash:dependsOn "hyper = 1.0" ;
+        dash:dependsOn "tokio-unix"
+    ] ;
+    dash:commands "openapi / schema -> static stubs" ;
+    dash:commands "file <path> -> SipHash, open shared index read-only, get, bincode deserialize, return JSON or null" ;
+    dash:commands "stats -> zone_distribution, cpu/gpu accesses -> JSON" ;
+    dash:commands "reload -> send b'R' to /run/dashlm_index_<hash>.ctl" ;
+    dash:integration "Add to zos-server workspace members; implement zos_server_plugin::Plugin trait adapter; integration test starts zos-server and verifies reply" ;
+    dash:hasSkill "hermes-agent" ;
+    dash:hasSkill "nix-flakes" ;
+    dash:hasSkill "cargo-vendormod-testing" ;
+    dash:hasSkill "rust-async-patterns" ;
+    dash:hasSkill "rust-clap-command-verification" ;
+    dash:hasArtifact "plugin crate" ;
+    dash:hasArtifact "integration test" .
+
+dash:task6 a dash:Task ;
+    dct:title "dashlm-systemd-service" ;
+    dct:description "Implement systemd service dashlm-index@.service and server binary dashlm_index_server for long-running shared-index management." ;
+    dash:goal "Provide a long-running process that creates/opens the shared segment, builds the index if needed, then stays alive to serve readers and accept reload triggers." ;
+    dash:outputBlob "Binary at src/bin/dashlm_index_server.rs plus systemd unit file template" ;
+    dash:hasInput [
+        dct:title "Server Binary" ;
+        dash:path "src/bin/dashlm_index_server.rs" ;
+        dash:dependsOn "dashlm_shared_index" ;
+        dash:dependsOn "tokio = 1.38 full" ;
+        dash:dependsOn "nix" ;
+        dash:dependsOn "clap" ;
+        dash:dependsOn "sd-notify"
+    ] ;
+    dash:cli "--index-name, --index-size, --project-root, --standby-timeout <SECS>" ;
+    dash:logic "Open/create shared index; if empty (magic missing or value_heap_used == 0) run builder; notify READY=1; bind to /run/dashlm_index_<hash>.ctl Unix socket; loop waiting for b'R' (rebuild) or timeout" ;
+    dash:rebuildStrategy "Create new segment, run builder into new segment, atomic swap via shmctl(IPC_RMID) or clear-in-place with exclusive lock" ;
+    dash:systemd "[Unit] After=local-fs.target" ;
+    dash:systemd "[Service] Type=notify, ExecStart, Restart=on-failure, TimeoutStopSec=infinity, SendSIGKILL=no" ;
+    dash:systemd "[Install] WantedBy=multi-user.target" ;
+    dash:hasSkill "hermes-agent" ;
+    dash:hasSkill "nix-flakes" ;
+    dash:hasSkill "cargo-vendormod-testing" ;
+    dash:hasSkill "rust-async-patterns" ;
+    dash:hasSkill "rust-clap-command-verification" ;
+    dash:hasArtifact "src/bin/dashlm_index_server.rs" ;
+    dash:hasArtifact "unit test with temp memfd" ;
+    dash:hasArtifact "systemd unit template" .
+
+dash:task7 a dash:Task ;
+    dct:title "dashlm-analyzer-integration" ;
+    dct:description "Integrate shared index cache into crossbeam rustc analyzer to skip re-analysis of unchanged files." ;
+    dash:goal "Modify /mnt/data1/meta-introspector/crossbeam_rustc_analyzer_complete.rs to first consult the shared index and skip re-analysis of unchanged files." ;
+    dash:outputBlob "Patched crossbeam analyzer with dashlm_shared_index dep and cache-hit path" ;
+    dash:hasInput [
+        dct:title "Analyzer Source" ;
+        dash:path "/mnt/data1/meta-introspector/crossbeam_rustc_analyzer_complete.rs" ;
+        dash:dependsOn "dashlm_shared_index (patch/path dep in analyzer Cargo.toml)"
+    ] ;
+    dash:imports "use dashlm_shared_index::{SharedIndex, MemType};" ;
+    dash:cachingLogic "Before analyze_file: compute relative path; SipHash-2-4 -> key; open shared index read-only; call get(key); if cached value matches SHA-256 return cached FileAnalysis; else run analysis, add file_hash to FileAnalysis, serialize, store, access" ;
+    dash:cli "Add --index-name argument or read DASHLM_INDEX_NAME env var" ;
+    dash:verification "Run analyzer on a file, then run again; second run should hit cache and be much faster; access logs show CPU hit for each file" ;
+    dash:hasSkill "hermes-agent" ;
+    dash:hasSkill "nix-flakes" ;
+    dash:hasSkill "cargo-vendormod-testing" ;
+    dash:hasSkill "rust-clap-command-verification" ;
+    dash:hasArtifact "crossbeam_rustc_analyzer_complete.rs patch" ;
+    dash:hasArtifact "analyzer Cargo.toml patch" .
+
+dash:task8 a dash:Task ;
+    dct:title "dashlm-makefile" ;
+    dct:description "Update cargo-vendormod Makefile with dashlm targets for building, viewing, GPU prep, cleaning, and systemd service management." ;
+    dash:goal "Expose convenient targets for building, viewing, preparing GPU copy, cleaning, and managing the systemd service." ;
+    dash:outputBlob "Makefile additions: index-build, index-show, index-gpu-prep, index-clean, index-service-* targets" ;
+    dash:hasInput [
+        dct:title "Makefile" ;
+        dash:path "Makefile or Makefile.dashlm" ;
+        dash:dependsOn "make"
+    ] ;
+    dash:variables "DASL_ROOT := $(HOME)/dasl" ;
+    dash:variables "GIT_HASH := $(shell cd $(DASL_ROOT) && git rev-parse HEAD)" ;
+    dash:variables "INDEX_NAME := dashlm_index_$(GIT_HASH)" ;
+    dash:variables "INDEX_SIZE := 1073741824" ;
+    dash:variables "PROJECT_ROOT := $(DASL_ROOT)" ;
+    dash:variables "VERBOSE_FLAG (overridable)" ;
+    dash:targets "index-build, index-show, index-gpu-prep, index-clean, index-service-start, index-service-stop, index-service-enable, index-service-disable, index-service-status, help" ;
+    dash:outputBehavior "Each target prints a short header via @echo; phony help lists dashlm targets" ;
+    dash:hasArtifact "Makefile" ;
+    dash:hasArtifact "make validation" .
+
+dash:task9 a dash:Task ;
+    dct:title "dashlm-documentation" ;
+    dct:description "Documentation and examples for the shared-memory index system including usage guide, systemd service, plugin integration, and GPU examples." ;
+    dash:goal "Provide a clear guide for users to build, use, and extend the shared-memory index system." ;
+    dash:outputBlob "Directory DOCS/dashlm-index/index.md and example examples/dashlm_plugin_example.rs" ;
+    dash:hasInput [
+        dct:title "Documentation" ;
+        dash:path "DOCS/dashlm-index/index.md" ;
+        dash:path "examples/dashlm_plugin_example.rs" ;
+        dash:dependsOn "make help output" ;
+        dash:dependsOn "cargo readme (optional)"
+    ] ;
+    dash:requiresSections "Overview, Prerequisites (Rust, CUDA optional, Nix), Step-by-step: make index-build/show/gpu-prep, systemd enable/start, zos-server plugin query examples, minimal rustc-plugin example, GPU usage example, Troubleshooting" ;
+    dash:requiresSkills "hermes-agent, nix-flakes, cargo-vendormod-testing" ;
+    dash:verification "Docs viewable via make help; example compiles" ;
+    dash:hasArtifact "DOCS/dashlm-index/index.md" ;
+    dash:hasArtifact "examples/dashlm_plugin_example.rs" .
+
+dash:executionOrder a schema:ItemList ;
+    schema:itemListOrder "OrderedExecution"^^xsd:string ;
+    schema:numberOfItems "9"^^xsd:integer ;
+    schema:itemListElement dash:task1 ;
+    schema:itemListElement dash:task2 ;
+    schema:itemListElement dash:task3 ;
+    schema:itemListElement dash:task4 ;
+    schema:itemListElement dash:task5 ;
+    schema:itemListElement dash:task6 ;
+    schema:itemListElement dash:task7 ;
+    schema:itemListElement dash:task8 ;
+    schema:itemListElement dash:task9 .

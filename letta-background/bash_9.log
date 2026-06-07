@@ -1,0 +1,24 @@
+
+[timeout after 600000ms]
+
+[exit code: null]
+building '/nix/store/2f68mz4b803gbsc63n3liz8319vgxg5g-rustfmt-preview-1.96.0-x86_64-unknown-linux-gnu.drv'...
+building '/nix/store/sral2yyzngzss5xiyiv760kkyxqxpxnm-v5.17.14.zip.drv'...
+error: hash mismatch in fixed-output derivation '/nix/store/sral2yyzngzss5xiyiv760kkyxqxpxnm-v5.17.14.zip.drv':
+         specified: sha256-e6U9XuuU/IYYmGtXCICbIRelVeFk5jV7mniwJWlqO2M=
+            got:    sha256-SBJE0IEgl7Efuu73n3HZQrFxYX+cn5UU5jrL4T5xzNw=
+building '/nix/store/d198rb19r315pqxm0lvdfc36acb9d9x1-rust-default-1.96.0.drv'...
+error: Cannot build '/nix/store/c9cz4k4640fihhvsx6a5pqpvmwacsipz-nora-workspace-0.9.2.drv'.
+       Reason: 1 dependency failed.
+       Output paths:
+         /nix/store/cswndwwbyjj0c9r7dv8qb2kjvny54zfm-nora-workspace-0.9.2
+error: Cannot build '/nix/store/fijjsly3zld1yh9qh76pba33wggb4ls2-nora-workspace-deps-0.9.2.drv'.
+       Reason: 1 dependency failed.
+       Output paths:
+         /nix/store/nybny0lslgv0cp8mjjxhx8vyni7sp21a-nora-workspace-deps-0.9.2
+error: Build failed due to failed dependency
+error: Cannot build '/nix/store/4kf5fw1n11xj54f8vz25ishjd07rjqzr-nora-0.9.2.drv'.
+       Reason: 1 dependency failed.
+       Output paths:
+         /nix/store/dnpjgxxjk4zss65yph8qda6ys9kqby3p-nora-0.9.2
+error: Build failed due to failed dependency

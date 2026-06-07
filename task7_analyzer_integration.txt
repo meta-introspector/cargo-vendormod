@@ -1,0 +1,32 @@
+TASK 7: INTEGRATE THE SHARED INDEX WITH THE EXISTING CROSSBEAM ANALYZER
+
+Goal:
+  Modify /mnt/data1/meta-introspector/crossbeam_rustc_analyzer_complete.rs to first consult the shared index and skip re-analysis of unchanged files.
+
+Steps:
+  1. Add dashlm_shared_index as a dependency in the analyzer's Cargo.toml (if it doesn't already have one; otherwise add a [patch] or path dependency).
+  2. At the top of the file, import the shared index types:
+        use dashlm_shared_index::{SharedIndex, MemType};
+  3. Before calling analyze_file(&path), do:
+        * Compute the relative path from the project root (passed in via an environment variable or command line).
+        * Compute SipHash-2-4 of that relative path -> key_bytes.
+        * Open the shared index (read-only) with SharedIndex::open_or_create(&index_name, 0)?; (size can be 0 because we only need to attach; the provider will map the existing segment).
+        * Call get(&key_bytes). If Some((value_slice, _)) is returned:
+            - Deserialize with bincode::decode_from_slice::<FileAnalysis>(value_slice, bincode::config::standard())?.
+            - Compare the stored SHA-256 (we need to include it in the FileAnalysis struct; if not present, add a field file_hash: [u8;32] to the analyzer's output and serialize it as well).
+            - If hashes match, return the cached FileAnalysis.
+        * If no cache or hash mismatch, run the existing analysis, serialize the result (including the SHA-256), and call store(key_bytes, serialized, MemType::CPU) followed by access(key_bytes, MemType::CPU).
+  4. Ensure that the analyzer's main function accepts an optional --index-name argument (or reads it from an environment variable DASHLM_INDEX_NAME).
+  5. Test: run the analyzer on a file, then run it again; the second run should hit the cache and be much faster.
+  6. Verify that the shared-memory segment's access logs show a CPU access for each file processed.
+
+Skills needed:
+  - hermes-agent
+  - nix-flakes / nix
+  - cargo-vendormod-testing (to confirm the caching works)
+  - rust-clap-command-verification (if we add CLI args)
+  - (rust-async-patterns not required)
+
+Repos needed:
+  - cargo-vendormod (shared-memory library)
+  - The analyzer file itself (already present in the user's home)

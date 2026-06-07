@@ -1,0 +1,10 @@
+warning: Git tree '/mnt/data1/time-2026/05-may/28/nora' is dirty
+these 3 derivations will be built:
+  /nix/store/mvpj7x374dwrpya6181w7hhrynw2f068-nora-workspace-deps-0.9.2.drv
+  /nix/store/hbffsk7rh06vbw0whyaxgrhmpax8cr78-nora-workspace-0.9.2.drv
+  /nix/store/vy3h5dhiwhaqswl9q2sdzl4ssdc0d1hg-nora-0.9.2.drv
+building '/nix/store/mvpj7x374dwrpya6181w7hhrynw2f068-nora-workspace-deps-0.9.2.drv'...
+building '/nix/store/hbffsk7rh06vbw0whyaxgrhmpax8cr78-nora-workspace-0.9.2.drv'...
+building '/nix/store/vy3h5dhiwhaqswl9q2sdzl4ssdc0d1hg-nora-0.9.2.drv'...
+
+[exit code: 0]

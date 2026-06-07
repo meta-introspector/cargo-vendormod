@@ -1,0 +1,47 @@
+     ╔══════════════════════════════════════════════════════════════╗
+     … +6 lines (ctrl+o to expand)
+
+• The path-based matching is too strict — it's looking for exact schema type names in paths, but most implementations don't have the schema type name in their path. The real
+  coverage analysis needs to use the resonance data — which blocks resonate with which schema types. Let me use the resonance data from the evaluate subcommand:
+
+• Run # The resonance data tells us which blocks match which schema types!
+  │  # Let me query it directly
+  └  Resonance results: 15
+
+     Schema types by resonance (hits):
+     … +6 lines (ctrl+o to expand)
+
+• Run # Now let me get the actual resonance blocks with their classifications
+  │  cd ~/dasl/ipld-car-ipc-shmem-linux && ./target/release/letta-ipld-memory sparql "PREFIX ipld: <http://ipld.io/>
+  └  Resonance blocks with classification: 0
+
+     ╔══════════════════════════════════════════════════════════════╗
+     … +6 lines (ctrl+o to expand)
+
+• Run # The resonance blocks don't have classification because the resonance
+  │  # triples use type URIs as subjects, not block URIs.
+  └  Resonance triples: 15
+       type=http://ipld.io/type/IntKind  block=http://ipld.io/block/ipld_spec_schemas_schema-schema
+       type=http://ipld.io/type/StringKind  block=http://ipld.io/block/ipld_spec_schemas_schema-schema
+     … +1 lines (ctrl+o to expand)
+
+• Run # The resonance data only has 15 triples! That's because the resonance
+  │  # scanner only found 15 type→block matches. The evaluate subcommand
+  └  Exit code: 1
+     Traceback (most recent call last):
+       File "<string>", line 3, in <module>…
+
+⚠ You've used all of your Letta tier model inferences for this day (5,000 per day). Quota resets in 31m. Please upgrade your plan or try again after the reset. Insufficient
+  credits ($-0.022) to fulfill this request: minimum $1 in credits is required. Please purchase more credits at https://app.letta.com/settings/organization/usage
+
+⚠ Something went wrong? Use /feedback to report issues.
+
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+›
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                                                                             Letta Code · Auto
+
+
+
+
+

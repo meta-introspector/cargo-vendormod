@@ -1,0 +1,8 @@
+[package]
+name = "d8_2a-user"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+aya = { path = "/mnt/data1/time-2026/06/03/aya/aya" }
+anyhow = "1"

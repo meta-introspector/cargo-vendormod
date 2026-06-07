@@ -1,0 +1,35 @@
+TASK 3: BUILD THE INDEX VIEWER (dashlm_index_show)
+
+Goal:
+  Read-only tool that prints statistics about the shared index: total entries, zone distribution, access-log counts, conflicts, and optionally sample entries.
+
+Steps:
+  1. New binary: `cargo-vendormod/src/bin/dashlm_index_show.rs`.
+  2. Dependencies:
+        - dashlm_shared_index = { path = "./dashlm_shared_index" }
+        - clap = "4.5"
+        - serde_json = "1.0" (optional, for --json output)
+  3. CLI:
+        --index-name <STRING> (required)
+        --json (flag to output raw stats as JSON)
+  4. Implementation:
+        a. Open the segment with SharedIndex::open_or_create (read-only).
+        b. Iterate over all slots (slot_count) and count non-zero key_hash.
+        c. Build three histograms (CPU, GPU, Shared) of zone usage by reading mem_type and zone of each slot.
+        d. Read access logs (if present) and count entries per type, detect conflicts (same key_hash in both CPU and GPU logs).
+        e. Print human-readable summary; if --json, emit JSON object with fields: total_files, cpu_entries, gpu_entries, shared_entries, zone_histograms (three arrays), conflict_keys, access_log_len_cpu, access_log_len_gpu.
+  5. Add a simple test that creates a segment via the builder, runs the viewer, and checks that output matches expectations.
+
+Skills needed:
+  - hermes-agent
+  - nix-flakes / nix
+  - cargo-vendormod-testing
+  - rust-clap-command-verification
+
+Source files and git repos:
+  - Source files to be created:
+        cargo-vendormod/src/bin/dashlm_index_show.rs
+        cargo-vendormod/tests/index_show_test.rs (or similar)
+  - Git repos / paths:
+        - Main repo: /mnt/data1/nix/vendor/rust/cargo2nix/submodules/cargo-clean/tools/cargo-vendormod
+        - The shared memory library: cargo-vendormod/dashlm_shared_index

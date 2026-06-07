@@ -63,10 +63,15 @@ pub mod dasl_pipeline;
  pub mod graph;
  pub mod nora_index;
 pub mod monolith_split;
+pub mod nora_indexer;
+pub mod warm_manager;
+pub mod warm_args;
 
  // Re-export commonly used types
  pub use config::{Config, generate_sample_config};
 pub use args::Args;
+pub use nora_indexer::{NoraIndexArgs, run_nora_index};
+pub use warm_manager::handle_warm_command;
 
 // Re-export types that are used via crate:: paths
 pub use rollup_lock::RollupLock;

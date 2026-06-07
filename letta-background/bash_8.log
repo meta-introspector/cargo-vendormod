@@ -1,0 +1,34 @@
+
+[timeout after 600000ms]
+
+[exit code: null]
+         /nix/store/4l94jnrnl4vrj31dw5faamv9rjiyx5nx-system-manager-path
+error: Cannot build '/nix/store/g91rr3rszm5am2sx63w1rvj0srglfbcp-unit-nora.service.drv'.
+       Reason: 1 dependency failed.
+       Output paths:
+         /nix/store/csw1240n4fgnjn3bnflvgb70kwrzn1hr-unit-nora.service
+error: Build failed due to failed dependency
+error: Build failed due to failed dependency
+error: Cannot build '/nix/store/rsgjnsw8vk3gsxshqcf3r7dl66pbks1b-services.drv'.
+       Reason: 1 dependency failed.
+       Output paths:
+         /nix/store/rrvxcz2kqya4fcmz1b1q49km6kjzl8d8-services
+error: Cannot build '/nix/store/24459yzzqw55nd0vv89a7g24ckq04y8p-system-manager-units.drv'.
+       Reason: 1 dependency failed.
+       Output paths:
+         /nix/store/9m5inkpnwa06rvp908niq1zygxlb3zq6-system-manager-units
+error: Cannot build '/nix/store/257mawqsfhb32n1191jg2i16jnrxyppf-unit-script-system-manager-path-start.drv'.
+       Reason: 1 dependency failed.
+       Output paths:
+         /nix/store/vpm63ddr5d014dl9lpfaz96whh2hw90r-unit-script-system-manager-path-start
+error: Build failed due to failed dependency
+error: Build failed due to failed dependency
+error: Cannot build '/nix/store/g0igss61j3bjiy1l4ys0pgjpg1ilycy0-system-manager.drv'.
+       Reason: 1 dependency failed.
+       Output paths:
+         /nix/store/z3qdqqg96mjc0fq7d7r1s3f657a30ndl-system-manager
+error: Cannot build '/nix/store/gia7js3v32p8vjf09d4gd8pxv97w5iyc-systemd-system-etc-link.drv'.
+       Reason: 1 dependency failed.
+       Output paths:
+         /nix/store/8gwrfvdl0r0gn5qbw0x3nx9wliybvyc2-systemd-system-etc-link
+error: Build failed due to failed dependency

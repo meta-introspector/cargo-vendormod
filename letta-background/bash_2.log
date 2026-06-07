@@ -1,0 +1,13 @@
+=== vendormod-dasl ===
+DASL root:   /mnt/data1/time-2026/02-february/22/dasl
+Mirrors:     /home/mdupont/git/github.com
+Fork owner:  meta-introspector
+Dry run:     false
+Jobs:        24
+
+Found 2993 submodules in .gitmodules
+
+  MIRRORED: Martin-Seysen/order_monster
+  SKIP (non-GitHub): math/pari <- https://pari.math.u-bordeaux.fr/git/pari.git
+
+[exit code: 0]

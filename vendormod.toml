@@ -1,0 +1,9 @@
+git_path = "/nix/store/8x49w8i0vafv34rlc6h4a0f7z0z2qpb5-git-2.53.0/bin/git"
+vendor_dir = "vendor"
+submodules_dir = "submodules"
+mirrors_dir = "/home/mdupont/git"
+target_branch = "main"
+version_branch_format = "v{}"
+create_version_branches = false
+default_threads = 24
+warm_dirs = []

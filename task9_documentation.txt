@@ -1,0 +1,27 @@
+TASK 9: DOCUMENTATION AND EXAMPLES
+
+Goal:
+  Provide a clear guide for users to build, use, and extend the shared-memory index system.
+
+Steps:
+  1. Create a directory `cargo-vendormod/DOCS/dashlm-index/` (or add to an existing `DOCS/` folder).
+  2. Write `index.md` covering:
+        - Overview of the architecture.
+        - Prerequisites (Rust toolchain, CUDA optional, Nix).
+        - Step-by-step: `make index-build`, `make index-show`, `make index-gpu-prep`.
+        - How to enable the systemd service (`sudo make index-service-enable && sudo make index-service-start`).
+        - How to query via the zos-server plugin (example `curl --unix-socket /run/dashlm_index_<hash>.ctl http://localhost/file/path/to/file.rs`).
+        - How to integrate a rustc-plugin (show a minimal plugin that calls the zos-server plugin's `execute` function).
+        - GPU usage example (compile the provided `gpu_query.cu`, load the binary produced by `make index-gpu-prep`).
+        - Troubleshooting (common errors: segment not found, permission denied, rebuild loops).
+  3. Add a short example in `cargo-vendormod/examples/` showing a minimal rustc-plugin that uses the index via the zos-server plugin.
+  4. Ensure the documentation is built and viewable with `make help` or via `cargo readme` if desired.
+
+Skills needed:
+  - hermes-agent (for running documentation builds if any)
+  - nix-flakes / nix (to keep the doc build environment reproducible)
+  - cargo-vendormod-testing (to verify that the examples actually compile)
+
+Repos needed:
+  - cargo-vendormod
+  - zos-server (for plugin examples)

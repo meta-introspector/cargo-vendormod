@@ -34,6 +34,22 @@ pub struct Config {
     /// Config file path (if explicitly provided)
     #[serde(skip)]
     pub config_file: Option<PathBuf>,
+    /// Directories to warm the cache with
+    #[serde(default)]
+    pub warm_dirs: Vec<WarmDir>,
+}
+
+/// A directory to be warmed in the cache
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct WarmDir {
+    pub path: PathBuf,
+    pub prefix: String,
+    #[serde(default)]
+    pub exts: Vec<String>,
+    #[serde(default)]
+    pub max_size: u64,
+    #[serde(default)]
+    pub last_warmed: Option<String>,
 }
 
 impl Default for Config {
@@ -58,6 +74,7 @@ impl Default for Config {
             create_version_branches: false,
             default_threads: num_cpus::get(),
             config_file: None,
+            warm_dirs: Vec::new(),
         }
     }
 }
@@ -73,9 +90,10 @@ impl Config {
             config.config_file = Some(path.to_path_buf());
         } else {
             // Check for local config file
-            if let Ok(local_config) = config.merge_file(PathBuf::from("./vendormod.toml").as_path()) {
-                config = local_config;
-                config.config_file = Some(PathBuf::from("./vendormod.toml"));
+            let local_path = PathBuf::from("./vendormod.toml");
+            if local_path.exists() {
+                config.merge_file(&local_path)?;
+                config.config_file = Some(local_path);
             } else if let Some(home) = dirs::config_dir() {
                 let global_config = home.join("cargo-vendormod").join("config.toml");
                 if global_config.exists() {
@@ -91,7 +109,7 @@ impl Config {
         Ok(config)
     }
 
-    fn merge_file(&mut self, path: &Path) -> Result<Self> {
+    fn merge_file(&mut self, path: &Path) -> Result<()> {
         let content = std::fs::read_to_string(path)
             .with_context(|| format!("Failed to read config file: {}", path.display()))?;
 
@@ -126,8 +144,11 @@ impl Config {
         if let Some(t) = parsed.default_threads {
             self.default_threads = t;
         }
+        if let Some(d) = parsed.warm_dirs {
+            self.warm_dirs = d;
+        }
 
-        Ok(self.clone())
+        Ok(())
     }
 
     fn merge_env(&mut self) {
@@ -175,29 +196,30 @@ impl Config {
     pub fn version_branch(&self, version: &str) -> String {
         self.version_branch_format.replace("{}", version)
     }
+
+    /// Save configuration to file
+    pub fn save(&self) -> Result<()> {
+        let path = self.config_file.clone().unwrap_or_else(|| PathBuf::from("./vendormod.toml"));
+        let content = toml::to_string_pretty(self)?;
+        std::fs::write(&path, content)
+            .with_context(|| format!("Failed to write config file: {}", path.display()))?;
+        Ok(())
+    }
 }
 
 /// Intermediate structure for config file parsing
 #[derive(Debug, Deserialize)]
-struct ConfigFile {
-    #[serde(rename = "git-path")]
+pub struct ConfigFile {
     git_path: Option<PathBuf>,
-    #[serde(rename = "vendor-dir")]
     vendor_dir: Option<PathBuf>,
-    #[serde(rename = "submodules-dir")]
     submodules_dir: Option<PathBuf>,
-    #[serde(rename = "mirrors-dir")]
     mirrors_dir: Option<PathBuf>,
-    #[serde(rename = "manifest-path")]
     manifest_path: Option<PathBuf>,
-    #[serde(rename = "target-branch")]
     target_branch: Option<String>,
-    #[serde(rename = "version-branch-format")]
     version_branch_format: Option<String>,
-    #[serde(rename = "create-version-branches")]
     create_version_branches: Option<bool>,
-    #[serde(rename = "default-threads")]
     default_threads: Option<usize>,
+    warm_dirs: Option<Vec<WarmDir>>,
 }
 
 /// Generate a sample config file
@@ -206,27 +228,34 @@ pub fn generate_sample_config() -> String {
 # Copy to ./vendormod.toml or ~/.config/cargo-vendormod/config.toml
 
 # Git executable path
-git-path = "git"
+# git_path = "git"
 
 # Default directories (relative to workspace)
-vendor-dir = "vendor"
-submodules-dir = "submodules"
+# vendor_dir = "vendor"
+# submodules_dir = "submodules"
 
 # Bare git mirrors directory (absolute path recommended)
 # Example: ~/git or /home/user/git
-mirrors-dir = "~/git"
+# mirrors_dir = "~/git"
 
 # Default target branch for submodules
-target-branch = "main"
+# target_branch = "main"
 
 # Version branch format (use {} as placeholder for version)
-version-branch-format = "v{}"
+# version_branch_format = "v{}"
 
 # Whether to automatically create version branches
-create-version-branches = false
+# create_version_branches = false
 
 # Default number of threads for parallel operations
-default-threads = 8
+# default_threads = 8
+
+# Directories to warm the cache with
+# [[warm_dirs]]
+# path = "/path/to/dir"
+# prefix = "my-prefix"
+# exts = ["rs", "toml", "md"]
+# max_size = 1048576
 "#.to_string()
 }
 

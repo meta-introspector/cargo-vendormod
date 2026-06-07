@@ -1,0 +1,8 @@
+warning: Git tree '/mnt/data1/time-2026/05-may/28/nora' is dirty
+these 2 derivations will be built:
+  /nix/store/sv8z90scn4179wqfc06icds9w3q614i1-nora-workspace-0.9.2.drv
+  /nix/store/g58078w8am9qxdhpivll9pq330q9ijsd-nora-0.9.2.drv
+building '/nix/store/sv8z90scn4179wqfc06icds9w3q614i1-nora-workspace-0.9.2.drv'...
+error: interrupted by the user
+
+[exit code: 0]

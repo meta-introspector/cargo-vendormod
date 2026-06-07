@@ -1,0 +1,103 @@
+{
+"layers": [
+    {
+      "name": "Layer 1: DMZ Core (Tag 42)",
+      "layer_id": "dmz_core",
+      "description": "The fundamental 0xD8 0x2A signature bytes - universal CID encoding",
+      "nodes": [
+        {"id": "dmz:0xD8", "label": "0xD8 - CBOR Tag Prefix", "type": "binary_signature"},
+        {"id": "dmz:0x2A", "label": "0x2A - CID Tag 42", "type": "binary_signature"},
+        {"id": "dmz:cddl_tag42", "label": "tag42 ;cid", "type": "spec"}
+      ]
+    },
+    {
+      "name": "Layer 2: Direct Users (Native Implementations)",
+      "layer_id": "direct_users",
+      "description": "Direct encoders/decoders of 0xD8 0x2A - all equal distance from DMZ center",
+      "nodes": [
+        {"id": "rust:serde_ipld_dagcbor", "label": "serde_ipld_dagcbor (serde_ipld_dagcbor-escaped)", "file": "home/mdupont/dasl/rust/serde_ipld_dagcbor-escaped", "layer": 2},
+        {"id": "py:dag_cbrrr", "label": "dag_cbrrr (Python DAG-CBOR)", "file": "home/mdupont/dasl/lang/dag-cbor", "layer": 2},
+        {"id": "go:go-ipld-prime", "label": "go-ipld-prime (Go IPLD)", "file": "home/mdupont/dasl/lang/go-ipld-prime", "layer": 2},
+        {"id": "js:ipld-dag-cbor", "label": "ipld-dag-cbor (JavaScript)", "file": "home/mdupont/dasl/lang/js-dag-cbor", "layer": 2},
+        {"id": "java:java-ipld-cbor", "label": "java-ipld-cbor", "file": "home/mdupont/dasl/lang/java-ipld-cbor", "layer": 2},
+        {"id": "c:zcbor", "label": "zcbor (C CBOR)", "file": "home/mdupont/dasl/lang/zcbor", "layer": 2}
+      ]
+    },
+    {
+      "name": "Layer 3: Consumer Crates",
+      "layer_id": "consumer_crates",
+      "description": "Crates that depend on Layer 2 implementations",
+      "nodes": [
+        {"id": "crate:honggfuzz-rs", "label": "honggfuzz-rs", "file": "home/mdupont/dasl/rust/honggfuzz-rs/Cargo.toml", "layer": 3},
+        {"id": "crate:n0_dasl", "label": "n0_dasl", "file": "home/mdupont/dasl/rust/n0_dasl/Cargo.toml", "layer": 3},
+        {"id": "crate:ipld-core", "label": "ipld-core", "file": "home/mdupont/dasl/rust/ipld-core/Cargo.toml", "layer": 3},
+        {"id": "crate:fractran_loader", "label": "fractran_loader", "file": "home/mdupont/dasl/rust/fractran_loader/Cargo.toml", "layer": 3}
+      ]
+    },
+    {
+      "name": "Layer 4: IMPL Projects",
+      "layer_id": "impl_projects",
+      "description": "Higher-level projects using consumer crates",
+      "nodes": [
+        {"id": "proj:jacquard", "label": "jacquard (OAuth)", "file": "home/mdupont/dasl/IMPL/jacquard/Cargo.toml", "layer": 4},
+        {"id": "proj:microcosm-rs", "label": "microcosm-rs (social)", "file": "home/mdupont/dasl/IMPL/microcosm-rs/Cargo.toml", "layer": 4},
+        {"id": "proj:atproto-crates", "label": "atproto-crates", "file": "home/mdupont/dasl/IMPL/atproto-crates/Cargo.toml", "layer": 4},
+        {"id": "proj:social_ingest", "label": "social_ingest", "file": "home/mdupont/dasl/rust/social_ingest/Cargo.toml", "layer": 4}
+      ]
+    }
+  ]
+  "walls": [
+    {
+      "wall_id": "wall_dmz_core",
+      "name": "DMZ Core Wall",
+      "description": "Layer 1: The 0xD8 0x2A signature center - all paths converge here",
+      "layer": 1,
+      "arrows": []
+    },
+    {
+      "wall_id": "wall_direct_users",
+      "name": "Direct Users Wall",
+      "description": "Layer 2: All 6 native implementations encode to 0xD8 0x2A",
+      "layer": 2,
+      "arrows": [
+        {"from": "rust:serde_ipld_dagcbor", "to": "dmz:0xD8", "type": "encode", "codec": "dag-cbor"},
+        {"from": "py:dag_cbrrr", "to": "dmz:0xD8", "type": "encode", "codec": "dag-cbor"},
+        {"from": "go:go-ipld-prime", "to": "dmz:0xD8", "type": "marshal", "codec": "dag-cbor"},
+        {"from": "js:ipld-dag-cbor", "to": "dmz:0xD8", "type": "encode", "codec": "dag-cbor"},
+        {"from": "java:java-ipld-cbor", "to": "dmz:0xD8", "type": "encode", "codec": "dag-cbor"},
+        {"from": "c:zcbor", "to": "dmz:0xD8", "type": "encode", "codec": "cbor"}
+      ]
+    },
+    {
+      "wall_id": "wall_consumer_crate",
+      "name": "Consumer Crate Wall",
+      "description": "Layer 3: Workspace crates consuming tag42 implementations",
+      "layer": 3,
+      "arrows": [
+        {"from": "crate:honggfuzz-rs", "to": "rust:serde_ipld_dagcbor", "type": "depends"},
+        {"from": "crate:n0_dasl", "to": "rust:serde_ipld_dagcbor", "type": "depends"},
+        {"from": "crate:ipld-core", "to": "rust:serde_ipld_dagcbor", "type": "depends"},
+        {"from": "crate:fractran_loader", "to": "rust:serde_ipld_dagcbor", "type": "depends"}
+      ]
+    },
+    {
+      "wall_id": "wall_impl_project",
+      "name": "IMPL Project Wall",
+      "description": "Layer 4: Projects using consumer crates",
+      "layer": 4,
+      "arrows": [
+        {"from": "proj:jacquard", "to": "crate:honggfuzz-rs", "type": "uses"},
+        {"from": "proj:microcosm-rs", "to": "crate:n0_dasl", "type": "uses"},
+        {"from": "proj:atproto-crates", "to": "crate:ipld-core", "type": "uses"},
+        {"from": "proj:social_ingest", "to": "crate:fractran_loader", "type": "uses"}
+      ]
+    }
+  ],
+  "metadata": {
+    "total_layers": 4,
+    "total_nodes": 21,
+    "total_arrows": 14,
+    "dmz_center": ["dmz:0xD8", "dmz:0x2A"],
+    "structure": "4-layer distance-from-DMZ: core → direct users → consumers → projects"
+  }
+}

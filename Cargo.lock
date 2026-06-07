@@ -122,7 +122,7 @@ dependencies = [
 [[package]]
 name = "atproto-dasl"
 version = "0.14.0"
-source = "git+file:///home/mdupont/git/github.com/musicjunkieg/atproto-crates.git#d2457eecc6814e8351486df3a3608542bae848a7"
+source = "git+file:///mnt/data1/git/github.com/musicjunkieg/atproto-crates.git#d2457eecc6814e8351486df3a3608542bae848a7"
 dependencies = [
  "blake3",
  "cid",

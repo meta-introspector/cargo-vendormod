@@ -1,0 +1,217 @@
+{
+  "nodes": [
+    {
+      "id": "binary:0xD8",
+      "label": "0xD8 - CBOR Tag Prefix",
+      "type": "binary_byte",
+      "domain": "raw_bytes",
+      "count": 61612,
+      "description": "CBOR major type 6 (tag) with additional info 24 - indicates next byte is tag number"
+    },
+    {
+      "id": "binary:0x2A",
+      "label": "0x2A - CID Tag Number",
+      "type": "binary_byte",
+      "domain": "raw_bytes",
+      "count": 183426,
+      "description": "Tag number 42 = IPLD Content Identifier"
+    },
+    {
+      "id": "binary:0x58",
+      "label": "0x58 - CBOR Byte String",
+      "type": "binary_byte",
+      "domain": "raw_bytes",
+      "count": 9312,
+      "description": "CBOR byte string header with 1-byte length - CID body follows"
+    },
+    {
+      "id": "binary:0x81",
+      "label": "0x81 - 1-Element Array",
+      "type": "binary_byte",
+      "domain": "raw_bytes",
+      "count": 9305,
+      "description": "Precedes CID in CAR roots array: roots: [CID]"
+    },
+    {
+      "id": "rust:types::Tag",
+      "label": "types::Tag(42, Bytes)",
+      "type": "source_function",
+      "domain": "rust",
+      "file": "serde_ipld_dagcbor/src/ser.rs:610",
+      "description": "Rust serializer that writes 0xD8 0x2A"
+    },
+    {
+      "id": "rust:CBOR_TAGS_CID",
+      "label": "CBOR_TAGS_CID = 42",
+      "type": "source_constant",
+      "domain": "rust",
+      "file": "serde_ipld_dagcbor/src/lib.rs:147",
+      "description": "The constant defining tag 42 for CID"
+    },
+    {
+      "id": "rust:cbor4ii::Tag",
+      "label": "Tag<T>::encode (major::TAG << 5)",
+      "type": "source_function",
+      "domain": "rust",
+      "file": "cbor4ii/src/core/enc.rs:305",
+      "description": "cbor4ii tag encoder formula"
+    },
+    {
+      "id": "python:cbor2::CBORTag",
+      "label": "cbor2.CBORTag(42, ...)",
+      "type": "source_function",
+      "domain": "python",
+      "file": "agronholm/cbor2/rust/encoder.rs:907",
+      "description": "Python cbor2 tag encoder"
+    },
+    {
+      "id": "go:cid::NewCidV1",
+      "label": "cid.NewCidV1(DagCBOR, hash)",
+      "type": "source_function",
+      "domain": "go",
+      "file": "go-ipld-prime/cid/cid.go",
+      "description": "Go CID constructor that marshals to 0xD8 0x2A"
+    },
+    {
+      "id": "js:CID::create",
+      "label": "CID.create(1, dag-cbor, hash)",
+      "type": "source_function",
+      "domain": "javascript",
+      "file": "ipld-dag-cbor",
+      "description": "JavaScript CID creator"
+    },
+    {
+      "id": "java:encodeTag",
+      "label": "CborEncoder.encodeTag(42)",
+      "type": "source_function",
+      "domain": "java",
+      "file": "java-cbor-remoting",
+      "description": "Java CBOR tag encoder"
+    },
+    {
+      "id": "c:zcbor_tag_encode",
+      "label": "zcbor_tag_encode(42)",
+      "type": "source_function",
+      "domain": "c",
+      "file": "zcbor/cbor_encoding.c",
+      "description": "Zephyr RTOS zcbor tag encoder"
+    },
+    {
+      "id": "spec:cddl_tag42",
+      "label": "tag42 ;cid",
+      "type": "spec",
+      "domain": "cddl",
+      "file": "DAG-CBOR.cddl",
+      "description": "CDDL specification for tag 42"
+    },
+    {
+      "id": "car:header",
+      "label": "CAR Header Structure",
+      "type": "structure",
+      "domain": "ipld",
+      "description": "Header format: { version: 1, roots: [CID] }"
+    },
+    {
+      "id": "cid:v1_raw",
+      "label": "CIDv1 Raw Codec",
+      "type": "cid_structure",
+      "domain": "ipld",
+      "fields": ["version", "codec", "multihash", "hash"],
+      "bytes": "0x01 0x55 0x12 0x20 <hash>"
+    }
+  ],
+  "edges": [
+    {
+      "from": "binary:0x81",
+      "to": "binary:0xD8",
+      "type": "CBOR_container",
+      "count": 9305
+    },
+    {
+      "from": "binary:0xD8",
+      "to": "binary:0x2A",
+      "type": "signature",
+      "count": 9331
+    },
+    {
+      "from": "binary:0x2A",
+      "to": "binary:0x58",
+      "type": "cid_body",
+      "count": 9312
+    },
+    {
+      "from": "rust:types::Tag",
+      "to": "binary:0xD8",
+      "type": "encode"
+    },
+    {
+      "from": "rust:CBOR_TAGS_CID",
+      "to": "rust:types::Tag",
+      "type": "constant_reference"
+    },
+    {
+      "from": "rust:cbor4ii::Tag",
+      "to": "binary:0xD8",
+      "type": "encode"
+    },
+    {
+      "from": "python:cbor2::CBORTag",
+      "to": "binary:0xD8",
+      "type": "encode"
+    },
+    {
+      "from": "go:cid::NewCidV1",
+      "to": "binary:0xD8",
+      "type": "marshal"
+    },
+    {
+      "from": "js:CID::create",
+      "to": "binary:0xD8",
+      "type": "encode"
+    },
+    {
+      "from": "java:encodeTag",
+      "to": "binary:0xD8",
+      "type": "encode"
+    },
+    {
+      "from": "c:zcbor_tag_encode",
+      "to": "binary:0xD8",
+      "type": "encode"
+    },
+    {
+      "from": "spec:cddl_tag42",
+      "to": "binary:0xD8",
+      "type": "spec_to_implementation"
+    },
+    {
+      "from": "car:header",
+      "to": "binary:0x81",
+      "type": "contains"
+    },
+    {
+      "from": "binary:0x58",
+      "to": "cid:v1_raw",
+      "type": "wraps"
+    }
+  ],
+  "metadata": {
+    "source": "DMZ_CID_SIGNATURE_0xD8_0x2A.md",
+    "total_transitions": 173426,
+    "tag_42_transitions": 9331,
+    "other_tags": ["0x00(datetime)", "0x01(datetime)", "0x02(bignum)", "0x04(decimal)", "0x05(bigfloat)"],
+    "languages_covered": ["rust", "python", "go", "javascript", "java", "c", "cddl"],
+    "hecke": {
+      "p=3_T_D8": 6667,
+      "p=7_T_D8": 442,
+      "p=17_T_2A": 9312,
+      "p=67_T_D8": 6667
+    },
+    "fourier_modes": {
+      "D8_strongest": [0, 1, 255, 249, 7],
+      "D8_magnitudes": [36293.0, 26122.7, 26122.7, 25677.4, 25677.4],
+      "2A_strongest": [0, 50, 206, 1, 255],
+      "2A_magnitudes": [143293.0, 119484.2, 119484.2, 113680.0, 113680.0]
+    }
+  }
+}

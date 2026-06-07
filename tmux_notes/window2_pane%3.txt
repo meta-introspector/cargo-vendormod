@@ -1,0 +1,47 @@
+File Edit Options Buffers Tools Complete In/Out Signals Help
+To https://github.com/meta-introspector/cargo-vendormod
+ * [new branch]      feat/ingest-memecache -> feat/ingest-memecache
+branch 'feat/ingest-memecache' set up to track 'origin/feat/ingest-memecache'.
+mdupont@mdupont-G470:~/projects/cargo-clean/tools/cargo-vendormod$ cd
+mdupont@mdupont-G470:~$ cd projects/n0x-pi/
+mdupont@mdupont-G470:~/projects/n0x-pi$ pwd
+/home/mdupont/projects/n0x-pi
+mdupont@mdupont-G470:~/projects/n0x-pi cat ~/.deepseek/config.toml
+api_key = "sk-20c57585482748f880c505b2e264f68e"
+default_text_model = "deepseek-v4-pro"
+reasoning_effort = "auto"
+
+[projects."/mnt/data1/time-2026/05-may/26/CodeWhale"]
+trust_level = "trusted"
+mdupont@mdupont-G470:~/projects/n0x-pi$
+
+
+
+
+
+
+-UUU:**-  F1  *shell*        Bot   L1367  (Shell:run shx) --------------------------------------------------------------------------------------------------------------------
+ * [new branch]      feat/ingest-memecache -> feat/ingest-memecache
+branch 'feat/ingest-memecache' set up to track 'origin/feat/ingest-memecache'.
+mdupont@mdupont-G470:~/projects/cargo-clean/tools/cargo-vendormod$ cd
+mdupont@mdupont-G470:~$ cd projects/n0x-pi/
+mdupont@mdupont-G470:~/projects/n0x-pi$ pwd
+/home/mdupont/projects/n0x-pi
+mdupont@mdupont-G470:~/projects/n0x-pi cat ~/.deepseek/config.toml
+api_key = "sk-20c57585482748f880c505b2e264f68e"
+default_text_model = "deepseek-v4-pro"
+reasoning_effort = "auto"
+
+[projects."/mnt/data1/time-2026/05-may/26/CodeWhale"]
+trust_level = "trusted"
+mdupont@mdupont-G470:~/projects/n0x-pi$
+
+
+
+
+
+
+
+
+-UUU:**-  F1  *shell*        Bot   L1367  (Shell:run shx) --------------------------------------------------------------------------------------------------------------------
+

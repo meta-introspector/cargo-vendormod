@@ -1,0 +1,228 @@
+[Task started: Survey git mirrors]
+[subagent_type: general-purpose]
+
+subagent_type=general-purpose subagent_id=subagent-1780348486858-3 subagent_status=success agent_id=agent-fa02bc6b-a928-484c-8f02-99cccc2595df conversation_id=default
+
+Here’s the survey, with top-level-only structure as requested.
+
+## 1) Bare git mirror roots
+
+I checked both:
+
+- `/home/mdupont/git`
+- `/mnt/data1/git`
+
+### Top-level counts
+Both roots have the same shape:
+
+- **100 top-level directories**
+- **3 top-level files**:
+  - `changes2.xt`
+  - `dirty_sources.txt`
+  - `gitrepos.txt`
+
+So each root has **103 top-level entries total**, and the directory trees are effectively identical at the top level.
+
+### What’s represented there
+The mirror namespaces include a mix of:
+
+- **major public hosts**: GitHub, GitLab, Googlesource, Bitbucket, Codeberg, Gitea, Gitee, SourceHut, Debian/Savannah, Launchpad, Kernel, QEMU, Sourceware, Wikimedia Gerrit, etc.
+- **special transport/helper buckets**: `file`, `ssh`, `git+ssh`, `https:`, `host`, `home`, `local`, `data`, `flat`
+- **project/custom buckets**: `activity-profile`, `boringtun`, `remacs`, `zkperf`, `solfunmeme-dioxus`, etc.
+
+### Representative hostnames/namespaces seen
+Examples from the top level:
+
+- `github.com`
+- `gitlab.com`
+- `gist.github.com`
+- `git.kernel.org`
+- `git.sr.ht`
+- `hg.sr.ht`
+- `bitbucket.org`
+- `codeberg.org`
+- `gitee.com`
+- `gitea.scheme.org`
+- `android.googlesource.com`
+- `chromium.googlesource.com`
+- `go.googlesource.com`
+- `salsa.debian.org`
+- `git.savannah.gnu.org`
+- `git.savannah.nongnu.org`
+- `sourceware.org`
+- `gerrit.wikimedia.org`
+- `repo.or.cz`
+- `huggingface.co`
+- `hf.co`
+- `notabug.org`
+- `tangled.org`
+- `tangled.sh`
+- `tonic-ai-git.eastus2.cloudapp.azure.com`
+
+There are also GitHub-special buckets like:
+
+- `github.com_work_trees`
+- `github:rust-fuzz`
+- `tpoonach@github.com`
+
+---
+
+## 2) Vendormod mirror config
+
+In:
+
+`/mnt/data1/nix/vendor/rust/cargo2nix/submodules/cargo-clean/tools/cargo-vendormod/`
+
+I found a few config files relevant to mirrors.
+
+### Key mirror config file
+#### `global_graph/cargo_mirror_config.toml`
+This is the clearest mirror-rewrite config. It redirects specific upstream git URLs to a local bare-repo directory:
+
+```toml
+# Cargo mirror config — replaces git sources with local submodule repos
+# Place in project_root/.cargo/config.toml
+
+[source."file:///home/mdupont/git/github.com/meta-introspector/zkperf.git"]
+git = "file:///mnt/data1/nix/vendor/rust/cargo2nix/submodules/cargo-clean/tools/cargo-vendormod/global_graph/bare_repos/zkperf.git"
+replace-with = "local-mirror"
+
+[source."https://github.com/dioxus-community/dioxus-charts.git"]
+git = "file:///mnt/data1/nix/vendor/rust/cargo2nix/submodules/cargo-clean/tools/cargo-vendormod/global_graph/bare_repos/dioxus-charts.git"
+replace-with = "local-mirror"
+
+[source."https://github.com/meta-introspector/syn-serde-rust"]
+git = "file:///mnt/data1/nix/vendor/rust/cargo2nix/submodules/cargo-clean/tools/cargo-vendormod/global_graph/bare_repos/syn-serde-rust.git"
+replace-with = "local-mirror"
+
+[source."https://github.com/meta-introspector/erdfa-publish.git"]
+git = "file:///mnt/data1/nix/vendor/rust/cargo2nix/submodules/cargo-clean/tools/cargo-vendormod/global_graph/bare_repos/erdfa-publish.git"
+replace-with = "local-mirror"
+
+[source."https://github.com/meta-introspector/erdfa-publish.git#cc5e7c6b0f0332dd391a898423fffc6455ce205c"]
+git = "file:///mnt/data1/nix/vendor/rust/cargo2nix/submodules/cargo-clean/tools/cargo-vendormod/global_graph/bare_repos/erdfa-publish.git"
+replace-with = "local-mirror"
+
+[source."local-mirror"]
+directory = "/mnt/data1/nix/vendor/rust/cargo2nix/submodules/cargo-clean/tools/cargo-vendormod/global_graph/bare_repos"
+```
+
+### Cargo config
+#### `.cargo/config.toml`
+This is not mirror-rewrite config itself, but it does point Cargo at vendored sources:
+
+```toml
+[source.nora]
+registry = "https://solana.solfunmeme.com/nora/cargo/api/v1/crates"
+replace-with = "vendored-sources"
+
+[source.vendored-sources]
+directory = "/home/mdupont/git/solana.solfunmeme.com/cargo-vendormod"
+```
+
+### Flake wiring
+#### `flake.nix`
+This flake uses local git mirrors directly for inputs:
+
+```nix
+nixpkgs.url = "git+file:///mnt/data1/git/github.com/NixOS/nixpkgs.git?ref=master";
+flake-utils.url = "git+file:///mnt/data1/git/github.com/numtide/flake-utils.git?ref=main";
+cargo-vendormod-src.url = "git+file:///home/mdupont/git/solana.solfunmeme.com/cargo-vendormod";
+```
+
+### Relevant operational note
+The repo also has a scanner script that expects mirrors under a host/owner/repo layout:
+
+- default mirrors dir: `"$HOME/git/host"`
+- clone target pattern: `"$MIRRORS_DIR/$host/$owner/${repo}.git"`
+
+So the overall mirror layout is definitely host-bucketed.
+
+---
+
+## 3) NORA storage
+
+Path:
+
+`/mnt/data1/nora/storage`
+
+### Top-level structure
+- `cargo/`
+- `.nora-pins.ndjson`
+- `audit.jsonl`
+- `metrics.json`
+
+### Inside `cargo/`
+Top-level package/index buckets:
+
+- `anyhow/`
+- `clap/`
+- `fractran_loader/`
+- `index/`
+- `libipld-core/`
+- `serde/`
+- `serde_json/`
+- `test-nora-prod/`
+- `tokio/`
+
+### Useful content notes
+- `metrics.json` shows:
+  - `downloads: 494`
+  - `uploads: 3`
+  - `cache_hits: 13`
+  - `cache_misses: 481`
+  - cargo is the only active registry there
+- `audit.jsonl` shows recent cargo pushes for:
+  - `libipld-core@0.4.3`
+  - `test-nora-prod@0.1.0`
+  - `fractran_loader@0.1.0`
+- `.nora-pins.ndjson` contains cargo index/hash pin entries like:
+  - `cargo/index/sh/le/shlex`
+  - `cargo/index/au/to/autocfg`
+  - `cargo/test-nora-prod/0.1.0/test-nora-prod-0.1.0.crate`
+
+This looks like a local Cargo registry/proxy cache with pinning/audit metadata.
+
+---
+
+## 4) Crane-based flake patterns in `~/dasl`
+
+I found **10 clear crane-based `flake.nix` files**:
+
+1. `/home/mdupont/dasl/INPUT/dasl-normalized/dasl-flakes/root/flake.nix`
+2. `/home/mdupont/dasl/rust/honggfuzz-rs/flake.nix`
+3. `/home/mdupont/dasl/tile-viewer/flake.nix`
+4. `/home/mdupont/dasl/performance-tools/flake.nix`
+5. `/home/mdupont/dasl/rust/ipld-core/honggfuzz-rs/flake.nix`
+6. `/home/mdupont/dasl/IMPL/deep_scanner/flake.nix`
+7. `/home/mdupont/dasl/IMPL/jacquard/flake.nix`
+8. `/home/mdupont/dasl/IMPL/atproto-crates/flake.nix`
+9. `/home/mdupont/dasl/IMPL/users/atproto/atproto_repos/rsform_weaver/flake.nix`
+10. `/home/mdupont/dasl/IMPL/users/atproto/atproto_repos/rsform_jacquard/flake.nix`
+
+### Common crane pattern
+The recurring pattern is:
+
+- `crane.url = "github:ipetkov/crane";`
+- `craneLib = (inputs.crane.mkLib pkgs)...`
+- `craneLib.buildPackage`
+- `craneLib.cleanCargoSource`
+- sometimes `buildDepsOnly`, `cargoClippy`, `cargoDoc`, `cargoFmt`, `cargoAudit`, `cargoDeny`, `cargoNextest`
+
+### Note on false positives
+There is also a `rustc_codegen_cranelift/flake.nix`, but that’s just a substring match on `crane` inside `cranelift`; it is **not** a crane-based flake.
+
+---
+
+## Bottom line
+
+- The mirror roots at `/home/mdupont/git` and `/mnt/data1/git` are **mirror-identical at the top level**
+- Each has **100 directory namespaces + 3 files**
+- The mirror ecosystem spans many common forges/hosts, plus special transport buckets
+- Vendormod’s main mirror rewrite config is `global_graph/cargo_mirror_config.toml`
+- NORA storage is a local cargo registry/proxy cache with a compact top-level layout
+- `~/dasl` has a healthy set of crane-based flake patterns, especially in Rust subprojects and generated/normalized flake trees
+
+If you want, I can turn this into a compact table or produce a host-by-host breakdown of the mirror namespaces next.
+
+[Task completed]

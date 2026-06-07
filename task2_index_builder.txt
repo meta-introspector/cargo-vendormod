@@ -1,0 +1,46 @@
+TASK 2: BUILD THE INDEX BUILDER BINARY (dashlm_index_builder)
+
+Goal:
+  Walk the project tree, extract file metadata (SHA-256, structs/enums/functions via the existing cross-beam analyzer), and insert entries into the shared index, skipping files that have not changed.
+
+Steps:
+  1. Create a new binary under `cargo-vendormod/src/bin/dashlm_index_builder.rs`.
+  2. Dependencies:
+        - dashlm_shared_index = { path = "./dashlm_shared_index" }
+        - walkdir = "2.5"
+        - blake3 = "1.0" (or sha2 = "0.10")
+        - rayon = "1.8" (optional, for parallel hashing only)
+        - clap = "4.5"
+  3. Re-use analysis functions from the existing cross-beam analyzer (copy FileAnalysis and ContentVisitor into this binary or create a small static lib).
+  4. CLI:
+        --project-root <PATH> (default ~/dasl)
+        --index-name <STRING> (default computed from git hash)
+        -index-size <SIZE> (default 1GiB)
+        --verbose
+  5. Algorithm:
+        a. Open/create shared index via SharedIndex::open_or_create.
+        b. Iterate over all *.rs files under $PROJECT_ROOT.
+        c. For each file:
+              i. Compute SHA-256 of content.
+              ii. Compute SipHash-2-4 of relative path (as key).
+              iii. Try get(key); if found and stored SHA-256 matches, skip.
+              iv. Else, run analyzer -> serialize with bincode -> store(key, value, MemType::CPU).
+              v. Call access(key, MemType::CPU) to log lookup.
+        d. Print progress every 5000 files.
+        e. Print total indexed, skipped, errors.
+  6. Add unit tests with a mock directory tree to verify unchanged files are skipped.
+
+Skills needed:
+  - hermes-agent
+  - nix-flakes / nix
+  - cargo-vendormod-testing
+  - rust-clap-command-verification
+
+Source files and git repos:
+  - Source files to be created or modified:
+        cargo-vendormod/src/bin/dashlm_index_builder.rs
+        (We may also copy the analysis logic from the existing analyzer, but we will not modify the analyzer in this task.)
+  - Git repos / paths:
+        - Main repo: /mnt/data1/nix/vendor/rust/cargo2nix/submodules/cargo-clean/tools/cargo-vendormod
+        - The existing analyzer (for reference): /mnt/data1/meta-introspector/crossbeam_rustc_analyzer_complete.rs
+        - The project to be indexed: /home/mdupont/dasl

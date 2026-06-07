@@ -8,6 +8,9 @@ use serde::{Serialize, Deserialize};
 use std::collections::{HashMap, HashSet};
 use std::path::{Path, PathBuf};
 use cargo_vendormod::config::Config;
+use cargo_vendormod::warm_args::*;
+use cargo_vendormod::warm_manager;
+use cargo_vendormod::nora_indexer::{run_nora_index, NoraIndexArgs};
 use cargo_vendormod::nur_flake::NurFlakeGenerator;
 use cargo_vendormod::flake_check;
 use cargo_vendormod::workload_processor::process_workload_recursive;
@@ -21,7 +24,7 @@ use git_config;
 use git2;
 use serde_ipld_dagcbor;
 use cid::{Cid};
-use multihash::{Code, Multihash};
+use multihash::{Multihash};
 use std::io::{Read, Write};
 
 
@@ -149,8 +152,8 @@ enum Commands {
     ScanIndex(ScanIndexArgs),
     /// Fast change detection: snapshot and diff to find new/changed/deleted files
     ScanDelta(ScanDeltaArgs),
-    /// Split a monolithic crate into workspace sub-crates
-    Split(SplitArgs),
+    /// Manage directories for cache warming
+    Warm(WarmCmd),
 }
 
 #[derive(Parser, Debug)]
@@ -481,25 +484,6 @@ struct DetectProjectsArgs {
 }
 
 #[derive(Parser, Debug)]
-struct NoraIndexArgs {
-    /// Path to workspace root directory
-    #[arg(long)]
-    workspace_path: PathBuf,
-
-    /// Shmem server socket path (default: @ipld_car_shmem)
-    #[arg(long, default_value = "@ipld_car_shmem")]
-    shmem_socket: String,
-
-    /// Cache directory for CAR pages (default: /mnt/data1/dasl-cache)
-    #[arg(long, default_value = "/mnt/data1/dasl-cache")]
-    cache_dir: PathBuf,
-
-    /// Verbose output
-    #[arg(long, short)]
-    verbose: bool,
-}
-
-#[derive(Parser, Debug)]
 struct SplitArgs {
     /// Path to the file to split
     #[arg(long)]
@@ -658,22 +642,6 @@ struct ScanIndexArgs {
     format: String,
 }
 
-#[derive(Parser, Debug)]
-struct SplitArgs {
-    /// Path to the file to split
-    #[arg(long)]
-    input_file: PathBuf,
-}
-
-
-
-
-
-
-
-
-
-
 // ============================================================
 // scan-delta: Fast change detection via snapshot diffing
 // ============================================================
@@ -829,7 +797,7 @@ fn handle_scan_delta(args: &ScanDeltaArgs) -> Result<()> {
         for fp in &new_fingerprints {
             match prev_map.get(&fp.path) {
                 None => new_files.push(fp.clone()),
-                Some(old) if *old != *fp => changed_files.push(((*old).clone(), fp.clone())),
+                Some(old) if **old != *fp => changed_files.push(((*old).clone(), fp.clone())),
                 Some(_) => unchanged_count += 1,
             }
         }
@@ -1067,7 +1035,7 @@ fn main() -> Result<()> {
     let args = MainArgs::parse();
 
     // Load configuration
-    let config = match cargo_vendormod::config::Config::load(args.config.as_deref()) {
+    let mut config = match cargo_vendormod::config::Config::load(args.config.as_deref()) {
         Ok(c) => c,
         Err(e) => {
             eprintln!("Warning: Could not load config: {}", e);
@@ -1076,6 +1044,9 @@ fn main() -> Result<()> {
     };
 
     match args.command {
+        Some(Commands::Warm(warm_cmd)) => {
+            warm_manager::handle_warm_command(&warm_cmd.cmd, &mut config)
+        }
         // Vendoring sub-commands
         Some(Commands::Vendoring(ref vcmd)) => {
             match &vcmd.cmd {
@@ -1251,7 +1222,7 @@ fn main() -> Result<()> {
         }
 
         Some(Commands::Ingest(args)) => {
-            handle_ingest(&args)
+            handle_ingest(&args, &mut config)
         }
 
         Some(Commands::MemecacheUpgrade(args)) => {
@@ -1272,6 +1243,23 @@ fn main() -> Result<()> {
         }
         Some(Commands::ScanDelta(args)) => {
             handle_scan_delta(&args)
+        }
+
+        Some(Commands::NoraIndex(args)) => {
+            run_nora_index(&args)
+        }
+
+        Some(Commands::CreateVirtualWorkspace(_)) => {
+            println!("CreateVirtualWorkspace not yet implemented");
+            Ok(())
+        }
+        Some(Commands::DetectProjects(_)) => {
+            println!("DetectProjects not yet implemented");
+            Ok(())
+        }
+        Some(Commands::AnalyzeSubmodules) => {
+            println!("AnalyzeSubmodules not yet implemented");
+            Ok(())
         }
 
         None => {
@@ -1412,7 +1400,7 @@ fn handle_patch(args: &MainArgs, config: &cargo_vendormod::config::Config) -> Re
 
 // ── Ingest: read old submodules directory and take control ─────────────
 
-fn handle_ingest(args: &IngestArgs) -> Result<()> {
+fn handle_ingest(args: &IngestArgs, config: &mut Config) -> Result<()> {
     println!("═══════════════════════════════════════════════════════════════════");
     println!("  Cargo-Vendormod Ingest: Reading old submodules");
     println!("═══════════════════════════════════════════════════════════════════");
@@ -1636,6 +1624,18 @@ fn handle_ingest(args: &IngestArgs) -> Result<()> {
                 }
             }
         }
+    }
+
+    // 7. Update warm_dirs config
+    let now = chrono_now();
+    for dir in &mut config.warm_dirs {
+        if dir.path == args.source_dir {
+            dir.last_warmed = Some(now.clone());
+        }
+    }
+    config.save()?;
+    if args.verbose {
+        println!("[info] Updated warm status for {}", args.source_dir.display());
     }
 
     println!();

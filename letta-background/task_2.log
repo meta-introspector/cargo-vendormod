@@ -1,0 +1,111 @@
+[Task started: Survey pipelight setup]
+[subagent_type: general-purpose]
+
+subagent_type=general-purpose subagent_id=subagent-1780348475568-2 subagent_status=success agent_id=agent-79f87bf4-f209-46e1-a49f-10055fe1776d conversation_id=default
+
+Here’s the inventory I found.
+
+## 1) Summary of what I did
+
+I surveyed `~/dasl` for the requested pipelight, gitplan, and knowledge-context directories.
+
+### Pipelight config files found
+- `/home/mdupont/dasl/pipelight.toml`
+  - Main generated pipeline file.
+  - Defines:
+    - `crane-lift-build`
+    - `crane-lift-publish`
+    - `crane-lift-full`
+  - Includes:
+    - many `nix build` steps for project crates/components
+    - Nora publish steps using `cargo publish --registry nora`
+    - a `bootstrap-nora` step that writes `~/.cargo/config.toml`
+    - a `verify-nora-crates` step that checks the local Nora registry
+
+- `/home/mdupont/dasl/dasl-testing/pipelight.toml`
+  - Defines:
+    - `build-all-services`
+    - `check`
+    - `publish-dasl-crates`
+    - `full-deploy`
+  - Includes crate builds and Nora publish/verify steps for:
+    - `ipld-core`
+    - `serde_ipld_dagcbor`
+    - `dasl`
+
+- `/home/mdupont/dasl/INPUT/rdfa-namespace/pipelight.toml`
+  - Small local test pipeline file.
+  - Defines:
+    - `test-actions`
+    - `test-build`
+    - `quick-test`
+  - No Nora publishing here; it’s mostly local validation / build checks.
+
+### Pipelight runtime directory
+- `/home/mdupont/dasl/.pipelight/`
+  - Present and populated with runtime data:
+    - `proc/`
+    - logs
+    - UUID-indexed execution records
+
+### Knowledge-context / skill directories in `~/dasl`
+Top-level directories:
+- `/home/mdupont/dasl/.agents/`
+  - Exists but is empty.
+
+- `/home/mdupont/dasl/.claude/skills/`
+  - Contains:
+    - `debug-issue.md`
+    - `explore-codebase.md`
+    - `refactor-safely.md`
+    - `review-changes.md`
+
+- `/home/mdupont/dasl/.forge/skills/`
+  - Contains:
+    - `build-and-fuzz-cbor/`
+    - `build-and-test-drivers/`
+    - `car-test-pipeline/`
+    - `witness-profiling/`
+
+- `/home/mdupont/dasl/.gemini/skills/`
+  - Contains:
+    - `deep_scan_project.md`
+    - `deep_scan_project.sh`
+    - `view_scan_results.md`
+    - `view_scan_results.sh`
+
+I also noticed many nested repo-local `.agents/skills` and `skills/` trees under subprojects in `~/dasl`, but I did not exhaustively inventory every nested one because there are a lot of them.
+
+### gitplan.org files found
+- `/home/mdupont/gitplan.org`
+- `/home/mdupont/05/28/gitplan.org`
+
+Both reinforce the same overall plan:
+- use pipelight to orchestrate build → publish → deploy
+- use Nora as the local crate registry
+- migrate Rust flakes to consume crates from Nora instead of crates.io
+
+The dated `05/28` version is more tactical:
+- build/test/publish pipelines
+- Nora deployment and verification
+- remaining conversion steps for `~/dasl`
+
+## 2) Files modified with changes made
+
+None. This was a read-only survey.
+
+## 3) Assumptions or decisions I made
+
+- I treated the empty top-level `.agents/` directory as a relevant context directory.
+- I focused on top-level `~/dasl` context directories plus obvious repo-local skill packs, rather than fully enumerating every nested skill tree across all submodules.
+- I interpreted “pipeline definitions publishing to nora or building crates” as the `nix build` and `cargo publish --registry nora` sections inside the pipelight TOML files.
+
+## 4) Suggested next steps
+
+If you want, I can next:
+- produce a compact index of every build/publish target in `/home/mdupont/dasl/pipelight.toml`
+- extract just the Nora-related publish steps from the pipeline files
+- inspect `.pipelight/proc/` logs to summarize recent pipeline runs
+- enumerate the nested `skills/` and `.agents/skills/` trees in specific subprojects you care about
+
+[Task completed]

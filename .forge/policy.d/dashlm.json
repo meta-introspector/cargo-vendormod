@@ -1,0 +1,16 @@
+[
+  {
+    "name": "shared-index",
+    "grants": [
+      { "id": "fs-write", "path": "dashlm_shared_index/**" },
+      { "id": "compile", "cmd": "cargo build --lib -p dashlm_shared_index" }
+    ]
+  },
+  {
+    "name": "index-builder",
+    "grants": [
+      { "id": "fs-write", "path": "src/bin/dashlm_index_builder.rs" },
+      { "id": "exec", "cmd": "mkdir -p src/bin" }
+    ]
+  }
+]

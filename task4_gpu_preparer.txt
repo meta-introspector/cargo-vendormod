@@ -1,0 +1,48 @@
+TASK 4: BUILD THE GPU PREPARER (dashlm_index_gpu_prep)
+
+Goal:
+  Convert the CPU-optimized hash-table layout into a GPU-friendly Structure-of-Arrays (SoA) layout and place it in a pinned, GPU-accessible buffer (or a file that can be mmap-ed and registered with CUDA).
+
+Steps:
+  1. New binary: `cargo-vendormod/src/bin/dashlm_index_gpu_prep.rs`.
+  2. Dependencies:
+        - dashlm_shared_index = { path = "./dashlm_shared_index" }
+        - cuda-sys = "0.2" (for definitions; actual linking to CUDA driver happens at runtime)
+        - memfd = "0.6" (optional, to create a sealed, resizable memfd for GPU registration)
+        - byteorder = "1.5" (for portable writing of the binary blob)
+        - clap = "4.5"
+  3. CLI:
+        --index-name <STRING>
+        --output-dir <PATH> (default /dev/shm)
+        --verbose
+  4. Algorithm:
+        a. Open the shared index read-only.
+        b. Allocate two vectors: one for fixed-size metadata (e.g., struct_count, enum_count, function_count per file) and one growable buffer for concatenated strings.
+        c. Iterate over slots: for each non-empty slot, deserialize the value (using the same bincode format as the builder) -> extract structs, enums, functions.
+        d. Push counts into the metadata vectors; append each string to the blob buffer, recording offsets.
+        e. After the loop, we have three parallel arrays of counts and a single blob of all strings.
+        f. Allocate a GPU-pinned buffer via cudaHostAlloc (or create a memfd, mlock, then cudaHostRegister).
+        g. Copy the metadata and blob into the pinned buffer (maintaining a small header that describes offsets/lengths).
+        h. Write the same layout to a file in $OUTPUT_DIR/gpu_index_<hash>.bin for persistence and debugging.
+        i. Emit a small JSON side-car file (gpu_index_<hash>.meta) that contains:
+                * metadata_offset, metadata_stride, num_entries
+                * blob_offset, blob_length
+                * value_encoding = "bincode" (or specify that strings are UTF-8, null-terminated, length-prefixed)
+        j. Print the suggested CUDA launch command:
+                nvcc -o gpu_query gpu_query.cu
+                ./gpu_query /dev/shm/gpu_index_<hash>.bin
+  5. Add a test that builds a tiny index, runs the prep, and verifies that the output file can be read back and matches the original data.
+
+Skills needed:
+  - hermes-agent
+  - nix-flakes / nix
+  - cargo-vendormod-testing
+  - (CUDA optional for testing; rust-async-patterns not needed)
+
+Source files and git repos:
+  - Source files to be created:
+        cargo-vendormod/src/bin/dashlm_index_gpu_prep.rs
+        cargo-vendormod/tests/gpu_prep_test.rs (optional)
+  - Git repos / paths:
+        - Main repo: /mnt/data1/nix/vendor/rust/cargo2nix/submodules/cargo-clean/tools/cargo-vendormod
+        - The shared memory library: cargo-vendormod/dashlm_shared_index

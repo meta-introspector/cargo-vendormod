@@ -1,0 +1,64 @@
+TASK 6: IMPLEMENT THE SYSTEMD SERVICE (dashlm-index@.service)
+
+Goal:
+  Provide a long-running process that creates/opens the shared segment, builds the index if needed, then stays alive to serve readers and accept reload triggers.
+
+Steps:
+  1. Create a new binary: `cargo-vendormod/src/bin/dashlm_index_server.rs`.
+  2. Dependencies:
+        - dashlm_shared_index = { path = "./dashlm_shared_index" }
+        - tokio = { version = "1.38", features = ["full"] }
+        - nix = "0.28" (for low-level SysV IPC calls, if needed; otherwise we rely on LibAFL's UnixShMem)
+        - clap = "4.5"
+        - sd-notify = "0.3"
+  3. CLI: same as the builder (--index-name, --index-size, --project-root, plus --standby-timeout <SECS>).
+  4. Logic:
+        a. Parse args.
+        b. Open or create the shared index via SharedIndex::open_or_create.
+        c. If the segment appears empty (magic number not found or value_heap_used == 0):
+              * Run the builder logic (we can reuse a function from the builder crate or invoke the builder binary via std::process::Command).
+        d. Call sd_notify::notify("READY=1").
+        e. Set up a Unix-socket listener at /run/dashlm_index_<hash>.ctl (ensure the directory exists).
+        f. Enter a loop:
+              * Wait for either a single byte on the socket (b"R" means rebuild) or a timeout (--standby-timeout).
+              * On rebuild:
+                    - Create a new shared segment with a temporary name (e.g., append _new).
+                    - Run the builder into the new segment.
+                    - Atomically swap: 
+                            shmctl(IPC_RMID) on the old segment (after ensuring no new readers will attach – we rely on the fact that readers open by name; we can rename via shmctl(IPC_SET, IPC_RMID) on the old and then create a new segment with the original name, or simply unlink the old and keep the new with the same name if the provider supports reuse).
+                            For simplicity with LibAFL's UnixShMem, we can just clear the existing segment: reset the header, zero the slot array, reset value_heap_used to zero, and rebuild in-place (this requires an exclusive lock during the short window; acceptable for most use-cases).
+              * On timeout: do nothing, just loop again.
+        g. Handle SIGTERM/SIGINT: clean up the segment (if we want it to disappear when the service stops) – optional.
+  5. Add a unit test that mocks the shared-memory interactions (using a temporary file-backed memfd) and verifies the rebuild flow.
+  6. Write the systemd unit file (to be installed by the user or via a NixOS module):
+        [Unit]
+        Description=DashLM Shared Memory Index (instance: %i)
+        After=local-fs.target
+
+        [Service]
+        Type=notify
+        User=%i   # or fixed user mdupont
+        WorkingDirectory=/home/mdupont
+        ExecStart=/home/mdupont/.cargo/bin/dashlm_index_server \
+            --index-name %i \
+            --index-size 1G \
+            --project-root /home/mdupont/dasl \
+            --standby-timeout 300
+        Restart=on-failure
+        RestartSec=10
+        TimeoutStopSec=infinity
+        SendSIGKILL=no
+
+        [Install]
+        WantedBy=multi-user.target
+        The %i instance will be the Git hash (passed from the make target or enable command).
+
+Skills needed:
+  - hermes-agent
+  - nix-flakes / nix (for building and possibly for providing a NixOS module)
+  - cargo-vendormod-testing
+  - rust-async-patterns (Tokio async socket)
+  - rust-clap-command-verification
+
+Repos needed:
+  - cargo-vendormod

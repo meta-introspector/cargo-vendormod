@@ -1,0 +1,32 @@
+
+[exit code: null]
+DASL root:   /mnt/data1/time-2026/02-february/22/dasl
+Mirrors:     /home/mdupont/git/github.com
+Fork owner:  meta-introspector
+Dry run:     false
+
+Found 2993 submodules in .gitmodules
+
+  SKIP (non-GitHub): math/pari
+  SKIP (non-GitHub): clean_project
+  SKIP (non-GitHub): IMPL/clean_project
+  SKIP (non-GitHub): IMPL/crate2nix-zos
+  SKIP (non-GitHub): IMPL/crate2nix-zos/vendor/linux-perf-file-reader
+  SKIP (non-GitHub): IMPL/users/atproto/atproto_repos/efd4c8fd0d9e75f8796f40edc6748a0c
+  SKIP (non-GitHub): IMPL/users/atproto/atproto_repos/pbarber_.well-known
+  SKIP (non-GitHub): IMPL/users/atproto/web-archive
+  SKIP (non-GitHub): IMPL/users/atproto/atproto-toolkit
+  SKIP (non-GitHub): IMPL/users/atproto/wisp-site
+  SKIP (non-GitHub): CASES
+  SKIP (non-GitHub): IMPL/infra
+  SKIP (non-GitHub): car-park
+  SKIP (non-GitHub): fuzztest
+  SKIP (non-GitHub): test-build
+  SKIP (non-GitHub): rust/example/hongfuzz
+  SKIP (non-GitHub): INPUT/dasl-normalized
+  SKIP (non-GitHub): IMPL/deep_scanner
+  SKIP (non-GitHub): flake2tile
+  SKIP (non-GitHub): deep_scanner_data
+  SKIP (non-GitHub): deep_scanner_data_20260528_2200
+
+=== Done ===

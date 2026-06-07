@@ -1,0 +1,38 @@
+# Letta Agent Work Notes - vendormod-ingest
+
+## Project: DASL Testing eBPF Monitoring with Fuzz Corpus Loading
+
+### Key Work Summary
+1. Active Queries & Evaluation Framework for DASL/IPLD CBOR implementations
+2. Schema-Sets infrastructure with 175 SPARQL queries
+3. Classification of 103K blocks (SPEC, IMPL, DATA, FUZZING, DEVOPS, UNCLASSIFIED)
+
+### Fuzz Corpus Discovery
+**Locations found:**
+- `~/projects/fuzztest/dag_cbrrr_fuzz_project/dasl_corpus/` - 44MB, 9191 files
+- `~/projects/fuzztest/dag_cbrrr_fuzz_project/corpus/` - 4.3MB, 1087 CAR test files
+
+**Corpus contents:**
+- `repos/` - 13 CBOR/DAG-CBOR test fixtures (binary)
+- `corpus_1/` - Go corpus source (corpus.go, util.go)
+- `corpus_2-12/` - Text files (type.txt, func.txt, etc.)
+- `corpus_7/` - Advanced corpus with subdirectories:
+  - `cbor/` - 27 CBOR binary test files
+  - `mst/` - 6 MST binary test files
+  - `corpus_hex.txt` - 820 hex-encoded CBOR test vectors
+  - `auth/`, `blob/`, `http/`, `lexicon/`, `sql/`, `unicode/`, `xrpc/` - atproto-specific
+
+**CAR test files found:** 1087 files including car_test_000.car through car_test_019.car
+
+**Key finding:** The hex/CBOR CAR corpus is NOT yet loaded into the CAR store (pages.car with 103K blocks)
+
+### Next Steps Identified
+1. Load corpus files into CAR store as FUZZING blocks
+2. Re-run evaluate on full store including fuzz data
+3. Generate coverage report per schema type per category
+4. Find gaps in schema coverage
+
+### CAR Store Status
+- pages.car: 652MB binary blob, 103,596 blocks indexed
+- blocks.json: Truncated file with metadata (path, cid, size)
+- index.json: Entries with cid, offset, length, refcount

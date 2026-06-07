@@ -1,0 +1,22 @@
+warning: Git tree '/mnt/data1/kant/pastebin' is dirty
+warning: input 'common-inputs' has an override for a non-existent input 'nixpkgs'
+error:
+       … while evaluating a branch condition
+         at «git+file:///mnt/data1/git/github.com/numtide/system-manager.git?ref=refs/heads/main&rev=3dd7dbe51bb2232b7b51295a022c627c99fe14fc&shallow=1»/nix/lib.nix:131:11:
+          130|           in
+          131|           if failedAssertions != [ ] then
+             |           ^
+          132|             throw "\nFailed assertions:\n${lib.concatStringsSep "\n" (map (x: "- ${x}") failedAssertions)}"
+
+       … while calling the 'map' builtin
+         at «git+file:///mnt/data1/git/github.com/numtide/system-manager.git?ref=refs/heads/main&rev=3dd7dbe51bb2232b7b51295a022c627c99fe14fc&shallow=1»/nix/lib.nix:129:32:
+          128|           let
+          129|             failedAssertions = map (x: x.message) (lib.filter (x: !x.assertion) config.assertions);
+             |                                ^
+          130|           in
+
+       (stack trace truncated; use '--show-trace' to show the full, detailed trace)
+
+       error: NAR hash mismatch in input 'path:/mnt/data1/time-2026/05-may/28/nora?lastModified=1780079634&narHash=sha256-42KrNiYYPN5cp89ygtEIiTce8U3r8N0%2B839htUOhCg8%3D', expected 'sha256-/QFCbNgRiU4LFb0lUWjN3rGOTxiOwfsse4VHOXCZKCE=' but got 'sha256-42KrNiYYPN5cp89ygtEIiTce8U3r8N0+839htUOhCg8='
+
+[exit code: 0]

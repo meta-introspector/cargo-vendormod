@@ -4,10 +4,8 @@
 //!
 //! Strategy:
 //! 1. Detect Lean 4 projects via `lean-toolchain`, `lakefile.lean`, or `.lean` sources.
-//! 2. Invoke the `MetaMathlib.lean` / `SplitDecls.lean` pipeline (if available)
-//!    to produce the per-declaration file layout.
-//! 3. For each declaration directory, emit a `flake.nix` using the
-//!    `lean4-nix` dependency template (`lake2nix.mkPackage`).
+//! 2. Invoke the `lean-split-tool` to process declarations per-declaration
+//! 3. Generate per-declaration flakes using the lean4-nix dependency template
 //! 4. Return the split result so the caller can run vendoring / push.
 //!
 //! The driver is registered in `language_driver.rs` and discovered through
@@ -18,6 +16,8 @@ use crate::lang_detect::Language;
 use anyhow::{Context, Result};
 use std::path::{Path, PathBuf};
 use std::process::Command;
+use std::io::{Write};
+use std::fs::File;
 
 const LAKE4NIX_DEP_FLAKE: &str = r#"
 {

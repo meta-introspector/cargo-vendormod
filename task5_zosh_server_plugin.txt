@@ -1,0 +1,37 @@
+TASK 5: CREATE THE ZOS-SERVER PLUGIN (plugins/dashlm-index)
+
+Goal:
+  Expose a lightweight HTTP/Unix-socket API (GET /file/<path>, GET /stats, POST /reload) so any rustc-plugin or external tool can query the index without directly touching the shared segment.
+
+Steps:
+  1. Under ~/zos-server/plugins, create a directory `dashlm-index`.
+  2. Add a Cargo.toml (workspace member) that depends on:
+        - dashlm_shared_index = { path = ".../cargo-vendormod/dashlm_shared_index" }
+        - serde = { version = "1.0", features = ["derive"] }
+        - serde_json = "1.0"
+        - tokio = { version = "1.38", features = ["full"] }
+        - hyper = "1.0"
+        - tokio-unix = "0.3"
+  3. Implement src/lib.rs following the pattern of paste-api:
+        - Export a fn execute(command: &str, args: &[String]) -> Result<serde_json::Value, String> that the zos-server plugin loader expects.
+        - Supported commands:
+            * openapi / schema -> static stubs (as in paste-api).
+            * file <path> -> compute SipHash-2-4 of the relative path, open the shared index (read-only), call get, deserialize the value with bincode, return JSON or null.
+            * stats -> call the same functions as the viewer (zone_distribution, cpu_accesses, etc.) and return a JSON object.
+            * reload -> send a control byte (b"R") to the Unix socket /run/dashlm_index_<hash>.ctl (used by the systemd service) to trigger a rebuild.
+        - For simplicity, the plugin can open the index segment on each request; the overhead is negligible because it’s just a memory map.
+  4. Add the plugin to the zos-server’s plugin list:
+        - In ~/zos-server/Cargo.toml (workspace), ensure plugins/dashlm-index is listed under workspace.members.
+        - The zos-server plugin loader automatically loads any crate that exports the zos_server_plugin::Plugin trait; we can implement a thin adapter that forwards to our execute function. (Refer to existing plugins like paste-api for the exact boilerplate.)
+  5. Write an integration test: start the zos-server in a test harness, issue a curl-like request to the Unix socket, and verify the reply.
+
+Skills needed:
+  - hermes-agent (environment setup)
+  - nix-flakes / nix (build environment)
+  - cargo-vendormod-testing (unit/integration tests)
+  - rust-async-patterns (if we use Tokio/Hyper for async HTTP)
+  - rust-clap-command-verification (for the CLI of the plugin’s test harness)
+
+Repos needed:
+  - zos-server (plugin directory)
+  - cargo-vendormod (shared-memory library)

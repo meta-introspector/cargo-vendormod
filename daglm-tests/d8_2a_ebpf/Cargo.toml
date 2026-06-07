@@ -1,0 +1,10 @@
+[package]
+name = "d8_2a-ebpf"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+aya-ebpf = { path = "/mnt/data1/time-2026/06/03/aya/ebpf/aya-ebpf" }
+
+[lib]
+crate-type = ["cdylib"]

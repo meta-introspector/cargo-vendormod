@@ -1,0 +1,167 @@
+digraph dasl_to_dmz {
+  rankdir=TB;
+  compound=true;
+  fontname="Helvetica";
+  fontsize=12;
+  
+  // Layer 1: DMZ Core (top)
+  subgraph cluster_layer1 {
+    label="Layer 1: DMZ Core";
+    style=filled;
+    color=lightcoral;
+    node [shape=doublecircle, style=filled, fillcolor=red, fontcolor=white];
+    
+    dmz_0xD8 [label="0xD8\nCBOR Tag 42"];
+    dmz_0x2A [label="0x2A\nCID Signature"];
+  }
+  
+  // Layer 2: Direct Users (equidistant)
+  subgraph cluster_layer2 {
+    label="Layer 2: Direct Users";
+    style=filled;
+    color=lightblue;
+    node [shape=box, style=filled, fillcolor=cyan];
+    
+    rust_serde [label="serde_ipld_dagcbor"];
+    py_dag_cbrrr [label="dag_cbrrr"];
+    go_ipld [label="go-ipld-prime"];
+    js_ipld [label="ipld-dag-cbor"];
+    java_cbor [label="java-ipld-cbor"];
+    c_zcbor [label="zcbor"];
+  }
+  
+  // Layer 3: Consumer Crates
+  subgraph cluster_layer3 {
+    label="Layer 3: Consumer Crates";
+    style=filled;
+    color=lightgreen;
+    node [shape=folder, style=filled, fillcolor=lightgreen];
+    
+    crate_honggfuzz [label="honggfuzz-rs"];
+    crate_n0 [label="n0_dasl"];
+    crate_ipld [label="ipld-core"];
+    crate_fractran [label="fractran_loader"];
+  }
+  
+  // Layer 4: IMPL Projects
+  subgraph cluster_layer4 {
+    label="Layer 4: IMPL Projects";
+    style=filled;
+    color=lightyellow;
+    node [shape=tab, style=filled, fillcolor=yellow];
+    
+    proj_jacquard [label="jacquard\n(OAuth)"];
+    proj_microcosm [label="microcosm-rs\n(social)"];
+    proj_atproto [label="atproto-crates"];
+    proj_social [label="social_ingest"];
+  }
+  
+  // Edges - Direct Users (equidistant to DMZ)
+  rust_serde -> dmz_0xD8 [label="encode"];
+  py_dag_cbrrr -> dmz_0xD8 [label="encode"];
+  go_ipld -> dmz_0xD8 [label="encode"];
+  js_ipld -> dmz_0xD8 [label="encode"];
+  java_cbor -> dmz_0xD8 [label="encode"];
+  c_zcbor -> dmz_0xD8 [label="encode"];
+  
+  // Edges - Consumer Crates
+  crate_honggfuzz -> rust_serde;
+  crate_n0 -> rust_serde;
+  crate_ipld -> rust_serde;
+  crate_fractran -> rust_serde;
+  
+  // Edges - IMPL Projects
+  proj_jacquard -> crate_honggfuzz;
+  proj_microcosm -> crate_n0;
+  proj_atproto -> crate_ipld;
+  proj_social -> crate_fractran;
+}
+  
+  // Layer 2: Rust Sources
+  subgraph cluster_layer2 {
+    label="Layer 2: Rust Sources";
+    style=filled;
+    color=lightgreen;
+    node [shape=ellipse, style=filled, fillcolor=white];
+    
+    rust_lib [label="CBOR_TAGS_CID=42\n(serde_ipld_dagcbor/lib.rs)"];
+    rust_ser [label="serialize_bytes\n→ Tag(42)"];
+    rust_dec [label="deserialize_cid\n← 0xD8"];
+    rust_cbor4ii [label="Tag::encode\n(TAG<<5)"];
+  }
+  
+  // Layer 3: Multi-Language
+  subgraph cluster_layer3 {
+    label="Layer 3: Multi-Language Implementations";
+    style=filled;
+    color=lightyellow;
+    node [shape=component, style=filled, fillcolor=white];
+    
+    py_cbor2 [label="cbor2.CBORTag(42)\n(python)"];
+    go_cid [label="NewCidV1(DagCBOR)\n(go)"];
+    js_cid [label="CID.create(1, dag-cbor)\n(js)"];
+    java_cbor [label="encodeTag(42)\n(java)"];
+    c_zcbor [label="zcbor_tag_encode(42)\n(c)"];
+  }
+  
+  // Layer 4: Workspace Crates
+  subgraph cluster_layer4 {
+    label="Layer 4: Workspace Crates";
+    style=filled;
+    color=lightpink;
+    node [shape=folder, style=filled, fillcolor=white];
+    
+    crate_honggfuzz [label="honggfuzz-rs"];
+    crate_ipld [label="ipld-core"];
+    crate_n0 [label="n0_dasl"];
+    crate_serde [label="serde_ipld_dagcbor-escaped"];
+  }
+  
+  // Layer 5: IMPL Projects
+  subgraph cluster_layer5 {
+    label="Layer 5: IMPL Projects";
+    style=filled;
+    color=lavender;
+    node [shape=tab, style=filled, fillcolor=white];
+    
+    proj_jacquard [label="jacquard\n(OAuth)"];
+    proj_microcosm [label="microcosm-rs\n(social)"];
+    proj_atproto [label="atproto-crates"];
+  }
+  
+  // Edges - Binary Structural Wall
+  dmz_0x81 -> dmz_0xD8 [label="9305", color=blue, penwidth=2];
+  dmz_0xD8 -> dmz_0x2A [label="9331\n(signature)", color=red, penwidth=3];
+  dmz_0x2A -> dmz_0x58 [label="9312", color=blue, penwidth=2];
+  
+  // Edges - Rust Implementation Wall
+  rust_lib -> rust_ser [label="constant"];
+  rust_ser -> dmz_0xD8 [label="encode", color=green];
+  dmz_0xD8 -> rust_dec [label="decode", color=green];
+  rust_cbor4ii -> dmz_0xD8 [label="encode", color=green];
+  
+  // Edges - Multi-Language Wall
+  py_cbor2 -> dmz_0xD8 [label="encode", color=orange];
+  go_cid -> dmz_0xD8 [label="marshal", color=orange];
+  js_cid -> dmz_0xD8 [label="encode", color=orange];
+  java_cbor -> dmz_0xD8 [label="encode", color=orange];
+  c_zcbor -> dmz_0xD8 [label="encode", color=orange];
+  
+  // Edges - Workspace Integration
+  crate_serde -> rust_ser;
+  crate_ipld -> rust_cbor4ii;
+  crate_honggfuzz -> rust_dec;
+  
+  // Edges - IMPL Projects
+  proj_jacquard -> crate_serde;
+  proj_microcosm -> crate_n0;
+  proj_atproto -> crate_ipld;
+  
+  // Legend
+  subgraph cluster_legend {
+    label="Legend";
+    style=invis;
+    node [shape=plaintext];
+    legend [label="Blue: Binary containment\nRed: DMZ signature\nGreen: Rust encode/decode\nOrange: Cross-language"];
+  }
+}
