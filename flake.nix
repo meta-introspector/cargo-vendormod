@@ -6,7 +6,7 @@
     flake-parts.url = "github:hercules-ci/flake-parts";
     n0x-pi.url = "git+file:///mnt/data1/git/github.com/sub0xdai/n0x-pi.git?ref=master";
     ipld-car-ipc-shmem-linux = {
-      url = "git+file:///mnt/data1/time-2026/02-february/22/dasl/ipld-car-ipc-shmem-linux";
+      url = "git+file:///home/mdupont/git/github.com/meta-introspector/ipld-car-ipc-shmem-linux.git";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     self-repo = {

@@ -1,0 +1,47 @@
+{
+  description = "n0x-pi task: {{TASK_NAME}}";
+
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    n0x-pi.url = "git+file:///mnt/data1/git/github.com/sub0xdai/n0x-pi.git?ref=master";
+    # The project flake itself, so the pi agent can access and build it
+    cargo-vendormod = {
+      url = "git+file:///home/mdupont/git/solana.solfunmeme.com/cargo-vendormod";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
+
+  outputs = inputs@{ self, nixpkgs, n0x-pi, cargo-vendormod, ... }:
+    let
+      system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system};
+    in {
+      devShells.${system}.default = pkgs.mkShell {
+        buildInputs = with pkgs; [
+          cargo
+          rustc
+          rust-analyzer
+          rustfmt
+          clippy
+          git
+          perl
+          # Include the pi agent itself
+          n0x-pi.packages.${system}.pi
+          # Include the cargo-vendormod project so the pi agent can build it
+          (cargo-vendormod.packages.${system}.default.overrideAttrs (oldAttrs: {
+            preBuild = ''
+              export PATH=$PATH:${pkgs.perl}/bin
+              ${oldAttrs.preBuild or ""}
+            '';
+          }))
+        ];
+
+        shellHook = ''
+          export CARGO_HOME=$HOME/.cargo
+          export RUSTUP_HOME=$HOME/.rustup
+          export PATH="$CARGO_HOME/bin:$PATH"
+          echo "Entering n0x-pi task environment for {{TASK_NAME}}"
+        '';
+      };
+    };
+}

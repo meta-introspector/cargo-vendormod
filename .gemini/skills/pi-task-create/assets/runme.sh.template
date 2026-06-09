@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# Run the pi agent for the {{TASK_NAME}} task
+set -euo pipefail
+cd "$(dirname "$0")"
+
+# Source API key if available
+[ -f ~/.deepseek/env.sh ] && source ~/.deepseek/env.sh # shellcheck disable=SC1090
+
+TASK_NAME="{{TASK_NAME}}"
+TASK_SKILLS="{{SKILLS_TO_LOAD}}"
+
+echo "=== Bootstrap: ${TASK_NAME} ==="
+echo "Skills: ${TASK_SKILLS}"
+echo ""
+
+# Path to the task definition markdown (GEMINI.md is the primary prompt)
+TASK_GEMINI_FILE="GEMINI.md"
+
+# Read the content of GEMINI.md to form the core of the prompt
+GEMINI_CONTENT=$(cat "${TASK_GEMINI_FILE}")
+
+# Construct the full prompt for the pi agent, including task name and skills
+TASK_INPUT="Task: ${TASK_NAME}
+Skills to load: ${TASK_SKILLS}
+
+${GEMINI_CONTENT}
+"
+
+# Invoke the pi agent
+nix develop . -c pi --offline --tools bash --dry-run "${TASK_INPUT}"
