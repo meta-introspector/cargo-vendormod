@@ -47,3 +47,9 @@
 [submodule "tasks/refactor-main-rs"]
 	path = tasks/refactor-main-rs
 	url = ./tasks/refactor-main-rs
+[submodule "analysis"]
+	path = analysis
+	url = /home/mdupont/git/solana.solfunmeme/vendormod-analysis.git
+[submodule "projects_graphs"]
+	path = projects_graphs
+	url = /home/mdupont/git/solana.solfunmeme/vendormod-graphs.git/
